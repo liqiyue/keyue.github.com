@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Python学习笔记5-字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习笔记5-字符串">
+<meta property="og:url" content="http://192.168.10.117/2020/11/15/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="Python学习笔记5-字符串">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2/123456-20200923-1.svg">
+<meta property="article:published_time" content="2020-11-15T13:38:17.000Z">
+<meta property="article:modified_time" content="2020-11-16T13:48:10.839Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2/123456-20200923-1.svg">
+
+<link rel="canonical" href="http://192.168.10.117/2020/11/15/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python学习笔记5-字符串 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#访问字符串中的值（下标）"><span class="nav-number">1.</span> <span class="nav-text">访问字符串中的值（下标）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串更新-切片"><span class="nav-number">2.</span> <span class="nav-text">字符串更新(切片)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转义字符"><span class="nav-number">3.</span> <span class="nav-text">转义字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串运算符"><span class="nav-number">4.</span> <span class="nav-text">字符串运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串格式化"><span class="nav-number">5.</span> <span class="nav-text">字符串格式化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format-格式化函数"><span class="nav-number">6.</span> <span class="nav-text">format 格式化函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数字格式化"><span class="nav-number">6.1.</span> <span class="nav-text">数字格式化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三引号"><span class="nav-number">7.</span> <span class="nav-text">三引号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#f-string"><span class="nav-number">8.</span> <span class="nav-text">f-string</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unicode-字符串"><span class="nav-number">9.</span> <span class="nav-text">Unicode 字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串内建函数"><span class="nav-number">10.</span> <span class="nav-text">字符串内建函数</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/11/15/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python学习笔记5-字符串
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-15 21:38:17" itemprop="dateCreated datePublished" datetime="2020-11-15T21:38:17+08:00">2020-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-16 21:48:10" itemprop="dateModified" datetime="2020-11-16T21:48:10+08:00">2020-11-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+            <div class="post-description">Python学习笔记5-字符串</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>字符串是 Python 中最常用的数据类型。我们可以使用引号( <strong>‘</strong> 或 <strong>“</strong> )来创建字符串。</p>
+<p>创建字符串很简单，只要为变量分配一个值即可。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="string">'Hello World!'</span> </span><br><span class="line">var2 = <span class="string">"你好，世界"</span></span><br><span class="line">var3 = <span class="string">'''hello，世界'''</span></span><br><span class="line">var4 = <span class="string">"""你好，world!"""</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="访问字符串中的值（下标）"><a href="#访问字符串中的值（下标）" class="headerlink" title="访问字符串中的值（下标）"></a>访问字符串中的值（下标）</h2><p>Python 不支持单字符类型，单字符在 Python 中也是作为一个字符串使用。</p>
+<p>Python 访问子字符串，可以使用方括号 <strong>[]</strong> 来截取字符串，字符串的截取的语法格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量[头下标:尾下标]</span><br></pre></td></tr></table></figure>
+
+<p>索引值以 <strong>0</strong> 为开始值，<strong>-1</strong> 为从末尾的开始位置。</p>
+<p><img src="../../../../images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2/123456-20200923-1.svg" alt="img"></p>
+<p>如下实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3  </span></span><br><span class="line">var1 = <span class="string">'Hello World!'</span> </span><br><span class="line">var2 = <span class="string">"Runoob"</span>  </span><br><span class="line"><span class="keyword">print</span> (<span class="string">"var1[0]: "</span>, var1[<span class="number">0</span>]) </span><br><span class="line"><span class="keyword">print</span> (<span class="string">"var2[1:5]: "</span>, var2[<span class="number">1</span>:<span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+
+<p>以上实例执行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1[<span class="number">0</span>]:  H</span><br><span class="line">var2[<span class="number">1</span>:<span class="number">5</span>]:  unoo</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="字符串更新-切片"><a href="#字符串更新-切片" class="headerlink" title="字符串更新(切片)"></a>字符串更新(切片)</h2><blockquote>
+<p>语法：[start:end:step]<br>包含start,不包含end<br>step指的是步长，理解为间隔(默认为1,不能为0可以为负数)<br>如果只设置start，会截取到最后<br>如果只设置end，会从头开始截取<br>不包含start,不包含end,表示从头到尾复制<br>start和end如果为负数，会从右往左数</p>
+</blockquote>
+<p>你可以截取字符串的一部分并与其他字段拼接，如下实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3  </span></span><br><span class="line">var1 = <span class="string">'Hello World!'</span>  </span><br><span class="line"><span class="keyword">print</span> (<span class="string">"已更新字符串 : "</span>, var1[:<span class="number">6</span>] + <span class="string">'Runoob!'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上实例执行结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">已更新字符串 :  Hello Runoob!</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h2><p>在需要在字符中使用特殊字符时，python 用反斜杠 <strong>\</strong> 转义字符。如下表：</p>
+<table>
+<thead>
+<tr>
+<th align="left">转义字符</th>
+<th align="left">描述</th>
+<th align="left">实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">(在行尾时)</td>
+<td align="left">续行符</td>
+<td align="left">&gt;&gt;&gt; print(“line1 \ <br />… line2 \ <br />… line3”) <br />line1 line2 line3 <br />&gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td align="left">\</td>
+<td align="left">反斜杠符号</td>
+<td align="left">&gt;&gt;&gt; print(“\“)<br /> \</td>
+</tr>
+<tr>
+<td align="left">&#39;</td>
+<td align="left">单引号</td>
+<td align="left">&gt;&gt;&gt; print(‘&#39;‘) <br />‘</td>
+</tr>
+<tr>
+<td align="left">&quot;</td>
+<td align="left">双引号</td>
+<td align="left">&gt;&gt;&gt; print(“&quot;“)<br /> “</td>
+</tr>
+<tr>
+<td align="left">\a</td>
+<td align="left">响铃</td>
+<td align="left">&gt;&gt;&gt; print(“\a”)<br />执行后电脑有响声。</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">退格(Backspace)</td>
+<td align="left">&gt;&gt;&gt; print(“Hello \b World!”) <br />Hello World!</td>
+</tr>
+<tr>
+<td align="left">\000</td>
+<td align="left">空</td>
+<td align="left">&gt;&gt;&gt; print(“\000”)<br /> &gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">换行</td>
+<td align="left">&gt;&gt;&gt; print(“\n”)  <br />&gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td align="left">\v</td>
+<td align="left">纵向制表符</td>
+<td align="left">&gt;&gt;&gt; print(“Hello \v World!”) <br />Hello<br />        World! &gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td align="left">\t</td>
+<td align="left">横向制表符</td>
+<td align="left">&gt;&gt;&gt; print(“Hello \t World!”) <br />Hello    World! <br />&gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td align="left">\r</td>
+<td align="left">回车</td>
+<td align="left">&gt;&gt;&gt; print(“Hello\rWorld!”) <br />World!</td>
+</tr>
+<tr>
+<td align="left">\f</td>
+<td align="left">换页</td>
+<td align="left">&gt;&gt;&gt; print(“Hello \f World!”) <br />Hello<br />        World!<br /> &gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td align="left">\yyy</td>
+<td align="left">八进制数，y 代表 0~7 的字符，例如：\012 代表换行。</td>
+<td align="left">&gt;&gt;&gt; print(“\110\145\154\154\157\40\127\157\162\154\144\41”)<br /> Hello World!</td>
+</tr>
+<tr>
+<td align="left">\xyy</td>
+<td align="left">十六进制数，以 \x 开头，y 代表的字符，例如：\x0a 代表换行</td>
+<td align="left">&gt;&gt;&gt; print(“\x48\x65\x6c\x6c\x6f\x20\x57\x6f\x72\x6c\x64\x21”)<br /> Hello World!</td>
+</tr>
+<tr>
+<td align="left">\other</td>
+<td align="left">其它的字符以普通格式输出</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="字符串运算符"><a href="#字符串运算符" class="headerlink" title="字符串运算符"></a>字符串运算符</h2><p>下表实例变量 a 值为字符串 “Hello”，b 变量值为 “Python”：</p>
+<table>
+<thead>
+<tr>
+<th align="left">操作符</th>
+<th align="left">描述</th>
+<th align="left">实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">+</td>
+<td align="left">字符串连接</td>
+<td align="left">a + b 输出结果： HelloPython</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">重复输出字符串</td>
+<td align="left">a*2 输出结果：HelloHello</td>
+</tr>
+<tr>
+<td align="left">[]</td>
+<td align="left">通过索引获取字符串中字符</td>
+<td align="left">a[1] 输出结果 <strong>e</strong></td>
+</tr>
+<tr>
+<td align="left">[ : ]</td>
+<td align="left">截取字符串中的一部分，遵循<strong>左闭右开</strong>原则，str[0:2] 是不包含第 3 个字符的。</td>
+<td align="left">a[1:4] 输出结果 <strong>ell</strong></td>
+</tr>
+<tr>
+<td align="left">in</td>
+<td align="left">成员运算符 - 如果字符串中包含给定的字符返回 True</td>
+<td align="left"><strong>‘H’ in a</strong> 输出结果 True</td>
+</tr>
+<tr>
+<td align="left">not in</td>
+<td align="left">成员运算符 - 如果字符串中不包含给定的字符返回 True</td>
+<td align="left"><strong>‘M’ not in a</strong> 输出结果 True</td>
+</tr>
+<tr>
+<td align="left">r/R</td>
+<td align="left">原始字符串 - 原始字符串：所有的字符串都是直接按照字面的意思来使用，没有转义特殊或不能打印的字符。 原始字符串除在字符串的第一个引号前加上字母 <strong>r</strong>（可以大小写）以外，与普通字符串有着几乎完全相同的语法。</td>
+<td align="left"><code>print( r&#39;\n&#39; ) print( R&#39;\n&#39; )</code></td>
+</tr>
+<tr>
+<td align="left">%</td>
+<td align="left">格式字符串</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3  </span></span><br><span class="line">a = <span class="string">"Hello"</span> </span><br><span class="line">b = <span class="string">"Python"</span>  </span><br><span class="line">print(<span class="string">"a + b 输出结果："</span>, a + b) </span><br><span class="line">print(<span class="string">"a * 2 输出结果："</span>, a * <span class="number">2</span>) </span><br><span class="line">print(<span class="string">"a[1] 输出结果："</span>, a[<span class="number">1</span>]) </span><br><span class="line">print(<span class="string">"a[1:4] 输出结果："</span>, a[<span class="number">1</span>:<span class="number">4</span>])  </span><br><span class="line"><span class="keyword">if</span>( <span class="string">"H"</span> <span class="keyword">in</span> a) :    </span><br><span class="line">	print(<span class="string">"H 在变量 a 中"</span>) </span><br><span class="line"><span class="keyword">else</span> :    </span><br><span class="line">	print(<span class="string">"H 不在变量 a 中"</span>)  </span><br><span class="line"><span class="keyword">if</span>( <span class="string">"M"</span> <span class="keyword">not</span> <span class="keyword">in</span> a) :    </span><br><span class="line">  print(<span class="string">"M 不在变量 a 中"</span>) </span><br><span class="line"><span class="keyword">else</span> :    </span><br><span class="line">  print(<span class="string">"M 在变量 a 中"</span>)  </span><br><span class="line"><span class="keyword">print</span> (<span class="string">r'\n'</span>) </span><br><span class="line"><span class="keyword">print</span> (R<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上实例输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a + b 输出结果： HelloPython</span><br><span class="line">a * <span class="number">2</span> 输出结果： HelloHello</span><br><span class="line">a[<span class="number">1</span>] 输出结果： e</span><br><span class="line">a[<span class="number">1</span>:<span class="number">4</span>] 输出结果： ell</span><br><span class="line">H 在变量 a 中</span><br><span class="line">M 不在变量 a 中</span><br><span class="line">\n</span><br><span class="line">\n</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="字符串格式化"><a href="#字符串格式化" class="headerlink" title="字符串格式化"></a>字符串格式化</h2><p>Python 支持格式化字符串的输出 。尽管这样可能会用到非常复杂的表达式，但最基本的用法是将一个值插入到一个有字符串格式符 %s 的字符串中。</p>
+<p>在 Python 中，字符串格式化使用与 C 中 sprintf 函数一样的语法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3  </span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"我叫 %s 今年 %d 岁!"</span> % (<span class="string">'小明'</span>, <span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我叫 小明 今年 <span class="number">10</span> 岁!</span><br></pre></td></tr></table></figure>
+
+<p>python字符串格式化符号:</p>
+<table>
+<thead>
+<tr>
+<th align="left">符  号</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">%c</td>
+<td align="left">格式化字符及其ASCII码</td>
+</tr>
+<tr>
+<td align="left">%s</td>
+<td align="left">格式化字符串</td>
+</tr>
+<tr>
+<td align="left">%d</td>
+<td align="left">格式化整数</td>
+</tr>
+<tr>
+<td align="left">%u</td>
+<td align="left">格式化无符号整型</td>
+</tr>
+<tr>
+<td align="left">%o</td>
+<td align="left">格式化无符号八进制数</td>
+</tr>
+<tr>
+<td align="left">%x</td>
+<td align="left">格式化无符号十六进制数</td>
+</tr>
+<tr>
+<td align="left">%X</td>
+<td align="left">格式化无符号十六进制数（大写）</td>
+</tr>
+<tr>
+<td align="left">%f</td>
+<td align="left">格式化浮点数字，可指定小数点后的精度</td>
+</tr>
+<tr>
+<td align="left">%e</td>
+<td align="left">用科学计数法格式化浮点数</td>
+</tr>
+<tr>
+<td align="left">%E</td>
+<td align="left">作用同%e，用科学计数法格式化浮点数</td>
+</tr>
+<tr>
+<td align="left">%g</td>
+<td align="left">%f和%e的简写</td>
+</tr>
+<tr>
+<td align="left">%G</td>
+<td align="left">%f 和 %E 的简写</td>
+</tr>
+<tr>
+<td align="left">%p</td>
+<td align="left">用十六进制数格式化变量的地址</td>
+</tr>
+</tbody></table>
+<p>格式化操作符辅助指令:</p>
+<table>
+<thead>
+<tr>
+<th align="left">符号</th>
+<th align="left">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td align="left">定义宽度或者小数点精度</td>
+</tr>
+<tr>
+<td align="left">-</td>
+<td align="left">用做左对齐</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">在正数前面显示加号( + )</td>
+</tr>
+<tr>
+<td align="left">&lt;<sp>sp&gt;</td>
+<td align="left">在正数前面显示空格</td>
+</tr>
+<tr>
+<td align="left">#</td>
+<td align="left">在八进制数前面显示零(‘0’)，在十六进制前面显示’0x’或者’0X’(取决于用的是’x’还是’X’)</td>
+</tr>
+<tr>
+<td align="left">0</td>
+<td align="left">显示的数字前面填充’0’而不是默认的空格</td>
+</tr>
+<tr>
+<td align="left">%</td>
+<td align="left">‘%%’输出一个单一的’%’</td>
+</tr>
+<tr>
+<td align="left">(var)</td>
+<td align="left">映射变量(字典参数)</td>
+</tr>
+<tr>
+<td align="left">m.n.</td>
+<td align="left">m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</td>
+</tr>
+</tbody></table>
+<p>Python2.6 开始，新增了一种格式化字符串的函数 <a href="https://www.runoob.com/python/att-string-format.html" target="_blank" rel="noopener">str.format()</a>，它增强了字符串格式化的功能。</p>
+<h2 id="format-格式化函数"><a href="#format-格式化函数" class="headerlink" title="format 格式化函数"></a>format 格式化函数</h2><p>基本语法是通过 <strong>{}</strong> 和 <strong>:</strong> 来代替以前的 <strong>%</strong> 。</p>
+<p>format 函数可以接受不限个参数，位置可以不按顺序。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="string">"&#123;&#125; &#123;&#125;"</span>.format(<span class="string">"hello"</span>, <span class="string">"world"</span>)    <span class="comment"># 不设置指定位置，按默认顺序</span></span><br><span class="line"><span class="string">'hello world'</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"&#123;0&#125; &#123;1&#125;"</span>.format(<span class="string">"hello"</span>, <span class="string">"world"</span>)  <span class="comment"># 设置指定位置</span></span><br><span class="line"><span class="string">'hello world'</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"&#123;1&#125; &#123;0&#125; &#123;1&#125;"</span>.format(<span class="string">"hello"</span>, <span class="string">"world"</span>)  <span class="comment"># 设置指定位置</span></span><br><span class="line"><span class="string">'world hello world'</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以设置参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"> </span><br><span class="line">print(<span class="string">"网站名：&#123;name&#125;, 地址 &#123;url&#125;"</span>.format(name=<span class="string">"菜鸟教程"</span>, url=<span class="string">"www.runoob.com"</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 通过字典设置参数</span></span><br><span class="line">site = &#123;<span class="string">"name"</span>: <span class="string">"菜鸟教程"</span>, <span class="string">"url"</span>: <span class="string">"www.runoob.com"</span>&#125;</span><br><span class="line">print(<span class="string">"网站名：&#123;name&#125;, 地址 &#123;url&#125;"</span>.format(**site))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 通过列表索引设置参数</span></span><br><span class="line">my_list = [<span class="string">'菜鸟教程'</span>, <span class="string">'www.runoob.com'</span>]</span><br><span class="line">print(<span class="string">"网站名：&#123;0[0]&#125;, 地址 &#123;0[1]&#125;"</span>.format(my_list))  <span class="comment"># "0" 是必须的</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">网站名：菜鸟教程, 地址 www.runoob.com</span><br><span class="line">网站名：菜鸟教程, 地址 www.runoob.com</span><br><span class="line">网站名：菜鸟教程, 地址 www.runoob.com</span><br></pre></td></tr></table></figure>
+
+<p>可以向 <strong>str.format()</strong> 传入对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AssignValue</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.value = value</span><br><span class="line">my_value = AssignValue(<span class="number">6</span>)</span><br><span class="line">print(<span class="string">'value 为: &#123;0.value&#125;'</span>.format(my_value))  <span class="comment"># "0" 是可选的</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">value 为: <span class="number">6</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数字格式化"><a href="#数字格式化" class="headerlink" title="数字格式化"></a>数字格式化</h3><p>下表展示了 str.format() 格式化数字的多种方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(<span class="string">"&#123;:.2f&#125;"</span>.format(<span class="number">3.1415926</span>));</span><br><span class="line"><span class="number">3.14</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="left">数字</th>
+<th align="left">格式</th>
+<th align="left">输出</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">3.1415926</td>
+<td align="left">{:.2f}</td>
+<td align="left">3.14</td>
+<td align="left">保留小数点后两位</td>
+</tr>
+<tr>
+<td align="left">3.1415926</td>
+<td align="left">{:+.2f}</td>
+<td align="left">+3.14</td>
+<td align="left">带符号保留小数点后两位</td>
+</tr>
+<tr>
+<td align="left">-1</td>
+<td align="left">{:+.2f}</td>
+<td align="left">-1.00</td>
+<td align="left">带符号保留小数点后两位</td>
+</tr>
+<tr>
+<td align="left">2.71828</td>
+<td align="left">{:.0f}</td>
+<td align="left">3</td>
+<td align="left">不带小数</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">{:0&gt;2d}</td>
+<td align="left">05</td>
+<td align="left">数字补零 (填充左边, 宽度为2)</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">{:x&lt;4d}</td>
+<td align="left">5xxx</td>
+<td align="left">数字补x (填充右边, 宽度为4)</td>
+</tr>
+<tr>
+<td align="left">10</td>
+<td align="left">{:x&lt;4d}</td>
+<td align="left">10xx</td>
+<td align="left">数字补x (填充右边, 宽度为4)</td>
+</tr>
+<tr>
+<td align="left">1000000</td>
+<td align="left">{:,}</td>
+<td align="left">1,000,000</td>
+<td align="left">以逗号分隔的数字格式</td>
+</tr>
+<tr>
+<td align="left">0.25</td>
+<td align="left">{:.2%}</td>
+<td align="left">25.00%</td>
+<td align="left">百分比格式</td>
+</tr>
+<tr>
+<td align="left">1000000000</td>
+<td align="left">{:.2e}</td>
+<td align="left">1.00e+09</td>
+<td align="left">指数记法</td>
+</tr>
+<tr>
+<td align="left">13</td>
+<td align="left">{:&gt;10d}</td>
+<td align="left">13</td>
+<td align="left">右对齐 (默认, 宽度为10)</td>
+</tr>
+<tr>
+<td align="left">13</td>
+<td align="left">{:&lt;10d}</td>
+<td align="left">13</td>
+<td align="left">左对齐 (宽度为10)</td>
+</tr>
+<tr>
+<td align="left">13</td>
+<td align="left">{:^10d}</td>
+<td align="left">13</td>
+<td align="left">中间对齐 (宽度为10)</td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left">‘{:b}’.format(11) <br />’{:d}’.format(11) <br />‘{:o}’.format(11) <br />’{:x}’.format(11) <br />‘{:#x}’.format(11)<br />‘{:#X}’.format(11)</td>
+<td align="left">1011 <br />11 <br />13 <br />b <br />0xb <br />0XB</td>
+<td align="left">进制</td>
+</tr>
+</tbody></table>
+<p><strong>^</strong>, <strong>&lt;</strong>, <strong>&gt;</strong> 分别是居中、左对齐、右对齐，后面带宽度， <strong>:</strong> 号后面带填充的字符，只能是一个字符，不指定则默认是用空格填充。</p>
+<p><strong>+</strong> 表示在正数前显示 <strong>+</strong>，负数前显示 <strong>-</strong>； （空格）表示在正数前加空格</p>
+<p>b、d、o、x 分别是二进制、十进制、八进制、十六进制。</p>
+<p>此外我们可以使用大括号 <strong>{}</strong> 来转义大括号，如下实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python </span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-  </span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"&#123;&#125; 对应的位置是 &#123;&#123;0&#125;&#125;"</span>.format(<span class="string">"runoob"</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">runoob 对应的位置是 &#123;<span class="number">0</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三引号"><a href="#三引号" class="headerlink" title="三引号"></a>三引号</h2><p>python三引号允许一个字符串跨多行，字符串中可以包含换行符、制表符以及其他特殊字符。实例如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3  </span></span><br><span class="line">para_str = <span class="string">"""这是一个多行字符串的实例 </span></span><br><span class="line"><span class="string">多行字符串可以使用制表符 TAB ( \t )。 </span></span><br><span class="line"><span class="string">也可以使用换行符 [ \n ]。 </span></span><br><span class="line"><span class="string">"""</span> </span><br><span class="line"><span class="keyword">print</span> (para_str)</span><br></pre></td></tr></table></figure>
+
+<p>以上实例执行结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">这是一个多行字符串的实例</span><br><span class="line">多行字符串可以使用制表符</span><br><span class="line">TAB (    )。</span><br><span class="line">也可以使用换行符 [ </span><br><span class="line"> ]。</span><br></pre></td></tr></table></figure>
+
+<p>三引号让程序员从引号和特殊字符串的泥潭里面解脱出来，自始至终保持一小块字符串的格式是所谓的WYSIWYG（所见即所得）格式的。</p>
+<p>一个典型的用例是，当你需要一块HTML或者SQL时，这时用字符串组合，特殊字符串转义将会非常的繁琐。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">errHTML = <span class="string">''' </span></span><br><span class="line"><span class="string">&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt; </span></span><br><span class="line"><span class="string">Friends CGI Demo&lt;/TITLE&gt;&lt;/HEAD&gt; </span></span><br><span class="line"><span class="string">&lt;BODY&gt;&lt;H3&gt;ERROR&lt;/H3&gt; </span></span><br><span class="line"><span class="string">&lt;B&gt;%s&lt;/B&gt;&lt;P&gt; </span></span><br><span class="line"><span class="string">&lt;FORM&gt;&lt;INPUT TYPE=button VALUE=Back </span></span><br><span class="line"><span class="string">ONCLICK="window.history.back()"&gt;&lt;/FORM&gt; </span></span><br><span class="line"><span class="string">&lt;/BODY&gt;&lt;/HTML&gt;</span></span><br><span class="line"><span class="string">'''</span> </span><br><span class="line">cursor.execute(<span class="string">''' </span></span><br><span class="line"><span class="string">CREATE TABLE users </span></span><br><span class="line"><span class="string">(   login VARCHAR(8),  </span></span><br><span class="line"><span class="string">uid INTEGER, </span></span><br><span class="line"><span class="string">prid INTEGER) </span></span><br><span class="line"><span class="string">'''</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="f-string"><a href="#f-string" class="headerlink" title="f-string"></a>f-string</h2><p>f-string 是 python3.6 之后版本添加的，称之为字面量格式化字符串，是新的格式化字符串的语法。</p>
+<p>之前我们习惯用百分号 (%):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name = <span class="string">'Runoob'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'Hello %s'</span> % name</span><br><span class="line"><span class="string">'Hello Runoob'</span></span><br></pre></td></tr></table></figure>
+
+<p>f-string 格式化字符串以 f 开头，后面跟着字符串，字符串中的表达式用大括号 {} 包起来，它会将变量或表达式计算后的值替换进去，实例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name = <span class="string">'Runoob'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">f'Hello <span class="subst">&#123;name&#125;</span>'</span> <span class="comment"># 替换变量</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">f'<span class="subst">&#123;<span class="number">1</span>+<span class="number">2</span>&#125;</span>'</span>     <span class="comment"># 使用表达式</span></span><br><span class="line"><span class="string">'3'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>w = &#123;<span class="string">'name'</span>: <span class="string">'Runoob'</span>, <span class="string">'url'</span>: <span class="string">'www.runoob.com'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">f'<span class="subst">&#123;w[<span class="string">"name"</span>]&#125;</span>: <span class="subst">&#123;w[<span class="string">"url"</span>]&#125;</span>'</span></span><br><span class="line"><span class="string">'Runoob: www.runoob.com'</span></span><br></pre></td></tr></table></figure>
+
+<p>用了这种方式明显更简单了，不用再去判断使用 %s，还是 %d。</p>
+<p>在 Python 3.8 的版本中可以使用 <strong>=</strong> 符号来拼接运算表达式与结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>**<span class="keyword">print</span>**(<span class="string">f'<span class="subst">&#123;x+<span class="number">1</span>&#125;</span>'</span>)  <span class="comment"># Python 3.6</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">1</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>**<span class="keyword">print</span>**(<span class="string">f'<span class="subst">&#123;x+<span class="number">1</span>=&#125;</span>'</span>)  <span class="comment"># Python 3.8</span></span><br><span class="line"><span class="string">'x+1=2'</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Unicode-字符串"><a href="#Unicode-字符串" class="headerlink" title="Unicode 字符串"></a>Unicode 字符串</h2><p>在Python2中，普通字符串是以8位ASCII码进行存储的，而Unicode字符串则存储为16位unicode字符串，这样能够表示更多的字符集。使用的语法是在字符串前面加上前缀 <strong>u</strong>。</p>
+<p>在Python3中，所有的字符串都是Unicode字符串。</p>
+<hr>
+<h2 id="字符串内建函数"><a href="#字符串内建函数" class="headerlink" title="字符串内建函数"></a>字符串内建函数</h2><p>Python 的字符串常用内建函数如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">序号</th>
+<th align="left">方法及描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-capitalize.html" target="_blank" rel="noopener">capitalize()</a> 将字符串的第一个字符转换为大写</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-center.html" target="_blank" rel="noopener">center(width, fillchar)</a> 返回一个指定的宽度 width 居中的字符串，fillchar 为填充的字符，默认为空格。</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-count.html" target="_blank" rel="noopener">count(str, beg= 0,end=len(string))</a> 返回 str 在 string 里面出现的次数，如果 beg 或者 end 指定则返回指定范围内 str 出现的次数</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-decode.html" target="_blank" rel="noopener">bytes.decode(encoding=”utf-8”, errors=”strict”)</a> Python3 中没有 decode 方法，但我们可以使用 bytes 对象的 decode() 方法来解码给定的 bytes 对象，这个 bytes 对象可以由 str.encode() 来编码返回。</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-encode.html" target="_blank" rel="noopener">encode(encoding=’UTF-8’,errors=’strict’)</a> 以 encoding 指定的编码格式编码字符串，如果出错默认报一个ValueError 的异常，除非 errors 指定的是’ignore’或者’replace’</td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-endswith.html" target="_blank" rel="noopener">endswith(suffix, beg=0, end=len(string))</a> 检查字符串是否以 obj 结束，如果beg 或者 end 指定则检查指定的范围内是否以 obj 结束，如果是，返回 True,否则返回 False.</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-expandtabs.html" target="_blank" rel="noopener">expandtabs(tabsize=8)</a> 把字符串 string 中的 tab 符号转为空格，tab 符号默认的空格数是 8 。</td>
+</tr>
+<tr>
+<td align="left">8</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-find.html" target="_blank" rel="noopener">find(str, beg=0, end=len(string))</a> 检测 str 是否包含在字符串中，如果指定范围 beg 和 end ，则检查是否包含在指定范围内，如果包含返回开始的索引值，否则返回-1</td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-index.html" target="_blank" rel="noopener">index(str, beg=0, end=len(string))</a> 跟find()方法一样，只不过如果str不在字符串中会报一个异常。</td>
+</tr>
+<tr>
+<td align="left">10</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isalnum.html" target="_blank" rel="noopener">isalnum()</a> 如果字符串至少有一个字符并且所有字符都是字母或数字则返 回 True，否则返回 False</td>
+</tr>
+<tr>
+<td align="left">11</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isalpha.html" target="_blank" rel="noopener">isalpha()</a> 如果字符串至少有一个字符并且所有字符都是字母或中文字则返回 True, 否则返回 False</td>
+</tr>
+<tr>
+<td align="left">12</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isdigit.html" target="_blank" rel="noopener">isdigit()</a> 如果字符串只包含数字则返回 True 否则返回 False..</td>
+</tr>
+<tr>
+<td align="left">13</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-islower.html" target="_blank" rel="noopener">islower()</a> 如果字符串中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False</td>
+</tr>
+<tr>
+<td align="left">14</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isnumeric.html" target="_blank" rel="noopener">isnumeric()</a> 如果字符串中只包含数字字符，则返回 True，否则返回 False</td>
+</tr>
+<tr>
+<td align="left">15</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isspace.html" target="_blank" rel="noopener">isspace()</a> 如果字符串中只包含空白，则返回 True，否则返回 False.</td>
+</tr>
+<tr>
+<td align="left">16</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-istitle.html" target="_blank" rel="noopener">istitle()</a> 如果字符串是标题化的(见 title())则返回 True，否则返回 False</td>
+</tr>
+<tr>
+<td align="left">17</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isupper.html" target="_blank" rel="noopener">isupper()</a> 如果字符串中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False</td>
+</tr>
+<tr>
+<td align="left">18</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-join.html" target="_blank" rel="noopener">join(seq)</a> 以指定字符串作为分隔符，将 seq 中所有的元素(的字符串表示)合并为一个新的字符串</td>
+</tr>
+<tr>
+<td align="left">19</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-len.html" target="_blank" rel="noopener">len(string)</a> 返回字符串长度</td>
+</tr>
+<tr>
+<td align="left">20</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-ljust.html" target="_blank" rel="noopener">ljust(width[, fillchar])</a> 返回一个原字符串左对齐,并使用 fillchar 填充至长度 width 的新字符串，fillchar 默认为空格。</td>
+</tr>
+<tr>
+<td align="left">21</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-lower.html" target="_blank" rel="noopener">lower()</a> 转换字符串中所有大写字符为小写.</td>
+</tr>
+<tr>
+<td align="left">22</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-lstrip.html" target="_blank" rel="noopener">lstrip()</a> 截掉字符串左边的空格或指定字符。</td>
+</tr>
+<tr>
+<td align="left">23</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-maketrans.html" target="_blank" rel="noopener">maketrans()</a> 创建字符映射的转换表，对于接受两个参数的最简单的调用方式，第一个参数是字符串，表示需要转换的字符，第二个参数也是字符串表示转换的目标。</td>
+</tr>
+<tr>
+<td align="left">24</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-max.html" target="_blank" rel="noopener">max(str)</a> 返回字符串 str 中最大的字母。</td>
+</tr>
+<tr>
+<td align="left">25</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-min.html" target="_blank" rel="noopener">min(str)</a> 返回字符串 str 中最小的字母。</td>
+</tr>
+<tr>
+<td align="left">26</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-replace.html" target="_blank" rel="noopener">replace(old, new [, max])</a> 把 将字符串中的 old 替换成 new,如果 max 指定，则替换不超过 max 次。</td>
+</tr>
+<tr>
+<td align="left">27</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-rfind.html" target="_blank" rel="noopener">rfind(str, beg=0,end=len(string))</a> 类似于 find()函数，不过是从右边开始查找.</td>
+</tr>
+<tr>
+<td align="left">28</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-rindex.html" target="_blank" rel="noopener">rindex( str, beg=0, end=len(string))</a> 类似于 index()，不过是从右边开始.</td>
+</tr>
+<tr>
+<td align="left">29</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-rjust.html" target="_blank" rel="noopener">rjust(width,[, fillchar])</a> 返回一个原字符串右对齐,并使用fillchar(默认空格）填充至长度 width 的新字符串</td>
+</tr>
+<tr>
+<td align="left">30</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-rstrip.html" target="_blank" rel="noopener">rstrip()</a> 删除字符串字符串末尾的空格.</td>
+</tr>
+<tr>
+<td align="left">31</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-split.html" target="_blank" rel="noopener">split(str=””, num=string.count(str))</a> 以 str 为分隔符截取字符串，如果 num 有指定值，则仅截取 num+1 个子字符串,将一个字符串切割成一个列表</td>
+</tr>
+<tr>
+<td align="left">32</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-splitlines.html" target="_blank" rel="noopener">splitlines([keepends])</a> 按照行(‘\r’, ‘\r\n’, \n’)分隔，返回一个包含各行作为元素的列表，如果参数 keepends 为 False，不包含换行符，如果为 True，则保留换行符。</td>
+</tr>
+<tr>
+<td align="left">33</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-startswith.html" target="_blank" rel="noopener">startswith(substr, beg=0,end=len(string))</a> 检查字符串是否是以指定子字符串 substr 开头，是则返回 True，否则返回 False。如果beg 和 end 指定值，则在指定范围内检查。</td>
+</tr>
+<tr>
+<td align="left">34</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-strip.html" target="_blank" rel="noopener">strip([chars])</a> 在字符串上执行 lstrip()和 rstrip()</td>
+</tr>
+<tr>
+<td align="left">35</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-swapcase.html" target="_blank" rel="noopener">swapcase()</a> 将字符串中大写转换为小写，小写转换为大写</td>
+</tr>
+<tr>
+<td align="left">36</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-title.html" target="_blank" rel="noopener">title()</a> 返回”标题化”的字符串,就是说所有单词都是以大写开始，其余字母均为小写(见 istitle())</td>
+</tr>
+<tr>
+<td align="left">37</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-translate.html" target="_blank" rel="noopener">translate(table, deletechars=””)</a> 根据 str 给出的表(包含 256 个字符)转换 string 的字符, 要过滤掉的字符放到 deletechars 参数中</td>
+</tr>
+<tr>
+<td align="left">38</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-upper.html" target="_blank" rel="noopener">upper()</a> 转换字符串中的小写字母为大写</td>
+</tr>
+<tr>
+<td align="left">39</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-zfill.html" target="_blank" rel="noopener">zfill (width)</a> 返回长度为 width 的字符串，原字符串右对齐，前面填充0</td>
+</tr>
+<tr>
+<td align="left">40</td>
+<td align="left"><a href="https://www.runoob.com/python3/python3-string-isdecimal.html" target="_blank" rel="noopener">isdecimal()</a> 检查字符串是否只包含十进制字符，如果是返回 true，否则返回 false。</td>
+</tr>
+</tbody></table>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/15/post-1%20(copy).html" rel="prev" title="post">
+      <i class="fa fa-chevron-left"></i> post
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/15/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5.html" rel="next" title="Python学习笔记3-循环语句">
+      Python学习笔记3-循环语句 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

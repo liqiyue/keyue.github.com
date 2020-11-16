@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ASA虚拟化防火墙">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASA虚拟化防火墙">
+<meta property="og:url" content="http://192.168.10.117/2020/07/18/2020-07-ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="ASA虚拟化防火墙">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99/asa-2-1-1024x896.png">
+<meta property="article:published_time" content="2020-07-17T17:34:54.000Z">
+<meta property="article:modified_time" content="2020-11-07T22:07:32.537Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Cisco">
+<meta property="article:tag" content="ASA">
+<meta property="article:tag" content="Firewall">
+<meta property="article:tag" content="虚拟化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99/asa-2-1-1024x896.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/18/2020-07-ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ASA虚拟化防火墙 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟化防火墙"><span class="nav-number">1.</span> <span class="nav-text">虚拟化防火墙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单模式和多模式防火墙的对比"><span class="nav-number">2.</span> <span class="nav-text">单模式和多模式防火墙的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置实验："><span class="nav-number">3.</span> <span class="nav-text">配置实验：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预配置："><span class="nav-number">3.1.</span> <span class="nav-text">预配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置ASA"><span class="nav-number">3.2.</span> <span class="nav-text">配置ASA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Vir子墙配置静态NAT，并测试："><span class="nav-number">3.2.1.</span> <span class="nav-text">Vir子墙配置静态NAT，并测试：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Admin管理墙配置静态NAT，并测试："><span class="nav-number">3.2.2.</span> <span class="nav-text">Admin管理墙配置静态NAT，并测试：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决共享Inside接口问题："><span class="nav-number">3.3.</span> <span class="nav-text">解决共享Inside接口问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1-分别为admin和Vir墙手动指定Inside接口Mac，并测试："><span class="nav-number">3.3.1.</span> <span class="nav-text">方法1:分别为admin和Vir墙手动指定Inside接口Mac，并测试：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法2-自动产生Mac地址，并测试："><span class="nav-number">3.3.2.</span> <span class="nav-text">方法2:自动产生Mac地址，并测试：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试admin防火墙和其他防火墙的区别："><span class="nav-number">3.4.</span> <span class="nav-text">测试admin防火墙和其他防火墙的区别：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#admin和Vir子墙同时允许Inside-Telnet网管"><span class="nav-number">3.4.1.</span> <span class="nav-text">admin和Vir子墙同时允许Inside Telnet网管</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试1-telnet-admin子墙"><span class="nav-number">3.4.2.</span> <span class="nav-text">测试1:telnet admin子墙</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试2-telnet-Vir子墙"><span class="nav-number">3.4.3.</span> <span class="nav-text">测试2:telnet Vir子墙</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源管理"><span class="nav-number">4.</span> <span class="nav-text">资源管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙默认资源分类："><span class="nav-number">4.1.</span> <span class="nav-text">防火墙默认资源分类：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为成员类分配资源"><span class="nav-number">4.2.</span> <span class="nav-text">为成员类分配资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将成员类映射给对应的虚拟防火墙"><span class="nav-number">4.3.</span> <span class="nav-text">将成员类映射给对应的虚拟防火墙</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/18/2020-07-ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ASA虚拟化防火墙
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 01:34:54" itemprop="dateCreated datePublished" datetime="2020-07-18T01:34:54+08:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-08 06:07:32" itemprop="dateModified" datetime="2020-11-08T06:07:32+08:00">2020-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cisco/" itemprop="url" rel="index"><span itemprop="name">Cisco</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">ASA虚拟化防火墙</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="虚拟化防火墙"><a href="#虚拟化防火墙" class="headerlink" title="虚拟化防火墙"></a>虚拟化防火墙</h2><p>也被成为多模式防火墙，在虚拟防火墙环境中，安全设备可分为3类：</p>
+<ul>
+<li>系统执行空间</li>
+<li>管理虚拟防火墙（管理墙）</li>
+<li>用户虚拟防火墙（子墙）</li>
+</ul>
+<h2 id="单模式和多模式防火墙的对比"><a href="#单模式和多模式防火墙的对比" class="headerlink" title="单模式和多模式防火墙的对比"></a>单模式和多模式防火墙的对比</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>单模</th>
+<th>多模</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>接口</td>
+<td>所有物理接口可直接使用</td>
+<td>只能使用分配接口</td>
+</tr>
+<tr>
+<td>文件管理</td>
+<td>允许管理员复制系统镜像与文件</td>
+<td>子墙管理员只能管理对应子墙文件，管理墙除外</td>
+</tr>
+<tr>
+<td>许可证</td>
+<td>不需要通过许可证开启单模</td>
+<td>需要通过许可证开启多模</td>
+</tr>
+<tr>
+<td>路由协议</td>
+<td>RIP、EIGRP、OSPF</td>
+<td>从9.0（1）开始支持EIGRP和OSPF V2</td>
+</tr>
+<tr>
+<td>Failover</td>
+<td>不支持双A的故障置换模式</td>
+<td>支持双A的故障置换模式</td>
+</tr>
+<tr>
+<td>Cluster</td>
+<td>支持集群</td>
+<td>支持集群</td>
+</tr>
+<tr>
+<td>QOS</td>
+<td>支持QOS</td>
+<td>不支持QOS</td>
+</tr>
+<tr>
+<td>组播</td>
+<td>支持PIM-SM组播</td>
+<td>不支持，但组播流量可穿越防火墙</td>
+</tr>
+<tr>
+<td>透明防火墙</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>IPSecVPN</td>
+<td>支持</td>
+<td>从9.0（1）开始支持</td>
+</tr>
+<tr>
+<td>SSLVPN</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<h2 id="配置实验："><a href="#配置实验：" class="headerlink" title="配置实验："></a>配置实验：</h2><ul>
+<li>拓扑如图</li>
+<li>配置虚拟化防火墙<ul>
+<li>创建管理墙Admin</li>
+<li>创建子墙Vir</li>
+</ul>
+</li>
+<li>解决共享接口问题</li>
+<li>针对子墙进行资源管控<ul>
+<li>限制admin子墙的网管流量均为两个会话，资源分类名字为Level1</li>
+<li>限制Vir子墙的连接数为60%资源分类名字为Level2</li>
+</ul>
+</li>
+</ul>
+<img src="../../../images/ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99/asa-2-1-1024x896.png" alt="img" style="zoom:50%;" />
+
+<h3 id="预配置："><a href="#预配置：" class="headerlink" title="预配置："></a>预配置：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Outside配置</span></span><br><span class="line">interface e0/<span class="number">0</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line"><span class="comment">#Inside配置</span></span><br><span class="line">interface e0/<span class="number">0</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.1</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line">ip route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span></span><br><span class="line"><span class="comment">#Admin_DMZ配置</span></span><br><span class="line">interface e0/<span class="number">0</span></span><br><span class="line">  ip add <span class="number">150.1</span><span class="number">.7</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line">ip route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">150.1</span><span class="number">.7</span><span class="number">.10</span></span><br><span class="line"><span class="comment">#Vir_DMZ配置</span></span><br><span class="line">interface e0/<span class="number">0</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.2</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line">ip route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.2</span><span class="number">.20</span></span><br><span class="line"><span class="comment">#SW配置</span></span><br><span class="line">interface Ethernet0/<span class="number">1</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line">interface Ethernet0/<span class="number">2</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line">interface Ethernet1/<span class="number">0</span></span><br><span class="line"> switchport access vlan <span class="number">3</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">1</span></span><br><span class="line"> switchport access vlan <span class="number">5</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">2</span></span><br><span class="line"> switchport access vlan <span class="number">4</span></span><br><span class="line"> switchport mode access</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置ASA"><a href="#配置ASA" class="headerlink" title="配置ASA"></a>配置ASA</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#切换防火墙模式为多模</span></span><br><span class="line">ASA(config)<span class="comment"># mode multiple  //一旦切换模式，配置将被清空并重启，旧的running-config配置被保存到Flash下，命名为old_running.cfg</span></span><br><span class="line"><span class="comment">##如何切换为单模</span></span><br><span class="line">ASA(config)<span class="comment"># mode singel</span></span><br><span class="line"><span class="comment">##查看防火墙模式</span></span><br><span class="line">ASA(config)<span class="comment"># show mode </span></span><br><span class="line">Security context mode: multiple</span><br><span class="line"><span class="comment">#配置系统执行空间</span></span><br><span class="line"><span class="comment">##开启物理接口</span></span><br><span class="line">interface ethernet <span class="number">0</span></span><br><span class="line">no shutdown</span><br><span class="line">interface ethernet <span class="number">1</span> </span><br><span class="line">no shutdown</span><br><span class="line"><span class="comment">##配置子接口</span></span><br><span class="line">interface ethernet <span class="number">1.3</span></span><br><span class="line">description To_Admin</span><br><span class="line">vlan <span class="number">3</span></span><br><span class="line">interface ethernet <span class="number">1.4</span>    </span><br><span class="line">description To_Inside</span><br><span class="line">vlan <span class="number">4</span></span><br><span class="line">interface ethernet <span class="number">1.5</span>     </span><br><span class="line">description To_Vir   </span><br><span class="line">vlan <span class="number">5</span> </span><br><span class="line"><span class="comment">#创建管理墙admin</span></span><br><span class="line">ASA(config)<span class="comment"># delete flash:admin.cfg</span></span><br><span class="line">Delete filename [admin.cfg]?     //删除位于flash中残余的admin.cfg文件</span><br><span class="line">Delete disk0:/admin.cfg? [confirm]   </span><br><span class="line">ASA(config)<span class="comment"># admin-context admin   //指定名为admin的子墙为管理墙</span></span><br><span class="line">ASA(config)<span class="comment"># context admin</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># allocate-interface Ethernet0</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># allocate-interface Ethernet1.3-Ethernet1.4</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># config-url disk0:/admin.cfg   //关联物理或逻辑接口到子防火墙，并指派子防火墙配置文件备份路径</span></span><br><span class="line"><span class="comment">#创建用户墙Vir</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># context Vir</span></span><br><span class="line">Creating context <span class="string">'Vir'</span>... Done. (<span class="number">2</span>)</span><br><span class="line">ASA(config-ctx)<span class="comment"># allocate-interface Ethernet0             </span></span><br><span class="line">ASA(config-ctx)<span class="comment"># allocate-interface Ethernet1.4-Ethernet1.5</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># config-url disk0:/Vir.cfg</span></span><br><span class="line"><span class="comment">#配置管理墙admin</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># changeto context admin   //切换到管理墙</span></span><br><span class="line">interface ethernet <span class="number">0</span></span><br><span class="line">no shutdown</span><br><span class="line">nameif Outside</span><br><span class="line">ip add <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface ethernet <span class="number">1.3</span></span><br><span class="line">ip add <span class="number">150.1</span><span class="number">.7</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">nameif DMZ</span><br><span class="line">security-level <span class="number">50</span></span><br><span class="line">interface ethernet <span class="number">1.4</span></span><br><span class="line">nameif Inside</span><br><span class="line">security-level <span class="number">100</span></span><br><span class="line">ip add <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment">#配置用户墙Vir</span></span><br><span class="line">ASA/admin(config-<span class="keyword">if</span>)<span class="comment"># changeto context Vir</span></span><br><span class="line">interface ethernet <span class="number">0</span></span><br><span class="line">no shutdown</span><br><span class="line">nameif Outside</span><br><span class="line">ip add <span class="number">7.7</span><span class="number">.3</span><span class="number">.20</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">security-level <span class="number">100</span></span><br><span class="line">interface ethernet <span class="number">1.5</span>       </span><br><span class="line">nameif DMZ                   </span><br><span class="line">ip add <span class="number">7.7</span><span class="number">.2</span><span class="number">.20</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">security-level <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Vir子墙配置静态NAT，并测试："><a href="#Vir子墙配置静态NAT，并测试：" class="headerlink" title="Vir子墙配置静态NAT，并测试："></a>Vir子墙配置静态NAT，并测试：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">object network Vir-DMZ</span><br><span class="line"> host <span class="number">7.7</span><span class="number">.2</span><span class="number">.1</span></span><br><span class="line"> nat (DMZ,Outside) static <span class="number">7.7</span><span class="number">.3</span><span class="number">.100</span></span><br><span class="line">access-list out extended permit tcp host <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> host <span class="number">7.7</span><span class="number">.2</span><span class="number">.1</span> eq telnet </span><br><span class="line"><span class="comment">###############################测试###################################</span></span><br><span class="line">Outside<span class="comment">#telnet 7.7.3.100</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.100</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">Vir_DMZ<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Admin管理墙配置静态NAT，并测试："><a href="#Admin管理墙配置静态NAT，并测试：" class="headerlink" title="Admin管理墙配置静态NAT，并测试："></a>Admin管理墙配置静态NAT，并测试：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">object network Inside</span><br><span class="line"> subnet <span class="number">7.7</span><span class="number">.1</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"> nat (Inside,Outside) dynamic interface</span><br><span class="line"><span class="comment">###############################测试###################################</span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.3.1</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> ... </span><br><span class="line">% Connection timed out; remote host <span class="keyword">not</span> responding</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决共享Inside接口问题："><a href="#解决共享Inside接口问题：" class="headerlink" title="解决共享Inside接口问题："></a>解决共享Inside接口问题：</h3><h4 id="方法1-分别为admin和Vir墙手动指定Inside接口Mac，并测试："><a href="#方法1-分别为admin和Vir墙手动指定Inside接口Mac，并测试：" class="headerlink" title="方法1:分别为admin和Vir墙手动指定Inside接口Mac，并测试："></a>方法1:分别为admin和Vir墙手动指定Inside接口Mac，并测试：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ASA/admin(config)<span class="comment"># interface ethernet1.4</span></span><br><span class="line">ASA/admin(config-<span class="keyword">if</span>)<span class="comment"># mac-address 0001.0001.0001</span></span><br><span class="line">ASA/admin(config-<span class="keyword">if</span>)<span class="comment"># changeto context Vir</span></span><br><span class="line">ASA/Vir(config)<span class="comment"># interface ethernet1.4</span></span><br><span class="line">ASA/Vir(config-<span class="keyword">if</span>)<span class="comment"># mac-address 0002.0002.0002</span></span><br><span class="line"><span class="comment">###############################测试###################################</span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.3.1</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">Outside<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方法2-自动产生Mac地址，并测试："><a href="#方法2-自动产生Mac地址，并测试：" class="headerlink" title="方法2:自动产生Mac地址，并测试："></a>方法2:自动产生Mac地址，并测试：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在系统执行空间下进行配置</span></span><br><span class="line">ASA/Vir(config-<span class="keyword">if</span>)<span class="comment"># changeto system </span></span><br><span class="line">ASA(config)<span class="comment"># mac-address auto</span></span><br><span class="line"><span class="comment">###############################测试###################################</span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.3.1</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">Outside<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="测试admin防火墙和其他防火墙的区别："><a href="#测试admin防火墙和其他防火墙的区别：" class="headerlink" title="测试admin防火墙和其他防火墙的区别："></a>测试admin防火墙和其他防火墙的区别：</h3><h4 id="admin和Vir子墙同时允许Inside-Telnet网管"><a href="#admin和Vir子墙同时允许Inside-Telnet网管" class="headerlink" title="admin和Vir子墙同时允许Inside Telnet网管"></a>admin和Vir子墙同时允许Inside Telnet网管</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ASA/admin(config)<span class="comment"># username admin password cisco privilege 15</span></span><br><span class="line">ASA/admin(config)<span class="comment"># telnet 7.7.1.1 255.255.255.255 inside </span></span><br><span class="line">ASA/Vir(config)<span class="comment"># username admin password cisco privilege 15</span></span><br><span class="line">ASA/Vir(config)<span class="comment"># telnet 7.7.1.1 255.255.255.255 inside</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="测试1-telnet-admin子墙"><a href="#测试1-telnet-admin子墙" class="headerlink" title="测试1:telnet admin子墙"></a>测试1:telnet admin子墙</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Inside<span class="comment">#telnet 7.7.1.10</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Password: </span><br><span class="line">Type help <span class="keyword">or</span> <span class="string">'?'</span> <span class="keyword">for</span> a list of available commands.</span><br><span class="line">ASA/admin&gt; en</span><br><span class="line">Password: </span><br><span class="line">ASA/admin<span class="comment"># changeto context Vir</span></span><br><span class="line">ASA/Vir<span class="comment"># changeto context admin</span></span><br><span class="line">ASA/admin<span class="comment"># changeto system </span></span><br><span class="line">ASA<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="测试2-telnet-Vir子墙"><a href="#测试2-telnet-Vir子墙" class="headerlink" title="测试2:telnet Vir子墙"></a>测试2:telnet Vir子墙</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Inside<span class="comment">#telnet 7.7.1.20</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.1</span><span class="number">.20</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Password: </span><br><span class="line">Type help <span class="keyword">or</span> <span class="string">'?'</span> <span class="keyword">for</span> a list of available commands.</span><br><span class="line">ASA/Vir&gt; en</span><br><span class="line">Password:  </span><br><span class="line">ASA/Vir<span class="comment"># changeto context admin</span></span><br><span class="line">Command <span class="keyword">not</span> valid <span class="keyword">in</span> current execution space</span><br><span class="line">ASA/Vir<span class="comment"># changeto system       </span></span><br><span class="line">Command <span class="keyword">not</span> valid <span class="keyword">in</span> current execution space</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>结论：telnet到管理墙，可以进入system、Vir子墙<br>telnet到Vir子墙，只能在Vir子墙配置</strong></p>
+</blockquote>
+<h2 id="资源管理"><a href="#资源管理" class="headerlink" title="资源管理"></a>资源管理</h2><ul>
+<li>默认状态下，子墙可以无限制使用ASA的硬件资源。</li>
+<li>资源管理限制来每个子墙对硬件资源的使用</li>
+<li>防止一个子墙把资源耗尽，这样可能会导致其他的子墙性能或连通性的问题</li>
+</ul>
+<h3 id="防火墙默认资源分类："><a href="#防火墙默认资源分类：" class="headerlink" title="防火墙默认资源分类："></a>防火墙默认资源分类：</h3><ul>
+<li>ASA通过指派子防火墙到资源类，来管理系统资源</li>
+<li>默认情况下，每一个子墙属于一个默认分类，这个默认的分类是有预定义限制的</li>
+<li>每一个新创建的资源分类都继承来自于默认分类的所有的限制</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">default</span></span></span><br><span class="line"><span class="class">  <span class="title">limit</span>-<span class="title">resource</span> <span class="title">All</span> 0</span></span><br><span class="line"><span class="class">  <span class="title">limit</span>-<span class="title">resource</span> <span class="title">ASDM</span> 5</span></span><br><span class="line"><span class="class">  <span class="title">limit</span>-<span class="title">resource</span> <span class="title">SSH</span> 5</span></span><br><span class="line"><span class="class">  <span class="title">limit</span>-<span class="title">resource</span> <span class="title">Telnet</span> 5</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为成员类分配资源"><a href="#为成员类分配资源" class="headerlink" title="为成员类分配资源"></a>为成员类分配资源</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ASA(config)<span class="comment"># class Level1</span></span><br><span class="line">ASA(config-<span class="class"><span class="keyword">class</span>)# <span class="title">limit</span>-<span class="title">resource</span> <span class="title">telnet</span> 2</span></span><br><span class="line"><span class="class"><span class="title">ASA</span><span class="params">(config-class)</span># <span class="title">limit</span>-<span class="title">resource</span> <span class="title">ssh</span> 2   </span></span><br><span class="line"><span class="class"><span class="title">ASA</span><span class="params">(config-class)</span># <span class="title">limit</span>-<span class="title">resource</span> <span class="title">asdm</span> 2</span></span><br><span class="line"><span class="class"><span class="title">ASA</span><span class="params">(config)</span># <span class="title">class</span> <span class="title">Level2</span></span></span><br><span class="line"><span class="class"><span class="title">ASA</span><span class="params">(config-class)</span># <span class="title">limit</span>-<span class="title">resource</span> <span class="title">Conns</span> 60%</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="将成员类映射给对应的虚拟防火墙"><a href="#将成员类映射给对应的虚拟防火墙" class="headerlink" title="将成员类映射给对应的虚拟防火墙"></a>将成员类映射给对应的虚拟防火墙</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ASA(config)<span class="comment"># context admin</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># member Level1</span></span><br><span class="line">ASA(config)<span class="comment"># context Vir</span></span><br><span class="line">ASA(config-ctx)<span class="comment"># member Level2</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cisco/" rel="tag"><i class="fa fa-tag"></i> Cisco</a>
+              <a href="/tags/ASA/" rel="tag"><i class="fa fa-tag"></i> ASA</a>
+              <a href="/tags/Firewall/" rel="tag"><i class="fa fa-tag"></i> Firewall</a>
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/" rel="tag"><i class="fa fa-tag"></i> 虚拟化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/18/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover.html" rel="prev" title="ASA高可用性Failover">
+      <i class="fa fa-chevron-left"></i> ASA高可用性Failover
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/18/2020-07-ASA%E9%80%8F%E6%98%8E%E9%98%B2%E7%81%AB%E5%A2%99%E6%A8%A1%E5%BC%8FTransparent.html" rel="next" title="ASA透明防火墙模式Transparent">
+      ASA透明防火墙模式Transparent <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ASA高可用性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASA高可用性">
+<meta property="og:url" content="http://192.168.10.117/2020/07/15/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="ASA高可用性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/%E6%A8%A1%E6%9D%BF%20(copy)/QQ20200630-194859@2x.png">
+<meta property="og:image" content="http://192.168.10.117/images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7/QQ20200630-194859@2x-20200717134706874.png">
+<meta property="article:published_time" content="2020-07-15T06:35:35.000Z">
+<meta property="article:modified_time" content="2020-11-07T22:09:06.285Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Cisco">
+<meta property="article:tag" content="ASA">
+<meta property="article:tag" content="高可用性">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/%E6%A8%A1%E6%9D%BF%20(copy)/QQ20200630-194859@2x.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/15/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ASA高可用性 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#以太通道"><span class="nav-number">1.</span> <span class="nav-text">以太通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交换机以太通道阐述"><span class="nav-number">1.1.</span> <span class="nav-text">交换机以太通道阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASA以太通道阐述"><span class="nav-number">1.2.</span> <span class="nav-text">ASA以太通道阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASA-EtherChannel-实验配置"><span class="nav-number">1.3.</span> <span class="nav-text">ASA EtherChannel 实验配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">1.4.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冗余接口"><span class="nav-number">2.</span> <span class="nav-text">冗余接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#冗余接口阐述"><span class="nav-number">2.1.</span> <span class="nav-text">冗余接口阐述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#冗余接口部署指导方针"><span class="nav-number">2.2.</span> <span class="nav-text">冗余接口部署指导方针</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当冗余主用接口出现问题，ASA会执行以下步骤"><span class="nav-number">3.</span> <span class="nav-text">当冗余主用接口出现问题，ASA会执行以下步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ASA冗余接口实验配置"><span class="nav-number">4.</span> <span class="nav-text">ASA冗余接口实验配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试-1"><span class="nav-number">4.1.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/15/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ASA高可用性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-15 14:35:35" itemprop="dateCreated datePublished" datetime="2020-07-15T14:35:35+08:00">2020-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-08 06:09:06" itemprop="dateModified" datetime="2020-11-08T06:09:06+08:00">2020-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cisco/" itemprop="url" rel="index"><span itemprop="name">Cisco</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description">ASA高可用性</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="以太通道"><a href="#以太通道" class="headerlink" title="以太通道"></a>以太通道</h2><h3 id="交换机以太通道阐述"><a href="#交换机以太通道阐述" class="headerlink" title="交换机以太通道阐述"></a>交换机以太通道阐述</h3><ul>
+<li>冗余接口只允许一主一备，无法充分利用两个接口，这将导致利用率更高的EtherChannel技术加入到ASA中</li>
+<li>EtherChannel允许最多8个物理链路捆绑到一个逻辑链路中（IEEE standard is 802.3ad）</li>
+<li>端口必须具有相同的功能：duplex，speed，等等</li>
+<li>EtherChannel具有load-balancing和HA功能</li>
+<li>可以部署在两台交换机之间或服务器与交换机之间</li>
+</ul>
+<h3 id="ASA以太通道阐述"><a href="#ASA以太通道阐述" class="headerlink" title="ASA以太通道阐述"></a>ASA以太通道阐述</h3><ul>
+<li>支持802.3ad和标准的LACP</li>
+<li>最多支持8个主用和8个备用链路</li>
+<li>支持所有的模式（transparent，routed，multi-context）</li>
+<li>可以配置HASH算法（default issrc / dest IP）（实现负载均衡）</li>
+<li>成员可以共享MAC-address</li>
+<li>5505不支持EtherChannel</li>
+</ul>
+<h3 id="ASA-EtherChannel-实验配置"><a href="#ASA-EtherChannel-实验配置" class="headerlink" title="ASA EtherChannel 实验配置"></a>ASA EtherChannel 实验配置</h3><img src="../../../images/%E6%A8%A1%E6%9D%BF%20(copy)/QQ20200630-194859@2x.png" alt="img" style="zoom:75%;" />
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ASA EtherChannel配置</span></span><br><span class="line">interface ethernet <span class="number">0</span></span><br><span class="line">  channel-group <span class="number">1</span> mode active</span><br><span class="line">  no shutdown</span><br><span class="line">interface ethernet <span class="number">1</span></span><br><span class="line">  channel-group <span class="number">1</span> mode active</span><br><span class="line">  no shutdown</span><br><span class="line">interface ethernet <span class="number">2</span></span><br><span class="line">  channel-group <span class="number">1</span> mode active</span><br><span class="line">  no shutdown  </span><br><span class="line">interface port-channel <span class="number">1</span></span><br><span class="line">  nameif Inside</span><br><span class="line">  security-level <span class="number">100</span></span><br><span class="line">  ip address <span class="number">7.7</span><span class="number">.1</span><span class="number">.254</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment">#交换机配置</span></span><br><span class="line">interface range ethernet <span class="number">0</span>/<span class="number">0</span><span class="number">-2</span></span><br><span class="line">  switchport mode access</span><br><span class="line">  switchport access vlan <span class="number">1</span></span><br><span class="line">  channel-group <span class="number">1</span> mode active</span><br><span class="line">interface port-channel1</span><br><span class="line">switch mode access</span><br><span class="line">interface vlan <span class="number">1</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换机查看Etherchannel状态</span></span><br><span class="line">Switch<span class="comment">#show etherchannel summary </span></span><br><span class="line">Group  Port-channel  Protocol    Ports</span><br><span class="line">------+-------------+-----------+-----------------------------------------------</span><br><span class="line"><span class="number">1</span>      Po1(SU)         LACP      Et0/<span class="number">0</span>(P)    Et0/<span class="number">1</span>(P)    Et0/<span class="number">2</span>(P)  </span><br><span class="line"><span class="comment">#ASA查看Etherchannel状态</span></span><br><span class="line">ASA<span class="comment"># sh port-channel summary                                                 </span></span><br><span class="line">Group  Port-channel  Protocol    Ports</span><br><span class="line">------+-------------+-----------+-----------------------------------------------</span><br><span class="line"><span class="number">1</span>      Po1(U)            LACP    Et0(P)   Et1(P)   Et2(P) </span><br><span class="line">  </span><br><span class="line">ASA<span class="comment"># show interface port-channel 1</span></span><br><span class="line">Interface Port-channel1 <span class="string">"Inside"</span>, <span class="keyword">is</span> up, line protocol <span class="keyword">is</span> up</span><br><span class="line">  Hardware <span class="keyword">is</span> EtherChannel/LACP, BW <span class="number">300</span> Mbps, DLY <span class="number">100</span> usec</span><br><span class="line">        Auto-Duplex(Full-duplex), Auto-Speed(<span class="number">100</span> Mbps)</span><br><span class="line">        Input flow control <span class="keyword">is</span> unsupported, output flow control <span class="keyword">is</span> unsupported</span><br><span class="line">        MAC address <span class="number">5000.0001</span><span class="number">.0000</span>, MTU <span class="number">1500</span></span><br><span class="line">        IP address <span class="number">7.7</span><span class="number">.1</span><span class="number">.254</span>, subnet mask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  Members <span class="keyword">in</span> this channel:</span><br><span class="line">      Active:   Et0 Et1 Et2  </span><br><span class="line"><span class="comment">#关闭E0再次查看</span></span><br><span class="line">ASA<span class="comment"># sh interface port-channel 1</span></span><br><span class="line">Interface Port-channel1 <span class="string">"Inside"</span>, <span class="keyword">is</span> up, line protocol <span class="keyword">is</span> up</span><br><span class="line">  Hardware <span class="keyword">is</span> EtherChannel/LACP, BW <span class="number">200</span> Mbps, DLY <span class="number">100</span> usec</span><br><span class="line">        Auto-Duplex(Full-duplex), Auto-Speed(<span class="number">100</span> Mbps)</span><br><span class="line">        Input flow control <span class="keyword">is</span> unsupported, output flow control <span class="keyword">is</span> unsupported</span><br><span class="line">        MAC address <span class="number">5000.0001</span><span class="number">.0000</span>, MTU <span class="number">1500</span></span><br><span class="line">        IP address <span class="number">7.7</span><span class="number">.1</span><span class="number">.254</span>, subnet mask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  Members <span class="keyword">in</span> this channel:</span><br><span class="line">      Active:   Et1 Et2 </span><br><span class="line">      Inactive: Et0</span><br></pre></td></tr></table></figure>
+
+<h2 id="冗余接口"><a href="#冗余接口" class="headerlink" title="冗余接口"></a>冗余接口</h2><h3 id="冗余接口阐述"><a href="#冗余接口阐述" class="headerlink" title="冗余接口阐述"></a>冗余接口阐述</h3><ul>
+<li>一对物理接口可以捆绑进入一个冗余接口并提供接口级别的冗余</li>
+<li>这些组成冗余接口的物理接口叫做成员（members）</li>
+<li>一个成员是主用接口，另一个成员是备用接口，如果主坏备切</li>
+<li>在冗余接口下可以执行所有的接口配置</li>
+</ul>
+<h3 id="冗余接口部署指导方针"><a href="#冗余接口部署指导方针" class="headerlink" title="冗余接口部署指导方针"></a>冗余接口部署指导方针</h3><ul>
+<li>可以配置多达8个冗余接口对</li>
+<li>不能够指派一个子接口到一个冗余接口</li>
+<li>不支持使用专用的物理管理接口</li>
+<li>不支持Cisco_ASA_5505</li>
+<li>所有接口硬件类型一致</li>
+<li>按照输入顺序，先输入为主用，后输入为备用</li>
+<li>逻辑冗余接口启用的MAC地址为主用接口的MAC地址</li>
+<li>两个冗余接口可以连接到一个交换机，也可以分别连接一个交换机</li>
+</ul>
+<h2 id="当冗余主用接口出现问题，ASA会执行以下步骤"><a href="#当冗余主用接口出现问题，ASA会执行以下步骤" class="headerlink" title="当冗余主用接口出现问题，ASA会执行以下步骤"></a>当冗余主用接口出现问题，ASA会执行以下步骤</h2><ul>
+<li>一个冗余接口使用添加到捆绑的第一个物理接口的MAC地址</li>
+<li>当一个备用接口成为主用时，防火墙通过新的主用接口发送一个免费的ARP回应，用此更新交换机的CAM表</li>
+</ul>
+<h2 id="ASA冗余接口实验配置"><a href="#ASA冗余接口实验配置" class="headerlink" title="ASA冗余接口实验配置"></a>ASA冗余接口实验配置</h2><p><img src="../../../images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7/QQ20200630-194859@2x-20200717134706874.png" alt="img"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ASA配置</span></span><br><span class="line">interface ethernet <span class="number">0</span></span><br><span class="line">  no shutdown</span><br><span class="line">interface ethernet <span class="number">1</span></span><br><span class="line">  no shutdown</span><br><span class="line">interface Redundant1</span><br><span class="line">member-interface ethernet <span class="number">0</span></span><br><span class="line">member-interface ethernet <span class="number">1</span></span><br><span class="line">nameif Security</span><br><span class="line">security <span class="number">80</span></span><br><span class="line">ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment">#SW配置</span></span><br><span class="line">interface vlan <span class="number">1</span></span><br><span class="line">  ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line">interface range ethernet <span class="number">0</span><span class="number">-1</span></span><br><span class="line">  switchport mode access</span><br><span class="line">  switchport access vlan <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看冗余接口状态</span></span><br><span class="line">ciscoasa(config-<span class="keyword">if</span>)<span class="comment"># show interface redundant 1                              </span></span><br><span class="line">Interface Redundant1 <span class="string">"Security"</span>, <span class="keyword">is</span> up, line protocol <span class="keyword">is</span> up</span><br><span class="line">  Hardware <span class="keyword">is</span> i82559, BW <span class="number">100</span> Mbps, DLY <span class="number">100</span> usec</span><br><span class="line">        Auto-Duplex(Full-duplex), Auto-Speed(<span class="number">100</span> Mbps)</span><br><span class="line">        Input flow control <span class="keyword">is</span> unsupported, output flow control <span class="keyword">is</span> unsupported</span><br><span class="line">        MAC address <span class="number">5000.0001</span><span class="number">.0000</span>, MTU <span class="number">1500</span></span><br><span class="line">        IP address <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span>, subnet mask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  Redundancy Information:</span><br><span class="line">        Member Ethernet0(Active), Ethernet1</span><br><span class="line">        Last switchover at <span class="number">16</span>:<span class="number">22</span>:<span class="number">41</span> UTC Jun <span class="number">30</span> <span class="number">2020</span></span><br><span class="line"></span><br><span class="line">          </span><br><span class="line">Switch<span class="comment">#show mac address-table  </span></span><br><span class="line">          Mac Address Table</span><br><span class="line">-------------------------------------------</span><br><span class="line"></span><br><span class="line">Vlan    Mac Address       Type        Ports</span><br><span class="line">----    -----------       --------    -----</span><br><span class="line">   <span class="number">1</span>    <span class="number">5000.0001</span><span class="number">.0000</span>    DYNAMIC     Et0/<span class="number">0</span></span><br><span class="line">Total Mac Addresses <span class="keyword">for</span> this criterion: <span class="number">1</span>          </span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭Ethernet0，再次查看</span></span><br><span class="line">ciscoasa(config-<span class="keyword">if</span>)<span class="comment"># show interface redundant 1                              </span></span><br><span class="line">Interface Redundant1 <span class="string">"Security"</span>, <span class="keyword">is</span> up, line protocol <span class="keyword">is</span> up</span><br><span class="line">  Hardware <span class="keyword">is</span> i82559, BW <span class="number">100</span> Mbps, DLY <span class="number">100</span> usec</span><br><span class="line">        Auto-Duplex(Full-duplex), Auto-Speed(<span class="number">100</span> Mbps)</span><br><span class="line">        Input flow control <span class="keyword">is</span> unsupported, output flow control <span class="keyword">is</span> unsupported</span><br><span class="line">        MAC address <span class="number">5000.0001</span><span class="number">.0000</span>, MTU <span class="number">1500</span></span><br><span class="line">        IP address <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span>, subnet mask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  Redundancy Information:</span><br><span class="line">        Member Ethernet1(Active), Ethernet0</span><br><span class="line">        Last switchover at <span class="number">16</span>:<span class="number">22</span>:<span class="number">41</span> UTC Jun <span class="number">30</span> <span class="number">2020</span></span><br><span class="line"></span><br><span class="line">Switch<span class="comment">#show mac address-table  </span></span><br><span class="line">          Mac Address Table</span><br><span class="line">-------------------------------------------</span><br><span class="line"></span><br><span class="line">Vlan    Mac Address       Type        Ports</span><br><span class="line">----    -----------       --------    -----</span><br><span class="line">   <span class="number">1</span>    <span class="number">5000.0001</span><span class="number">.0000</span>    DYNAMIC     Et0/<span class="number">1</span></span><br><span class="line">Total Mac Addresses <span class="keyword">for</span> this criterion: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>接口冗余不会自动抢占，可以手动切换。命令：<br><code>redundant-interface redundant 1 active-member ethernet 0</code></p>
+</blockquote>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cisco/" rel="tag"><i class="fa fa-tag"></i> Cisco</a>
+              <a href="/tags/ASA/" rel="tag"><i class="fa fa-tag"></i> ASA</a>
+              <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7/" rel="tag"><i class="fa fa-tag"></i> 高可用性</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/15/2020-07-ASA%E7%AE%A1%E7%90%86%E8%AE%BF%E9%97%AE%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE.html" rel="prev" title="ASA管理访问以及简单配置">
+      <i class="fa fa-chevron-left"></i> ASA管理访问以及简单配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/15/2020-07-Cisco%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86Telnet.html" rel="next" title="Cisco设置远程登陆Telnet">
+      Cisco设置远程登陆Telnet <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

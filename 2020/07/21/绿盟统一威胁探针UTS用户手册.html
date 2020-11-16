@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="绿盟统一威胁探针UTS用户手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="绿盟统一威胁探针UTS">
+<meta property="og:url" content="http://192.168.10.117/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BB%9F%E4%B8%80%E5%A8%81%E8%83%81%E6%8E%A2%E9%92%88UTS%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="绿盟统一威胁探针UTS用户手册">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-21T08:30:28.000Z">
+<meta property="article:modified_time" content="2020-08-10T03:39:26.186Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="绿盟">
+<meta property="article:tag" content="UTS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BB%9F%E4%B8%80%E5%A8%81%E8%83%81%E6%8E%A2%E9%92%88UTS%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>绿盟统一威胁探针UTS | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#出厂参数"><span class="nav-number">1.</span> <span class="nav-text">出厂参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置流程"><span class="nav-number">2.</span> <span class="nav-text">配置流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#串口配置菜单简介"><span class="nav-number">3.</span> <span class="nav-text">串口配置菜单简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统"><span class="nav-number">4.</span> <span class="nav-text">系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统配置"><span class="nav-number">4.1.</span> <span class="nav-text">系统配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-number">4.1.1.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">4.1.2.</span> <span class="nav-text">DNS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#账号管理"><span class="nav-number">4.2.</span> <span class="nav-text">账号管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启用缺省审计员"><span class="nav-number">4.2.1.</span> <span class="nav-text">启用缺省审计员</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统控制"><span class="nav-number">4.3.</span> <span class="nav-text">系统控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略"><span class="nav-number">5.</span> <span class="nav-text">策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#元数据还原"><span class="nav-number">5.1.</span> <span class="nav-text">元数据还原</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入侵防护"><span class="nav-number">5.2.</span> <span class="nav-text">入侵防护</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#入侵防护策略"><span class="nav-number">5.2.1.</span> <span class="nav-text">入侵防护策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dos防护策略"><span class="nav-number">5.2.2.</span> <span class="nav-text">Dos防护策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Flood攻击"><span class="nav-number">5.2.2.1.</span> <span class="nav-text">Flood攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PortScan攻击"><span class="nav-number">5.2.2.2.</span> <span class="nav-text">PortScan攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PINGSweep-攻击"><span class="nav-number">5.2.2.3.</span> <span class="nav-text">PINGSweep 攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ARPSpoof防护策略"><span class="nav-number">5.2.2.4.</span> <span class="nav-text">ARPSpoof防护策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件还原"><span class="nav-number">5.3.</span> <span class="nav-text">文件还原</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流量存储"><span class="nav-number">5.4.</span> <span class="nav-text">流量存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资产范围"><span class="nav-number">5.5.</span> <span class="nav-text">资产范围</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#白名单管理"><span class="nav-number">5.6.</span> <span class="nav-text">白名单管理</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BB%9F%E4%B8%80%E5%A8%81%E8%83%81%E6%8E%A2%E9%92%88UTS%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          绿盟统一威胁探针UTS
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-21 16:30:28" itemprop="dateCreated datePublished" datetime="2020-07-21T16:30:28+08:00">2020-07-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-10 11:39:26" itemprop="dateModified" datetime="2020-08-10T11:39:26+08:00">2020-08-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%BF%E7%9B%9F/" itemprop="url" rel="index"><span itemprop="name">绿盟</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+            <div class="post-description">绿盟统一威胁探针UTS用户手册</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>UTS(Unified Threat Sensor)绿盟统一威胁探针，也可以作为绿盟全流量威胁分析系统的探针，用于采集原始数据流量并对流量的传输层、应用层协议解析，同时兼具安全规则检测、文件还原、原始数据存储等能力。此外，探针将解析的流量日志、告警日志及文件数据上传到上层平台进行安全分析，为平台提供数据支撑。</p>
+<h1 id="出厂参数"><a href="#出厂参数" class="headerlink" title="出厂参数"></a>出厂参数</h1><table>
+<thead>
+<tr>
+<th>IP地址</th>
+<th align="center"><a href="https://192.168.1.1" target="_blank" rel="noopener">https://192.168.1.1</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>子网掩码</td>
+<td align="center">255.255.255.0</td>
+</tr>
+<tr>
+<td>Web界面超级管理员初始账户</td>
+<td align="center">admin</td>
+</tr>
+<tr>
+<td>Web界面超级管理员初始密码</td>
+<td align="center">admin</td>
+</tr>
+<tr>
+<td>Console初始账户</td>
+<td align="center">conadmin</td>
+</tr>
+<tr>
+<td>Console初始密码</td>
+<td align="center">conadmin</td>
+</tr>
+</tbody></table>
+<h1 id="配置流程"><a href="#配置流程" class="headerlink" title="配置流程"></a>配置流程</h1><pre class="mermaid">graph LR
+    开始 --> 配置管理接口-->配置网关-->导入证书-->配置安全中心-->配置策略-->实时监控-->结束</pre>
+
+<h1 id="串口配置菜单简介"><a href="#串口配置菜单简介" class="headerlink" title="串口配置菜单简介"></a>串口配置菜单简介</h1><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Init Network</td>
+<td align="center">初始化网络–配置管理接口和网关</td>
+</tr>
+<tr>
+<td>Bind Hardware</td>
+<td align="center">绑定设备硬件信息</td>
+</tr>
+<tr>
+<td>Reset Apache Password</td>
+<td align="center">重置 web 登录密码</td>
+</tr>
+<tr>
+<td>[close]Remote assist</td>
+<td align="center">开启/关闭远程协助–SSH 访问开启/关闭</td>
+</tr>
+<tr>
+<td>Show ip address</td>
+<td align="center">展示管理网络地址</td>
+</tr>
+<tr>
+<td>Exit</td>
+<td align="center">退出串口配置界面</td>
+</tr>
+</tbody></table>
+<h1 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h1><h2 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h2><h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><p>接口配置用于查看 UTS 的接口，以及配置 UTS 的管理口的网络接口地址。管理口分别为 M 口和 H1 口，M 口一般用作管理，H1 口则用作和 BSA 联动。</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>UTS 优先通过首选 DNS 服务器解析域名。当首选 DNS 服务器失效时，UTS 通过备用 DNS 服务器解析域名。</p>
+<pre class="mermaid">graph LR
+    系统-->系统配置-->DNS-->分别设置首选和备选DNS服务器的IP地址-->应用</pre>
+
+<h2 id="账号管理"><a href="#账号管理" class="headerlink" title="账号管理"></a>账号管理</h2><h3 id="启用缺省审计员"><a href="#启用缺省审计员" class="headerlink" title="启用缺省审计员"></a>启用缺省审计员</h3><p>缺省审计员 auditor 的启用只能由缺省操作员 admin 进行（<strong>默认不启用</strong>）。而且，缺省审计员 auditor 一经启用便不能取消启用。（<strong>日志只能审计员查看，admin无法查看并且如果没有配置syslog服务器，重启后将丢失所有日志</strong>）</p>
+<pre class="mermaid">graph LR
+    系统-->账号管理-->启用auditor账户-->设置初始密码-->确定</pre>
+
+<h2 id="系统控制"><a href="#系统控制" class="headerlink" title="系统控制"></a>系统控制</h2><ul>
+<li>【应用配置】：所有策略将被重新加载生效。</li>
+<li>【重启引擎】：重新启动 UTS 的引擎系统。重启系统后，所有策略和配置都将被重新加载生效。 </li>
+<li>【重启系统】：重新启动 UTS 的整个硬件系统。</li>
+<li>【关闭系统】：关闭 UTS 的整个硬件系统。</li>
+</ul>
+<h1 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h1><h2 id="元数据还原"><a href="#元数据还原" class="headerlink" title="元数据还原"></a>元数据还原</h2><p>UTS 提供第四层流量和应用层协议的数据解析功能，提取协议元数据后，组装成日志并发送给 TAM。可以设置对哪些协议及应用的数据进行解析还原。</p>
+<h2 id="入侵防护"><a href="#入侵防护" class="headerlink" title="入侵防护"></a>入侵防护</h2><h3 id="入侵防护策略"><a href="#入侵防护策略" class="headerlink" title="入侵防护策略"></a>入侵防护策略</h3><p>UTS 支持的入侵防护策略包括两种：</p>
+<ul>
+<li><p><strong>入侵防护检测</strong>：开启入侵检测功能后，UTS 可以针对已知和未知攻击产生告警日志，同时对于各种黑客攻击（如缓冲区溢出、SQL 注入、暴力猜测、拒绝服务、扫描探测、非授权访问、蠕虫病毒、僵尸网络等）也会产生告警日志。 </p>
+</li>
+<li><p><strong>Web</strong> <strong>攻击检测</strong>：开启 Web 安全检测功能后，UTS 可以实现基于 HTTP 流量的 Web攻击检测功能，支持检测 SQL 注入、XSS、exec、phprce、ptravel、jeli 等主流攻击类型。</p>
+</li>
+</ul>
+<h3 id="Dos防护策略"><a href="#Dos防护策略" class="headerlink" title="Dos防护策略"></a>Dos防护策略</h3><p>DoS 拒绝服务攻击最常见的有计算机网络带宽入侵和连通性入侵。带宽入侵是制造超过网络最大承载力的数据流量冲击网络，占用所有可用网络资源，达到拒绝服务的目的。连通性入侵是指制造大量的连接请求访问计算机，耗尽所有的操作系统资源，达到拒绝服务的目的。</p>
+<p>UTS 内置 DoS 防护模块，可以有效检测并抵御常见的攻击，操作员通过配置 DoS 防护策略，可以保护指定的网络对象免于受到以下类型的攻击：<strong>Flood 攻击、PortScan 攻击、PINGSweep 攻击和 ARPSpoof 攻击</strong>。</p>
+<h4 id="Flood攻击"><a href="#Flood攻击" class="headerlink" title="Flood攻击"></a>Flood攻击</h4><p>Flood 攻击是指攻击者向攻击目标发送大量的虚假请求，被攻击者不断应答这些无用信息，而合法的用户却无法得到相应的服务，即发生拒绝服务。</p>
+<h4 id="PortScan攻击"><a href="#PortScan攻击" class="headerlink" title="PortScan攻击"></a>PortScan攻击</h4><p>PortScan（端口扫描）攻击是指攻击者通过扫描攻击目标的 TCP 端口或者 UDP 端口确定该主机开启的服务，为进一步侵入目标主机做准备。</p>
+<h4 id="PINGSweep-攻击"><a href="#PINGSweep-攻击" class="headerlink" title="PINGSweep 攻击"></a>PINGSweep 攻击</h4><p>PINGSweep 攻击是指攻击者通过 PINGSweep（即 Ping 扫描）方式探测网络上存活的主机，以便大致了解攻击目标提供的服务种类和潜在的安全漏洞，为进一步侵入目标主机做准备。</p>
+<h4 id="ARPSpoof防护策略"><a href="#ARPSpoof防护策略" class="headerlink" title="ARPSpoof防护策略"></a>ARPSpoof防护策略</h4><p>ARPSpoof 攻击是指攻击者通过伪造 IP 地址和 MAC 地址实现 ARP 欺骗，从而导致网络不稳定甚至断网，并且可以进一步攻击中间人，以此非法获取游戏、网银、文件服务等系统的帐号和密码。</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>检测阈值(端口数)</td>
+<td align="center">当 UTS 在检测周期内检测到从同一个源 IP 地址发出报文的不同目的端口个数达到或超过了指定的检测阈值时，即认为发生了攻击。</td>
+</tr>
+<tr>
+<td>检测周期(秒)</td>
+<td align="center">PortScan 攻击的检测周期。</td>
+</tr>
+<tr>
+<td>复位时间(秒)</td>
+<td align="center">每隔此处配置的时间，UTS 就会将检测数据清零，重新开始检测。</td>
+</tr>
+</tbody></table>
+<h2 id="文件还原"><a href="#文件还原" class="headerlink" title="文件还原"></a>文件还原</h2><p>UTS 支持文件还原功能，UTS 能够对 HTTP、FTP、POP3、IMAP、SMTP 等应用层协 议传输的文件进行识别，并解码和提取文件内容。之后，UTS 将文件内容发送给 TAM， 由 TAM 派发给 TAC 来进行文件恶意行为分析。</p>
+<p>UTS 支持还原的文件类型包括：</p>
+<ul>
+<li><p>PE 类：exe、dll、bat、com、src、pif； </p>
+</li>
+<li><p>文档类：doc/docx、xls/xlsx、ppt/pptx、pdf、rtf、wps、wpt、dot、dps、dpt、pot、pps、et、 ett、mpp、xlt； </p>
+</li>
+<li><p>压缩包：zip、rar、7z、gzip、tar、bz、bz2。 </p>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><p>选择菜单 <strong>系统设置</strong> <strong>&gt;</strong> <strong>专业参数</strong>，可以设置 UTS 系统可还原的文件长度的最大值，如果超过最大长度，则 UTS 将不进行文件的还原。默认是 10M，最大可配置为 100M。 </p>
+</li>
+<li><p>当还原文件大小占用空间为最大容量的 90%时，UTS 将自动删除老的还原文件，其规律为：依次删除文件超过 48h、24h、12h、6h、1h、30mim 的文件。 </p>
+</li>
+</ul>
+</blockquote>
+<h2 id="流量存储"><a href="#流量存储" class="headerlink" title="流量存储"></a>流量存储</h2><p>开启流量存储功能后，UTS 可以将原始流量高速存储在本地的硬盘中，并记录索引。同时，UTS 对 TAM 提供检索接口，当 UTS 接收到 TAM 下发的查询任务后，会开始检索，然后将查询结果存储在 PCAP 文件中，并将下载链接反馈给 TAM。 </p>
+<h2 id="资产范围"><a href="#资产范围" class="headerlink" title="资产范围"></a>资产范围</h2><p>只有在资产范围中配置的地址对象，UTS 才会在流量日志中记录数据的方向。</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th align="center">表头</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>名称</td>
+<td align="center">网络对象的名称，用于在 UTS 中唯一标识该网络对象。名称中不能包含如下特殊字符：%、\、`、&lt;、&gt;、’、&amp;、”。</td>
+</tr>
+<tr>
+<td>IP地址</td>
+<td align="center">子网对象的 IP 地址，支持 IPv4。IP 地址的输入格式为“IP 地址/掩码”。</td>
+</tr>
+<tr>
+<td>取反</td>
+<td align="center">是否对 IP 地址取反。<br />“取反”表示将设定 IP 地址以外的地址作为该子网对象的有效 IP 地址。</td>
+</tr>
+</tbody></table>
+<h2 id="白名单管理"><a href="#白名单管理" class="headerlink" title="白名单管理"></a>白名单管理</h2><p>UTS 可以设置 IP 地址、域名、端口和邮箱地址的白名单，如果命中白名单，则 UTS 将不再对匹配条件的数据包的流量进行存储，也不再进行元数据还原、文件还原和入侵防护检测。</p>
+<p>白名单功能默认为启用状态，管理员可以随时启用或禁用该功能，只有启用后，下面配置的白名单才会生效。</p>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%BF%E7%9B%9F/" rel="tag"><i class="fa fa-tag"></i> 绿盟</a>
+              <a href="/tags/UTS/" rel="tag"><i class="fa fa-tag"></i> UTS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BD%91%E7%BB%9C%E5%85%A5%E4%BE%B5%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9FNIPS%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.html" rel="prev" title="绿盟网络入侵防护系统NIPS操作手册">
+      <i class="fa fa-chevron-left"></i> 绿盟网络入侵防护系统NIPS操作手册
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/21/%E7%BB%BF%E7%9B%9FWEB%E5%BA%94%E7%94%A8%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9FWAF%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.html" rel="next" title="绿盟WEB应用防护系统WAF操作手册">
+      绿盟WEB应用防护系统WAF操作手册 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

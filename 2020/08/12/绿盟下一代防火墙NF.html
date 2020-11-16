@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="绿盟下一代防火墙NF各种部署方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="绿盟下一代防火墙NF">
+<meta property="og:url" content="http://192.168.10.117/2020/08/12/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="绿盟下一代防火墙NF各种部署方式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812113804714.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812115121596.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812115751451.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812120333673.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812130347652.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812132904066.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812131825917.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812133026634.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812133154284.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812133313192.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812134125193.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812134324930.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812134715165.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141144521.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141412388.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141449106.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141531123.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141546572.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141629487.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141728925.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141743561.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141812093.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141826383.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141843745.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812142610784.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812143526299.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144041136.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144536008.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144639388.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144813111.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144910442.png">
+<meta property="article:published_time" content="2020-08-12T03:15:45.000Z">
+<meta property="article:modified_time" content="2020-10-19T08:25:20.515Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="绿盟">
+<meta property="article:tag" content="NF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812113804714.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/08/12/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>绿盟下一代防火墙NF | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绿盟下一代防火墙NF"><span class="nav-number">1.</span> <span class="nav-text">绿盟下一代防火墙NF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#透明模式部署"><span class="nav-number">2.</span> <span class="nav-text">透明模式部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#点到点虚拟线部署"><span class="nav-number">2.1.</span> <span class="nav-text">点到点虚拟线部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求："><span class="nav-number">2.1.1.</span> <span class="nav-text">需求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拓扑图如下："><span class="nav-number">2.1.2.</span> <span class="nav-text">拓扑图如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置思路"><span class="nav-number">2.1.3.</span> <span class="nav-text">配置思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置步骤"><span class="nav-number">2.1.4.</span> <span class="nav-text">配置步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#路由模式部署"><span class="nav-number">3.</span> <span class="nav-text">路由模式部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#边界网关部署"><span class="nav-number">3.1.</span> <span class="nav-text">边界网关部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">3.1.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拓扑图如下"><span class="nav-number">3.1.2.</span> <span class="nav-text">拓扑图如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置思路-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">配置思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置步骤-1"><span class="nav-number">3.1.4.</span> <span class="nav-text">配置步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非对称路由模式部署"><span class="nav-number">3.2.</span> <span class="nav-text">非对称路由模式部署</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#混合部署"><span class="nav-number">4.</span> <span class="nav-text">混合部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求-1"><span class="nav-number">4.0.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拓扑图如下-1"><span class="nav-number">4.0.2.</span> <span class="nav-text">拓扑图如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置步骤-2"><span class="nav-number">4.0.3.</span> <span class="nav-text">配置步骤</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/08/12/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          绿盟下一代防火墙NF
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-12 11:15:45" itemprop="dateCreated datePublished" datetime="2020-08-12T11:15:45+08:00">2020-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-19 16:25:20" itemprop="dateModified" datetime="2020-10-19T16:25:20+08:00">2020-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%BF%E7%9B%9F/" itemprop="url" rel="index"><span itemprop="name">绿盟</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+            <div class="post-description">绿盟下一代防火墙NF各种部署方式</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="绿盟下一代防火墙NF"><a href="#绿盟下一代防火墙NF" class="headerlink" title="绿盟下一代防火墙NF"></a>绿盟下一代防火墙NF</h1><p>默认登陆名：weboper       ；</p>
+<h1 id="透明模式部署"><a href="#透明模式部署" class="headerlink" title="透明模式部署"></a>透明模式部署</h1><h2 id="点到点虚拟线部署"><a href="#点到点虚拟线部署" class="headerlink" title="点到点虚拟线部署"></a>点到点虚拟线部署</h2><p>虚拟线模式，即将NF看作一根网线使用。一条虚拟线包括两个工作接口（一组in、out接口），可以保护内网用户不受来自Internet的攻击。</p>
+<h3 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h3><ul>
+<li>只允许IP范围10.10.10.2/24-10.10.10.50/24的内网用户访问外网的web服务</li>
+<li>开启URL过滤，不允许内网用户访问URL分类为搜索引擎和门户网站和社交网</li>
+</ul>
+<h3 id="拓扑图如下："><a href="#拓扑图如下：" class="headerlink" title="拓扑图如下："></a>拓扑图如下：</h3><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812113804714.png" alt="image-20200812113804714" style="zoom:50%;" />
+
+<h3 id="配置思路"><a href="#配置思路" class="headerlink" title="配置思路"></a>配置思路</h3><ul>
+<li>配置接口和虚拟线</li>
+<li>配置网络对象、安全模版和安全策略<br>允许内网访问外网，开启URL过滤，同时开启安全防护日志记录</li>
+<li>应用配置</li>
+</ul>
+<h3 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h3><ul>
+<li>配置接口和虚拟线<ul>
+<li>网络 –&gt; 接口 – &gt; 接口</li>
+<li>编辑g1/1和g1/2接口，类型选择虚拟线</li>
+<li>网络 –&gt; 虚拟线  –&gt; 虚拟线</li>
+<li>新建虚拟线，名称test，将g1/1和g1/2接口加入虚拟线test中，接口链路状态同步选择<strong>是</strong>（虚拟线中一个接口down时，另一个也会down）</li>
+</ul>
+</li>
+<li>配置网络对象、安全模版和安全策略<ul>
+<li>对象 –&gt; 网络 –&gt; IP池</li>
+<li>新建名称为内网用户的IP池，<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812115121596.png" alt="image-20200812115121596" style="zoom:50%;" /></li>
+<li>对象 –&gt; 安全模版 –&gt; 新建URL过滤安全模版<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812115751451.png" alt="image-20200812115751451"></li>
+<li>策略 –&gt; 安全策略 –&gt; 安全策略 –&gt; 新建内网用户访问外网的安全策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812120333673.png" alt="image-20200812120333673" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li>应用配置生效（不应用不生效）</li>
+</ul>
+<h1 id="路由模式部署"><a href="#路由模式部署" class="headerlink" title="路由模式部署"></a>路由模式部署</h1><h2 id="边界网关部署"><a href="#边界网关部署" class="headerlink" title="边界网关部署"></a>边界网关部署</h2><p>NF部署在网络边界，处于外网、内网和DMZ区域交界处，以三层路由模式接入网络。</p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>允许用户认证的内网用户zhangsan和lisi访问外网Web应用，所有内网用户都通过NAT策略进行外网的Web访问。</li>
+<li>DMZ区域的10.10.10.253和10.10.10.254对外提供Web服务，并进行服务器负载均衡（随机）</li>
+<li>内网和外网用户均可通过公网地址访问DMZ区的Web服务</li>
+<li>对所有访问进行安全防护和用户访问日志记录</li>
+</ul>
+<h3 id="拓扑图如下"><a href="#拓扑图如下" class="headerlink" title="拓扑图如下"></a>拓扑图如下</h3><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812130347652.png" alt="image-20200812130347652" style="zoom:50%;" />
+
+<h3 id="配置思路-1"><a href="#配置思路-1" class="headerlink" title="配置思路"></a>配置思路</h3><ul>
+<li>配置接口以及默认路由</li>
+<li>配置网络对象以及NAT策略<ul>
+<li>配置源NAT策略，在内网用户访问外网时，将192.168.100.0/24转换为202.100.100.3</li>
+<li>配置目的NAT策略，将DMZ区域10.10.10.253和254的Web做外网映射，并做服务器负载均衡，映射的地址为202.100.100.15</li>
+<li>配置目的NAT策略，允许内网用户通过公网地址访问DMZ区Web应用</li>
+</ul>
+</li>
+<li>配置安全模版以及安全策略<ul>
+<li>配置安全策略，允许内网用户zhangsan和lisi访问外网Web应用，记录会话开始和结束的日志，同时开启，IPS、URL过滤、内容过滤以及病毒防护。</li>
+<li>配置安全策略，允许内网和外网的任意用户访问DMZ区域的Web应用，记录会话开始和结束的日志，同时开启，IPS、URL过滤、内容过滤以及病毒防护。</li>
+</ul>
+</li>
+<li>配置用户对象以及用户认证策略，对来自192.168.100.0/24的访问进行用户身份认证</li>
+<li>应用配置，使配置生效</li>
+</ul>
+<h3 id="配置步骤-1"><a href="#配置步骤-1" class="headerlink" title="配置步骤"></a>配置步骤</h3><ul>
+<li><p>配置接口以及默认路由</p>
+<ul>
+<li><p>网络 –&gt; 接口 –&gt; 接口，分别配置接口g1/1：192.168.100.1/24，g1/2：10.10.10.1/24，g1/3：202.100.100.3/24三个接口类型均为三层，所属安全区域依次为Intranet、DMZ以及Extranet。<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812132904066.png" alt="image-20200812132904066"></p>
+</li>
+<li><p>网络 –&gt; 路由 –&gt; 静态路由，添加一条默认路由（假设下一跳地址为202.100.100.100）<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812131825917.png" alt="image-20200812131825917" style="zoom:100%;" /></p>
+</li>
+<li><blockquote>
+<p>静态路由缺省管理距离为1，为了保证其他静态路由的优先级，默认路由的管理距离建议设置为大于1。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>配置网络对象以及NAT策略</p>
+<ul>
+<li>对象 –&gt; 网络 –&gt; 子网</li>
+<li>新建名称为内网（子网）、外网出口（节点）、DNAT外网（节点）、以及253-254（IP池）四个网络对象</li>
+<li>策略 –&gt; NAT –&gt; 源NAT</li>
+<li>新建源NAT策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812133026634.png" alt="image-20200812133026634"></li>
+<li>新建目的策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812133154284.png" alt="image-20200812133154284">)<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812133313192.png" alt="image-20200812133313192"></li>
+</ul>
+</li>
+<li><p>配置安全模版以及安全策略</p>
+<ul>
+<li>对象 –&gt; 安全模版</li>
+<li>新建入侵检测</li>
+<li>新建URL过滤</li>
+<li>新建防病毒</li>
+<li>新建内容过滤策略</li>
+<li>策略 –&gt; 安全策略 –&gt; 安全策略，访问外网策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812134125193.png" alt="image-20200812134125193"></li>
+<li>策略 –&gt; 安全策略 –&gt; 安全策略，访问DMZ策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812134324930.png" alt="image-20200812134324930"></li>
+</ul>
+</li>
+<li><p>配置对象以及用户认证策略</p>
+<ul>
+<li>对象 –&gt; 用户 –&gt; 用户</li>
+<li>新建用户zhangsan和lisi</li>
+<li>策略 –&gt; 用户认证  –&gt; 认证策略</li>
+<li>新建用户认证策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812134715165.png" alt="image-20200812134715165"></li>
+</ul>
+</li>
+</ul>
+<h2 id="非对称路由模式部署"><a href="#非对称路由模式部署" class="headerlink" title="非对称路由模式部署"></a>非对称路由模式部署</h2><p>只有点到点虚拟线部署的两台NF才能配置非对称路由支持功能。</p>
+<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141144521.png" alt="image-20200812141144521" style="zoom:50%;" />
+
+<ul>
+<li>配置NF1接口<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141412388.png" alt="image-20200812141412388"></li>
+<li>配置NF1虚拟线<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141449106.png" alt="image-20200812141449106" style="zoom:100%;" /></li>
+<li>配置NF1网络对象<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141531123.png" alt="image-20200812141531123"></li>
+<li>配置NF1安全策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141546572.png" alt="image-20200812141546572"></li>
+<li>配置NF1非对称路由支持，网络 –&gt; 高可用性 –&gt; 非对称路由支持<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141629487.png" alt="image-20200812141629487"></li>
+<li>配置NF2接口<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141728925.png" alt="image-20200812141728925"></li>
+<li>配置NF2虚拟线<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141743561.png" alt="image-20200812141743561"></li>
+<li>配置NF2网络对象<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141812093.png" alt="image-20200812141812093"></li>
+<li>配置NF2安全策略<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141826383.png" alt="image-20200812141826383"></li>
+<li>配置NF2非对称路由支持<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812141843745.png" alt="image-20200812141843745"></li>
+<li>应用配置</li>
+</ul>
+<h1 id="混合部署"><a href="#混合部署" class="headerlink" title="混合部署"></a>混合部署</h1><h3 id="需求-1"><a href="#需求-1" class="headerlink" title="需求"></a>需求</h3><ul>
+<li>运维部（Vlan10:192.168.10.0/24）通过单臂路由访问ERP服务器（Vlan20:192.168.20.0/24）但只允许telnet应用，并配置用户认证策略，要求运维人员对ERP进行维护时需要进行登陆认证</li>
+<li>员工1区和2区通过2层接入，彼此间可用互相访问，并且可以对ERP服务器进行ERP应用。</li>
+<li>员工1区和2区的用户可以访问Web应用，但需要进行用户认证</li>
+<li>DMZ区将IP地址10.10.10.2映射于外网，对外网提供Web服务</li>
+<li>所有访问都必须进行一定程度的安全防护和用户访问日志记录。</li>
+</ul>
+<h3 id="拓扑图如下-1"><a href="#拓扑图如下-1" class="headerlink" title="拓扑图如下"></a>拓扑图如下</h3><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812142610784.png" alt="image-20200812142610784" style="zoom:50%;" />
+
+<h3 id="配置步骤-2"><a href="#配置步骤-2" class="headerlink" title="配置步骤"></a>配置步骤</h3><ul>
+<li>配置安全区和接口<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812143526299.png" alt="image-20200812143526299" style="zoom:50%;" /><ul>
+<li>layer2安全区：员工1区和员工2区</li>
+<li>layer3安全区：<ul>
+<li>员工安全区（包括员工1区和员工2区）</li>
+<li>ERP管理安全区（包括运维部和ERP服务区）</li>
+<li>DMZ区（使用系统DMZ）</li>
+<li>外网区（使用系统Extranet）</li>
+</ul>
+</li>
+<li>配置接口：<img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144041136.png" alt="image-20200812144041136" style="zoom:50%;" /><ul>
+<li>三层接口：g1/1、g1/2、g1/3</li>
+<li>三层子接口：运维部和ERP服务器采用单臂路由模式与NF设备连接，故g1/1下还需要配置两个子接口g1/1.10和g1/1.20</li>
+<li>二层接口：g1/4、g2/1</li>
+<li>vlan接口：员工1区和员工2区通过该vlan接口与外网、ERP区进行数据路由</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>配置网络对象以及NAT策略<ul>
+<li><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144536008.png" alt="image-20200812144536008" style="zoom:50%;" /><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144639388.png" alt="image-20200812144639388" style="zoom:50%;" /></li>
+<li><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144813111.png" alt="image-20200812144813111" style="zoom:50%;" /><img src="../../../../images/%E7%BB%BF%E7%9B%9F%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%98%B2%E7%81%AB%E5%A2%99NF/image-20200812144910442.png" alt="image-20200812144910442" style="zoom:50%;" /></li>
+</ul>
+</li>
+<li>配置安全模版</li>
+<li>配置安全策略</li>
+<li>配置用户对象</li>
+<li>配置认证策略</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%BF%E7%9B%9F/" rel="tag"><i class="fa fa-tag"></i> 绿盟</a>
+              <a href="/tags/NF/" rel="tag"><i class="fa fa-tag"></i> NF</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/14/Hillstone%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7HA%E9%85%8D%E7%BD%AE.html" rel="prev" title="Hillstone高可用配置">
+      <i class="fa fa-chevron-left"></i> Hillstone高可用配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/09/WCCP%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8.html" rel="next" title="WCCP协议原理与应用">
+      WCCP协议原理与应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

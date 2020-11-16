@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Cisco配置PPPoE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cisco配置PPPoe">
+<meta property="og:url" content="http://192.168.10.117/2020/07/22/Cisco%E9%85%8D%E7%BD%AEPPPoe.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="Cisco配置PPPoE">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco%E9%85%8D%E7%BD%AEPPPoe/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7-2018-05-27-15.14.55.jpg">
+<meta property="article:published_time" content="2020-07-21T19:08:48.000Z">
+<meta property="article:modified_time" content="2020-07-27T08:33:21.175Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Cisco">
+<meta property="article:tag" content="PPPoE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/Cisco%E9%85%8D%E7%BD%AEPPPoe/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7-2018-05-27-15.14.55.jpg">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/22/Cisco%E9%85%8D%E7%BD%AEPPPoe.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Cisco配置PPPoe | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、前言"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、拓扑图-amp-需求"><span class="nav-number">2.</span> <span class="nav-text">二、拓扑图 &amp; 需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、操作步骤"><span class="nav-number">3.</span> <span class="nav-text">三、操作步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进入配置模式"><span class="nav-number">3.1.</span> <span class="nav-text">进入配置模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置物理接口"><span class="nav-number">3.2.</span> <span class="nav-text">配置物理接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-PPPoE-接口"><span class="nav-number">3.3.</span> <span class="nav-text">配置 PPPoE 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-DHCP-服务器"><span class="nav-number">3.4.</span> <span class="nav-text">配置 DHCP 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-NAT"><span class="nav-number">3.5.</span> <span class="nav-text">配置 NAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存设置-amp-退出"><span class="nav-number">3.6.</span> <span class="nav-text">保存设置 &amp; 退出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、检查结果"><span class="nav-number">4.</span> <span class="nav-text">四、检查结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检查-PPPoE-接口"><span class="nav-number">4.1.</span> <span class="nav-text">检查 PPPoE 接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查-DHCP-服务器"><span class="nav-number">4.2.</span> <span class="nav-text">检查 DHCP 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查能否上网"><span class="nav-number">4.3.</span> <span class="nav-text">检查能否上网</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、PPPOE-Server配置："><span class="nav-number">5.</span> <span class="nav-text">五、PPPOE Server配置：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加拨号用的用户名密码"><span class="nav-number">5.1.</span> <span class="nav-text">添加拨号用的用户名密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立bba拨号组"><span class="nav-number">5.2.</span> <span class="nav-text">建立bba拨号组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置虚拟模版"><span class="nav-number">5.3.</span> <span class="nav-text">配置虚拟模版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置pppoe客户端的地址池name"><span class="nav-number">5.4.</span> <span class="nav-text">配置pppoe客户端的地址池name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入接口关联bba组"><span class="nav-number">5.5.</span> <span class="nav-text">进入接口关联bba组</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/22/Cisco%E9%85%8D%E7%BD%AEPPPoe.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cisco配置PPPoe
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-22 03:08:48" itemprop="dateCreated datePublished" datetime="2020-07-22T03:08:48+08:00">2020-07-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-27 16:33:21" itemprop="dateModified" datetime="2020-07-27T16:33:21+08:00">2020-07-27</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+            <div class="post-description">Cisco配置PPPoE</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>PPPoE 是目前家庭宽带的主流接入方式。看完本文之后，您或许就可以把思科的企业级路由器当作家里的主路由器了，</p>
+<hr>
+<h2 id="二、拓扑图-amp-需求"><a href="#二、拓扑图-amp-需求" class="headerlink" title="二、拓扑图 &amp; 需求"></a>二、拓扑图 &amp; 需求</h2><img src="../../../../images/Cisco%E9%85%8D%E7%BD%AEPPPoe/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7-2018-05-27-15.14.55.jpg" alt="img" style="zoom:50%;" />
+
+<p>家里刚拉了一条宽带，ISP 要求使用 PPPoE 进行接入。</p>
+<p>PPPoE 的用户名是 <code>cisco</code>，密码是 <code>123</code>。</p>
+<p>现在要用一台思科的路由器作为主路由器让家里的设备都能上网。</p>
+<p><code>e0/0</code> 接口连接外网，<code>e0/1</code> 接口连接内网。</p>
+<p>内网的网段是 <code>192.168.1.0/24</code>，路由器的内网 IP 是 <code>192.168.1.1/24</code>。</p>
+<hr>
+<h2 id="三、操作步骤"><a href="#三、操作步骤" class="headerlink" title="三、操作步骤"></a>三、操作步骤</h2><p>（路由器已经恢复出厂设置）</p>
+<h3 id="进入配置模式"><a href="#进入配置模式" class="headerlink" title="进入配置模式"></a>进入配置模式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置物理接口"><a href="#配置物理接口" class="headerlink" title="配置物理接口"></a>配置物理接口</h3><p><code>e0/0</code> 接口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router(config)<span class="comment">#interface ethernet 0/0</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#no ip address         //物理接口不要配置 IP 地址</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#pppoe-client dial-pool-number 1   //作为 PPPoE 客户端并加入 1 号拨号池</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#no shutdown </span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#exit</span></span><br></pre></td></tr></table></figure>
+
+<p><code>e0/1</code> 接口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router(config)<span class="comment">#interface ethernet 0/1</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ip address 192.168.1.1 255.255.255.0</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ip nat inside                         //设为 NAT 内部接口</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#no shutdown </span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#exit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-PPPoE-接口"><a href="#配置-PPPoE-接口" class="headerlink" title="配置 PPPoE 接口"></a>配置 PPPoE 接口</h3><p>用于拨号的 <code>dialer0</code> 虚拟接口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Router(config)<span class="comment">#interface dialer 1</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#encapsulation ppp         </span></span><br><span class="line"><span class="comment">#使用 PPP 协议封装</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ip address negotiated     </span></span><br><span class="line"><span class="comment">#使用 PPP 协议自动获取 IP 地址</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ppp ipcp route default    </span></span><br><span class="line"><span class="comment">#自动设置默认路由</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#dialer pool 1            </span></span><br><span class="line"><span class="comment">#加入 1 号拨号池</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ppp chap hostname cisco              </span></span><br><span class="line"><span class="comment">#设置 CHAP 身份验证使用的用户名</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ppp chap password 123  </span></span><br><span class="line"><span class="comment">#设置 CHAP 身份验证使用的密码</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ppp ipcp route default</span></span><br><span class="line"><span class="comment">#获取默认路由</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#ip nat outside                       </span></span><br><span class="line"><span class="comment">#设为 NAT 外部接口</span></span><br><span class="line">Router(config-<span class="keyword">if</span>)<span class="comment">#exit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-DHCP-服务器"><a href="#配置-DHCP-服务器" class="headerlink" title="配置 DHCP 服务器"></a>配置 DHCP 服务器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Router(config)<span class="comment">#ip dhcp pool lan     // 创建一个名为 lan 的 DHCP 地址池</span></span><br><span class="line">Router(dhcp-config)<span class="comment">#network 192.168.1.0 255.255.255.0   // 设置地址池的网段</span></span><br><span class="line">Router(dhcp-config)<span class="comment">#default-router 192.168.1.1          // 设置默认网关</span></span><br><span class="line">Router(dhcp-config)<span class="comment">#dns-server 8.8.8.8 8.8.4.4          // 设置 DNS 服务器</span></span><br><span class="line">Router(dhcp-config)<span class="comment">#exit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-NAT"><a href="#配置-NAT" class="headerlink" title="配置 NAT"></a>配置 NAT</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Router(config)<span class="comment">#access-list 1 permit 192.168.1.0 0.0.0.255   //设置一条包含内网网段的 ACL 规则</span></span><br><span class="line">Router(config)<span class="comment">#ip nat inside source list 1 interface dialer 1 overload  // 把来自内网网段访问外网的流量进行 PAT 转换</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="保存设置-amp-退出"><a href="#保存设置-amp-退出" class="headerlink" title="保存设置 &amp; 退出"></a>保存设置 &amp; 退出</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router(config)<span class="comment">#exit</span></span><br><span class="line">Router<span class="comment">#write </span></span><br><span class="line">Router<span class="comment">#exit</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、检查结果"><a href="#四、检查结果" class="headerlink" title="四、检查结果"></a>四、检查结果</h2><h3 id="检查-PPPoE-接口"><a href="#检查-PPPoE-接口" class="headerlink" title="检查 PPPoE 接口"></a>检查 PPPoE 接口</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="comment">#show ip interface brief | section Dialer1</span></span><br><span class="line"></span><br><span class="line">Dialer1                   <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>  YES IPCP   up                    up</span><br></pre></td></tr></table></figure>
+
+<p>如果拨号接口有 IP 地址，且状态为 up，说明工作正常。</p>
+<h3 id="检查-DHCP-服务器"><a href="#检查-DHCP-服务器" class="headerlink" title="检查 DHCP 服务器"></a>检查 DHCP 服务器</h3><p>配置内网主机通过 DHCP 自动获取 IP。如果可以获取到 IP，说明 DHCP 服务器配置正确。</p>
+<p>内网主机获取 IP 之后可以在路由器上检查下 DHCP 地址池的分配情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="comment">#show ip dhcp binding</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bindings <span class="keyword">from</span> all pools <span class="keyword">not</span> associated <span class="keyword">with</span> VRF:</span><br><span class="line">IP address          Client-ID/          Lease expiration        Type</span><br><span class="line">            Hardware address/</span><br><span class="line">            User name</span><br><span class="line"><span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>         <span class="number">0150.0100</span><span class="number">.0200</span><span class="number">.00</span>       May <span class="number">28</span> <span class="number">2018</span> <span class="number">04</span>:<span class="number">11</span> PM    Automatic</span><br></pre></td></tr></table></figure>
+
+<h3 id="检查能否上网"><a href="#检查能否上网" class="headerlink" title="检查能否上网"></a>检查能否上网</h3><p>在内网主机上随便打开一个网页。如果可以打开，说明 NAT 以及路由配置正确。</p>
+<p>打开网页之后可以在路由器检查下 NAT 的工作情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="comment">#show ip nat translations</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Pro Inside <span class="keyword">global</span>      Inside local       Outside local      Outside <span class="keyword">global</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49215</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49215</span> <span class="number">117.18</span><span class="number">.237</span><span class="number">.29</span>:<span class="number">80</span>  <span class="number">117.18</span><span class="number">.237</span><span class="number">.29</span>:<span class="number">80</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49232</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49232</span> <span class="number">52.37</span><span class="number">.11</span><span class="number">.39</span>:<span class="number">443</span>   <span class="number">52.37</span><span class="number">.11</span><span class="number">.39</span>:<span class="number">443</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49233</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49233</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49234</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49234</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">443</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">443</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49235</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49235</span> <span class="number">202.108</span><span class="number">.23</span><span class="number">.152</span>:<span class="number">443</span> <span class="number">202.108</span><span class="number">.23</span><span class="number">.152</span>:<span class="number">443</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49236</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49236</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49237</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49237</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49238</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49238</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span></span><br><span class="line">tcp <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span>:<span class="number">49239</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.2</span>:<span class="number">49239</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span> <span class="number">163.177</span><span class="number">.131</span><span class="number">.52</span>:<span class="number">80</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、PPPOE-Server配置："><a href="#五、PPPOE-Server配置：" class="headerlink" title="五、PPPOE Server配置："></a>五、PPPOE Server配置：</h2><h3 id="添加拨号用的用户名密码"><a href="#添加拨号用的用户名密码" class="headerlink" title="添加拨号用的用户名密码"></a>添加拨号用的用户名密码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username cisco password <span class="number">0</span> <span class="number">123</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="建立bba拨号组"><a href="#建立bba拨号组" class="headerlink" title="建立bba拨号组"></a>建立bba拨号组</h3><p>bba-group 是一个虚拟的拨号组，在以前的ios中，pppoe拨号是嵌入到vpnd中的，后来思科将pppoe从VPND中移植出来，嵌入到BBA组中。Virtual-template是设备所使用的虚拟访问接口，一个pppoe的拨号连接就属于虚拟访问一种，该接口上存放着与虚拟访问有关的三层和二层信息，所以要把virtual-template与BBA-GROUP关联起来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bba-group pppoe name</span><br><span class="line"><span class="comment"># 创建拨号组name</span></span><br><span class="line"> virtual-template <span class="number">1</span></span><br><span class="line">  <span class="comment"># 关联虚拟模版1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置虚拟模版"><a href="#配置虚拟模版" class="headerlink" title="配置虚拟模版"></a>配置虚拟模版</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">interface Virtual-Template1 </span><br><span class="line"><span class="comment"># 进入虚拟模版配置</span></span><br><span class="line"> ip unnumbered FastEthernet0/<span class="number">1</span></span><br><span class="line">  <span class="comment"># 配置该接口向f0/1接口借用地址，当然也可以自己配</span></span><br><span class="line"> peer default ip address pool name</span><br><span class="line"><span class="comment"># 为pppoe客户端分配的一个叫name地址池</span></span><br><span class="line"> ppp authentication chap</span><br><span class="line">  <span class="comment"># 使用chap认证</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置pppoe客户端的地址池name"><a href="#配置pppoe客户端的地址池name" class="headerlink" title="配置pppoe客户端的地址池name"></a>配置pppoe客户端的地址池name</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip local pool name <span class="number">192.168</span><span class="number">.18</span><span class="number">.103</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="进入接口关联bba组"><a href="#进入接口关联bba组" class="headerlink" title="进入接口关联bba组"></a>进入接口关联bba组</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface FastEthernet0/<span class="number">1</span></span><br><span class="line"> ip address <span class="number">192.168</span><span class="number">.18</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"> pppoe enable group e0/<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cisco/" rel="tag"><i class="fa fa-tag"></i> Cisco</a>
+              <a href="/tags/PPPoE/" rel="tag"><i class="fa fa-tag"></i> PPPoE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/27/Huawei%E9%85%8D%E7%BD%AEPPPoE.html" rel="prev" title="Huawei配置PPPoE">
+      <i class="fa fa-chevron-left"></i> Huawei配置PPPoE
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BD%91%E7%BB%9C%E5%85%A5%E4%BE%B5%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9FNIPS%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.html" rel="next" title="绿盟网络入侵防护系统NIPS操作手册">
+      绿盟网络入侵防护系统NIPS操作手册 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

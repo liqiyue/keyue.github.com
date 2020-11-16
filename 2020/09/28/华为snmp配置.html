@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="S2750,S5700,S6720 系列以太网交换机V200R008C00配置指南-网络管理与监控配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="S2750+S5700+S6720+snmp+配置指南-网络管理与监控">
+<meta property="og:url" content="http://192.168.10.117/2020/09/28/%E5%8D%8E%E4%B8%BAsnmp%E9%85%8D%E7%BD%AE.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="S2750,S5700,S6720 系列以太网交换机V200R008C00配置指南-网络管理与监控配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929000017562.png">
+<meta property="og:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929000559918.png">
+<meta property="og:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929001305159.png">
+<meta property="og:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929001721005.png">
+<meta property="og:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929001845909.png">
+<meta property="og:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929010225287.png">
+<meta property="article:published_time" content="2020-09-28T15:41:41.000Z">
+<meta property="article:modified_time" content="2020-09-28T17:53:10.418Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Huawei">
+<meta property="article:tag" content="Snmp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929000017562.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/09/28/%E5%8D%8E%E4%B8%BAsnmp%E9%85%8D%E7%BD%AE.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>S2750+S5700+S6720+snmp+配置指南-网络管理与监控 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Snmp简介"><span class="nav-number">1.</span> <span class="nav-text">Snmp简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Snmp原理"><span class="nav-number">2.</span> <span class="nav-text">Snmp原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Snmp管理模型"><span class="nav-number">2.1.</span> <span class="nav-text">Snmp管理模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NMS"><span class="nav-number">2.1.1.</span> <span class="nav-text">NMS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Agent"><span class="nav-number">2.1.2.</span> <span class="nav-text">Agent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Management-object"><span class="nav-number">2.1.3.</span> <span class="nav-text">Management object</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MIB"><span class="nav-number">2.1.4.</span> <span class="nav-text">MIB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SNMPv1-SNMPv2c"><span class="nav-number">2.2.</span> <span class="nav-text">SNMPv1&#x2F;SNMPv2c</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SNMPv1-SNMPv2c-报文结构"><span class="nav-number">2.2.1.</span> <span class="nav-text">SNMPv1&#x2F;SNMPv2c 报文结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SNMPv1-SNMPv2c-操作类型"><span class="nav-number">2.2.2.</span> <span class="nav-text">SNMPv1&#x2F;SNMPv2c 操作类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SNMPv1和SNMPv2c的工作原理"><span class="nav-number">2.2.3.</span> <span class="nav-text">SNMPv1和SNMPv2c的工作原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SNMPv3"><span class="nav-number">2.3.</span> <span class="nav-text">SNMPv3</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SNMPv3的工作原理"><span class="nav-number">2.3.1.</span> <span class="nav-text">SNMPv3的工作原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">2.4.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SNMP-支持的特性功能介绍"><span class="nav-number">3.</span> <span class="nav-text">SNMP 支持的特性功能介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SNMP-各版本支持的特性概况"><span class="nav-number">4.</span> <span class="nav-text">SNMP 各版本支持的特性概况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SNMP-各版本的应用场景"><span class="nav-number">5.</span> <span class="nav-text">SNMP 各版本的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置SNMP"><span class="nav-number">6.</span> <span class="nav-text">配置SNMP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置SNMPv1-SNMPv2c"><span class="nav-number">6.1.</span> <span class="nav-text">配置SNMPv1&#x2F;SNMPv2c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查配置结果"><span class="nav-number">6.2.</span> <span class="nav-text">检查配置结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置SNMPv3"><span class="nav-number">6.3.</span> <span class="nav-text">配置SNMPv3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看配置结果"><span class="nav-number">6.4.</span> <span class="nav-text">查看配置结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验配置举例"><span class="nav-number">7.</span> <span class="nav-text">实验配置举例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置设备使用-SNMPv1-与网管通信示例"><span class="nav-number">7.1.</span> <span class="nav-text">配置设备使用 SNMPv1 与网管通信示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置设备使用-SNMPv2-与网管通信示例"><span class="nav-number">7.2.</span> <span class="nav-text">配置设备使用 SNMPv2 与网管通信示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置设备使用-SNMPv3-与网管通信示例"><span class="nav-number">7.3.</span> <span class="nav-text">配置设备使用 SNMPv3 与网管通信示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见配置错误"><span class="nav-number">8.</span> <span class="nav-text">常见配置错误</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SNMP-主机无法与网管连接"><span class="nav-number">8.1.</span> <span class="nav-text">SNMP 主机无法与网管连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网管无法收到-Trap-告警消息"><span class="nav-number">8.2.</span> <span class="nav-text">网管无法收到 Trap 告警消息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原因分析"><span class="nav-number">8.2.1.</span> <span class="nav-text">原因分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作步骤"><span class="nav-number">8.2.2.</span> <span class="nav-text">操作步骤</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/09/28/%E5%8D%8E%E4%B8%BAsnmp%E9%85%8D%E7%BD%AE.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          S2750+S5700+S6720+snmp+配置指南-网络管理与监控
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-28 23:41:41" itemprop="dateCreated datePublished" datetime="2020-09-28T23:41:41+08:00">2020-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-29 01:53:10" itemprop="dateModified" datetime="2020-09-29T01:53:10+08:00">2020-09-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Huawei/" itemprop="url" rel="index"><span itemprop="name">Huawei</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>16 分钟</span>
+            </span>
+            <div class="post-description">S2750,S5700,S6720 系列以太网交换机V200R008C00配置指南-网络管理与监控配置</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Snmp简介"><a href="#Snmp简介" class="headerlink" title="Snmp简介"></a>Snmp简介</h2><p>简单网络管理协议SNMP是广泛用于TCP/IP网络的网络管理标准协议。SNMP提供了一种通过运行网络管理软件的中心计算机（即网络管理工作站）来管理网元的方法。共有三个版本SNMPv1、SNMPv2c和SNMPv3，用户可以根据情况选择配置一个或多个版本。</p>
+<h2 id="Snmp原理"><a href="#Snmp原理" class="headerlink" title="Snmp原理"></a>Snmp原理</h2><h3 id="Snmp管理模型"><a href="#Snmp管理模型" class="headerlink" title="Snmp管理模型"></a>Snmp管理模型</h3><p>SNMP系统包括网络管理系统NMS（Network Management System）、代理进程Agent、被管对象Management object和管理信息库MIB（Management Information Base）四部分组成。</p>
+<p><strong>NMS作为整个网络的网管中心，对设备进行管理。</strong></p>
+<p>每个被管理设备中都包含驻留在设备上的Agent进程、MIB和多个被管对象。NMS通过与运行在被管理设备上的Agent交互，由Agent通过对设备端的MIB的操作，完成NMS的指令。</p>
+<img src="../../../../images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929000017562.png" alt="image-20200929000017562" style="zoom:50%;" />
+
+<h4 id="NMS"><a href="#NMS" class="headerlink" title="NMS"></a>NMS</h4><p>NMS在网络中扮演管理者角色，是一个采用SNMP协议对网络设备进行管理/监视的系统，运行在NMS服务器上。</p>
+<ul>
+<li>NMS可以向设备上的Agent发出请求，查询或修改一个或多个具体的参数值。</li>
+<li>NMS可以接收设备上的Agent主动发送的Trap信息，以获知被管理设备当前的状态。</li>
+</ul>
+<h4 id="Agent"><a href="#Agent" class="headerlink" title="Agent"></a>Agent</h4><p>Agent是被管理设备中的一个代理进程，用于维护被管理设备的信息数据并响应来自NMS的请求，把管理数据汇报给发送请求的NMS。 </p>
+<ul>
+<li>Agent接收到NMS的请求信息后，通过MIB表完成相应指令后，并把操作结果响应给NMS。</li>
+<li>当设备发生故障或者其它事件时，设备会通过Agent主动发送信息给NMS，向NMS报告设备当前的状态变化。</li>
+</ul>
+<h4 id="Management-object"><a href="#Management-object" class="headerlink" title="Management object"></a>Management object</h4><p>Management object指被管理对象。每一个设备可能包含多个被管理对象，被管理对象可以是设备中的某个硬件，也可以是在硬件、软件（如路由选择协议）上配置的参数集合。</p>
+<h4 id="MIB"><a href="#MIB" class="headerlink" title="MIB"></a>MIB</h4><p>MIB是一个数据库，指明了被管理设备所维护的变量（即能够被Agent查询和设置的信息）。MIB在数据库中定义了被管理设备的一系列属性：对象的名称、对象的状态、对象的访问权限和对象的数据类型等。</p>
+<p>通过MIB，可以完成以下功能：</p>
+<ul>
+<li><p>Agent通过查询MIB，可以获知设备当前的状态信息。</p>
+</li>
+<li><p>Agent通过修改MIB，可以设置设备的状态参数。</p>
+</li>
+</ul>
+<h3 id="SNMPv1-SNMPv2c"><a href="#SNMPv1-SNMPv2c" class="headerlink" title="SNMPv1/SNMPv2c"></a>SNMPv1/SNMPv2c</h3><h4 id="SNMPv1-SNMPv2c-报文结构"><a href="#SNMPv1-SNMPv2c-报文结构" class="headerlink" title="SNMPv1/SNMPv2c 报文结构"></a>SNMPv1/SNMPv2c 报文结构</h4><p>SNMPv1/SNMPv2c报文主要由版本、团体名、SNMP PDU三部分构成。</p>
+<img src="../../../../images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929000559918.png" alt="image-20200929000559918" style="zoom:50%;" />
+
+<p>报文中的主要字段定义如下：</p>
+<ul>
+<li><p>版本：表示SNMP的版本，如果是SNMPv1报文则对应字段值为0，SNMPv2c则为1。 </p>
+</li>
+<li><p>团体名：用于在Agent与NMS之间完成认证，字符串形式，用户可自行定义。团体名包括“可读”和“可写”两种，执行GetRequest、GetNextRequest操作时，采用“可读团体名”进行认证；执行Set操作时，则采用“可写团体名”认证。</p>
+</li>
+<li><p>SNMPv1/SNMPv2c PDU：包含PDU类型、请求标识符、变量绑定列表等信息。其中SNMPv1 PDU包括GetRequest PDU、GetNextRequest PDU、SetRequest PDU、Response PDU和Trap PDU几种类型，SNMPv2c PDU在SNMPv1的基础上新增了GetBulkRequest PDU和InformRequest PDU两种类型。</p>
+</li>
+</ul>
+<h4 id="SNMPv1-SNMPv2c-操作类型"><a href="#SNMPv1-SNMPv2c-操作类型" class="headerlink" title="SNMPv1/SNMPv2c 操作类型"></a>SNMPv1/SNMPv2c 操作类型</h4><p>SNMPv1/SNMPv2c规定了7种操作类型，用来完成NMS和Agent之间的信息交换。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Get</strong></td>
+<td>Get操作可以从Agent中提取一个或多个参数值。</td>
+</tr>
+<tr>
+<td><strong>GetNext</strong></td>
+<td>GetNext操作可以从Agent中按照字典序提取下一个参数值。</td>
+</tr>
+<tr>
+<td><strong>Set</strong></td>
+<td>Set操作可以设置Agent的一个或多个参数值。</td>
+</tr>
+<tr>
+<td><strong>Response</strong></td>
+<td>Response操作可以返回一个或多个参数值。这个操作是由Agent发出的，它是GetRequest、GetNextRequest、SetRequest和GetBulkRequest四种操作的响应操作。Agent接收到来自NMS的Get/Set指令后，通过MIB完成相应的查询/修改操作，然后利用Response操作将信息回</td>
+</tr>
+<tr>
+<td><strong>Trap</strong></td>
+<td>Trap信息是Agent主动向NMS发出的信息，告知管理进程设备端出现的情况。</td>
+</tr>
+<tr>
+<td><strong>GetBulk</strong></td>
+<td>GetBulk操作实现了NMS对被管理设备的信息群查询。</td>
+</tr>
+<tr>
+<td><strong>Inform</strong></td>
+<td>InformRequest也是被管理设备向NMS主动发送告警。与Trap告警不同的是，被管理设备发送Inform告警后，需要NMS回复InformResponse来进行确认。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>SNMPv1版本不支持</strong>GetBulk<strong>和</strong>Inform<strong>操作。</strong></p>
+</blockquote>
+<h4 id="SNMPv1和SNMPv2c的工作原理"><a href="#SNMPv1和SNMPv2c的工作原理" class="headerlink" title="SNMPv1和SNMPv2c的工作原理"></a>SNMPv1和SNMPv2c的工作原理</h4><p>SNMPv1和SNMPv2c的工作原理基本一致。基本操作类型如下：</p>
+<img src="../../../../images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929001305159.png" alt="image-20200929001305159" style="zoom:50%;" />
+
+<ul>
+<li><p>Get操作<br>假定NMS想要获取被管理设备MIB节点sysContact的值，使用可读团体名为public，过程如下所示：</p>
+<ul>
+<li>NMS：向Agent发送Get请求报文。报文中各字段的设置如下：版本号为所使用的SNMP版本；团体名为public；PDU中PDU类型为Get类型，绑定变量填入MIB节点名sysContact。</li>
+<li>Agent：首先对报文中携带版本号和团体名进行认证，认证成功后，Agent根据请求查询MIB中的sysContact节点，得到sysContact的值并将其封装到Response报文中的PDU，向NMS发送响应；如果查询不成功，Agent会向NMS发送出错响应。</li>
+</ul>
+</li>
+<li><p>GetNext操作<br>假定NMS想要获取被管理设备MIB节点sysContact的下一个节点sysName值，使用可读团体名为public，过程如下所示：</p>
+<ul>
+<li>NMS：向Agent发送GetNext请求报文。报文中各字段的设置如下：版本号为所使用的SNMP版本；团体名为public；PDU中PDU类型为GetNext类型，绑定变量填入MIB节点名sysContact。</li>
+<li>Agent：首先对报文中携带版本号和团体名进行认证，认证成功后，Agent根据请求查询MIB中的sysContact的下一个节点sysName，得到sysName的值并将其封装到Response报文中的PDU，向NMS发送响应；如果查询不成功，Agent会向NMS发送出错响应。</li>
+</ul>
+</li>
+<li><p>Set操作<br>假定NMS想要设置被管理设备MIB节点sysName的值为HUAWEI，使用可写团体名为private，过程如下所示：</p>
+<ul>
+<li>NMS：向Agent发送Set请求报文。报文中各字段的设置如下：版本号为所使用的SNMP版本；团体名为private；PDU中PDU类型为Set类型，绑定变量填入MIB节点名sysContact和需要设置的值HUAWEI。</li>
+<li>Agent：首先对报文中携带版本号和团体名进行认证，认证成功后，Agent根据请求设置管理变量在管理信息库MIB中对应的节点，设置成功后向NMS发送响应；如果设置不成功，Agent会向NMS发送出错响应。</li>
+</ul>
+</li>
+<li><p>Trap操作<br>Trap不属于NMS对被管理设备的基本操作，它是被管理设备的自发行为。当被管理设备达到告警的触发条件时，会通过Agent向NMS发送Trap消息，告知设备侧出现的异常情况，便于网络管理人员及时处理。例如被管理设备热启动后，Agent会 向NMS发送warmStart的Trap。</p>
+<blockquote>
+<p>这种Trap信息是受限制的。只有在设备端的模块达到模块预定义的告警触发条件时，Agent才会向管理进程报告。这种方法有其好处是仅在严重事件发生时才发送Trap信息，减少报文交互产生的流量。</p>
+</blockquote>
+</li>
+</ul>
+<p>SNMPv2c新增的操作如下图所示：</p>
+<img src="../../../../images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929001721005.png" alt="image-20200929001721005" style="zoom:50%;" />
+
+<ul>
+<li><p>GetBulk操作<br>基于GetNext实现，相当于连续执行多次GetNext操作。在NMS上可以设置被管理设备在一次GetBulk报文交互时，执行GetNext操作的次数。</p>
+</li>
+<li><p>Inform操作<br>Inform操作也是被管理设备向NMS主动发送告警。与trap告警不同的是，被管理设备发送Inform告警后，需要NMS进行接收确认。如果被管设备没有收到确认信息则：</p>
+<ul>
+<li><p>将告警暂时保存在Inform缓存中。</p>
+</li>
+<li><p>重复发送该告警，直到NMS确认收到该告警或者发送次数达到最大重传次数。</p>
+</li>
+<li><p>被管设备上会生成相应的告警日志。</p>
+<blockquote>
+<p>由此可知，使用Inform告警可能会占用较多的系统资源。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="SNMPv3"><a href="#SNMPv3" class="headerlink" title="SNMPv3"></a>SNMPv3</h3><p>SNMPv3定义了新的报文格式:</p>
+<img src="../../../../images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929001845909.png" alt="image-20200929001845909" style="zoom:50%;" />
+
+<p>SNMP报文中的主要字段定义如下：</p>
+<ul>
+<li><p>版本：表示SNMP的版本，SNMPv3报文则对应字段值为2。 </p>
+</li>
+<li><p>报头数据：主要包含消息发送者所能支持的最大消息尺寸、消息采用的安全模式等描述内容。</p>
+</li>
+<li><p>安全参数：包含SNMP实体引擎的相关信息、用户名、认证参数、加密参数等安全信息。</p>
+</li>
+<li><p>Context EngineID：SNMP唯一标识符，和PDU类型一起决定应该发往哪个应用程序。</p>
+</li>
+<li><p>Context Name：用于确定Context EngineID对被管理设备的MIB视图。</p>
+</li>
+<li><p>SNMPv3 PDU：包含PDU类型、请求标识符、变量绑定列表等信息。其中SNMPv3PDU包括GetRequest PDU、GetNextRequest PDU、SetRequest PDU、ResponsePDU、Trap PDU、GetBulkRequest PDU和InformRequest PDU。</p>
+</li>
+</ul>
+<h4 id="SNMPv3的工作原理"><a href="#SNMPv3的工作原理" class="headerlink" title="SNMPv3的工作原理"></a>SNMPv3的工作原理</h4><p>SNMPv3的实现原理和SNMPv1/SNMPv2c基本一致，唯一的区别是SNMPv3增加了身份验证和加密处理。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>要在组网中配置SNMP协议，需要在管理端配置SNMP管理程序NMS，同时在被管理设备端配置SNMP代理程序Agent。</p>
+<p>通过SNMP协议：</p>
+<ul>
+<li><p>网络管理系统NMS可以通过Agent在任何时候及时地获得设备的状态信息，实现远端控制被管理设备。</p>
+</li>
+<li><p>Agent可以及时地向NMS报告设备的当前状态信息。</p>
+</li>
+</ul>
+<h2 id="SNMP-支持的特性功能介绍"><a href="#SNMP-支持的特性功能介绍" class="headerlink" title="SNMP 支持的特性功能介绍"></a>SNMP 支持的特性功能介绍</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th><strong>功能描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>访问控制</td>
+<td>访问控制主要用来限制管理设备的用户的权限。通过该功能可以限制指定的用户管理设备上的指定节点，从而提升精细化管理。</td>
+</tr>
+<tr>
+<td>认证加密</td>
+<td>认证加密主要是通过对网管和被管理设备传送的报文进行认证和加密，避免数据报文被窃取或篡改，从而提升数据传输的安全性。</td>
+</tr>
+<tr>
+<td>错误码</td>
+<td>错误码用来标识特定的故障现象，有助于管理员快速定位和解决故障，因此错误码越丰富越有利于管理员对设备进行管理。</td>
+</tr>
+<tr>
+<td>Trap告警</td>
+<td>Trap告警是被管理设备主动向网管发送告警。以便管理员能够及时发现设备的异常。<br />被管理设备发送Trap告警后，不需要网管进行接收确认。</td>
+</tr>
+<tr>
+<td>Inform告警</td>
+<td>Inform告警也是被管理设备向网管主动发送告警。<br />被管理设备发送Inform告警后，需要网管进行接收确认。</td>
+</tr>
+<tr>
+<td>GetBulk</td>
+<td>GetBulk主要方便管理员进行批量的Get-Next操作。网络规模较大时，以节省管理员的工作量，提升管理效率。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>网管重启后可以接收到重启期间发送的Inform告警。</p>
+</blockquote>
+<h2 id="SNMP-各版本支持的特性概况"><a href="#SNMP-各版本支持的特性概况" class="headerlink" title="SNMP 各版本支持的特性概况"></a>SNMP 各版本支持的特性概况</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>SNMPv1</th>
+<th>SNMPv2c</th>
+<th>SNMPv3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>访问控制</td>
+<td>基于团体名和MIBView进行访问控制</td>
+<td>基于团体名和MIBView进行访问控制</td>
+<td>基于用户、用户组和MIB view进行访问控制</td>
+</tr>
+<tr>
+<td>认证加密</td>
+<td>基于团体名的认证</td>
+<td>基于团体名的认证</td>
+<td>支持认证和加密，认证和加密的方式如下：<br />认证：<br />* MD5<br />* SHA<br />加密：<br />* DES56<br />* 3DES<br />* AES256<br />* AES192<br />* AES128</td>
+</tr>
+<tr>
+<td>错误码</td>
+<td>支持6个错误码</td>
+<td>支持16个错误码</td>
+<td>支持16个错误码</td>
+</tr>
+<tr>
+<td>Trap告警</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>Inform告警</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>GetBulk</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+</tbody></table>
+<h2 id="SNMP-各版本的应用场景"><a href="#SNMP-各版本的应用场景" class="headerlink" title="SNMP 各版本的应用场景"></a>SNMP 各版本的应用场景</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SNMPv1</td>
+<td>适用于小型网络，组网简单，对网络安全性要求不高或者网络环境本身比较安全，且比较稳定的网络，比如校园网，小型企业网。</td>
+</tr>
+<tr>
+<td>SNMPv2c</td>
+<td>适用于大中型网络，对网络安全性要求不高或者网络环境本身比较安全（比如VPN网络），但业务比较繁忙，有可能发生流量拥塞的网络。通过配置Inform告警可以确保被管理设备发送的告警能够被网管收到。</td>
+</tr>
+<tr>
+<td>SNMPv3</td>
+<td>适用于各种规模的网络，尤其是对网络的安全性要求较高，确保合法的管理员才能对网络设备进行管理的网络。比如网管和被管理设备间的通信数据需要在公网上进行传输。</td>
+</tr>
+</tbody></table>
+<h2 id="配置SNMP"><a href="#配置SNMP" class="headerlink" title="配置SNMP"></a>配置SNMP</h2><h3 id="配置SNMPv1-SNMPv2c"><a href="#配置SNMPv1-SNMPv2c" class="headerlink" title="配置SNMPv1/SNMPv2c"></a>配置SNMPv1/SNMPv2c</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">system-view <span class="comment">#进入系统视图。</span></span><br><span class="line">(*)snmp-agent <span class="comment">#使能SNMP Agent服务。</span></span><br><span class="line">(*)snmp-agent udp-port port-num <span class="comment">#修改SNMP Agent与网管连接所使用的端口号。</span></span><br><span class="line"><span class="comment">#缺省情况下，SNMP Agent与网管连接所使用的端口号为161。</span></span><br><span class="line">snmp-agent sys-info version v1/v2c <span class="comment">#配置SNMP的协议版本为SNMPv1/SNMPv2c。</span></span><br><span class="line"><span class="comment">#缺省情况下，SNMP的协议版本为SNMPv3。</span></span><br><span class="line">snmp-agent community &#123; read | write &#125; &#123; community-name | cipher community-name &#125; [ alias alias-name ] <span class="comment">#配置设备的读写团体名。</span></span><br><span class="line"><span class="comment">#缺省情况下，系统中没有配置团体名。</span></span><br><span class="line">snmp-agent target-host trap address udp-domain ip-address [ udp-port port-number</span><br><span class="line">| source interface-type interface-number | [ public-net | vpn-instance vpn-instance-name ] ] * params securityname &#123; security-name | cipher security-name &#125; [ v1 |</span><br><span class="line">private-netmanager | notify-filter-profile profile-name | ext-vb ] *</span><br><span class="line"><span class="comment"># 目的UDP端口号缺省是162，如果有特殊需求（比如避免知名端口号被攻击），可以配置udp-port将UDP端口号更改为非知名端口号，保证网管和被管理设备的正常通信。</span></span><br><span class="line"><span class="comment"># securityname用来在网管上标识和区别发送告警的源设备，方便用户识别告警的发送方。</span></span><br><span class="line"><span class="comment"># 当网管和被管理设备是华为设备时，可以选择配置private-netmanager，使告警中携带更丰富的信息，比如告警的类型、发送告警的序号和告警发送的时间，以便能更加快速的定位和解决问题。</span></span><br><span class="line"><span class="comment"># 如果被管理设备发送的告警需要通过私网传递给网管时，选择参数vpn-instancevpn-instance-name，指定告警需要穿越的VPN实例。</span></span><br><span class="line">(*)snmp-agent sys-info &#123; contact contact | location location &#125; <span class="comment">#配置设备管理员的联系方式和位置。</span></span><br><span class="line">(*)snmp-agent packet max-size byte-count <span class="comment">#配置SNMP报文的最大尺寸。</span></span><br><span class="line"><span class="comment">#缺省情况下，SNMP报文最大尺寸为12000字节。</span></span><br><span class="line">(*)snmp-agent protocol source-interface interface-type interface-number <span class="comment">#配置设备接收和响应网管请求报文的源接口信息。缺省情况下，设备对网管请求报文的接收和响应源接口是随机的，任意可用的接口都可以接收和响应网管请求报文。</span></span><br><span class="line"><span class="comment"># 当前只支持将Loopback接口配置成网管请求报文的接收和响应源接口。</span></span><br><span class="line">(*)snmp-agent protocol server [ ipv4 | ipv6 ] disable <span class="comment">#关闭SNMP IPv4或IPv6的侦听端口。</span></span><br><span class="line"><span class="comment"># 缺省情况下，SNMP IPv4或IPv6的侦听端口处于关闭状态。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="检查配置结果"><a href="#检查配置结果" class="headerlink" title="检查配置结果"></a><strong>检查配置结果</strong></h3><ul>
+<li>执行<strong>display snmp-agent community</strong>命令，查看当前配置的团体名。</li>
+<li>执行<strong>display snmp-agent sys-info version</strong>命令，查看SNMP使能的版本信息。</li>
+<li>执行<strong>display acl</strong> <em>acl-number</em>命令，显示配置的访问控制列表的规则。</li>
+<li>执行<strong>display snmp-agent mib-view</strong>命令，查看MIB视图信息。</li>
+<li>执行<strong>display snmp-agent sys-info contact</strong>命令，查看管理员的联系方式。</li>
+<li>执行<strong>display snmp-agent sys-info location</strong>命令，查看交换机的位置。</li>
+<li>执行<strong>display current-configuration</strong> | <strong>include max-size</strong>命令，查看SNMP报文的最大尺寸。</li>
+<li>执行<strong>display current-configuration</strong> | <strong>include trap</strong>命令，查看Trap配置信息。</li>
+<li>执行<strong>display snmp-agent trap all</strong>命令，查看所有特性下所有Trap开关当前的状态和缺省状态。</li>
+<li>执行<strong>display snmp-agent target-host</strong>命令，查看目标主机的信息。</li>
+<li>执行<strong>display snmp-agent inform</strong> [ <strong>address udp-domain</strong> <em>ip-address</em> [ <strong>vpn-instance <em>*vpn-instance-name</em> ] **params securityname</strong> { <em>security-name</em> | <strong>cipher</strong> <em>security-name</em> } ]命令，查看全局或指定目标主机的Inform参数。</li>
+<li>执行<strong>display snmp-agent extend error-code status</strong>命令，查看设备向网管发送扩展错误码的功能是否使能。</li>
+<li>执行<strong>display snmp-agent notification-log</strong>命令，查看告警日志缓冲区中告警日志的内容。</li>
+</ul>
+<h3 id="配置SNMPv3"><a href="#配置SNMPv3" class="headerlink" title="配置SNMPv3"></a>配置SNMPv3</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">system-view <span class="comment">#进入系统视图。</span></span><br><span class="line">(*)snmp-agent <span class="comment">#使能SNMP Agent服务。</span></span><br><span class="line">(*)snmp-agent udp-port port-num <span class="comment">#修改SNMP Agent与网管连接所使用的端口号。</span></span><br><span class="line"><span class="comment">#缺省情况下，SNMP Agent与网管连接所使用的端口号为161。</span></span><br><span class="line">snmp-agent sys-info version v3 <span class="comment">#配置SNMP的协议版本为SNMP.</span></span><br><span class="line">(*)snmp-agent local-engineid engineid <span class="comment">#配置本地SNMP实体的引擎ID。</span></span><br><span class="line">snmp-agent group v3 group-name &#123; authentication | privacy | noauthentication &#125; <span class="comment">#配置SNMPv3用户组。</span></span><br><span class="line">snmp-agent [ remote-engineid engineid ] usm-user v3 user-name [ group group-name | acl acl-name ] * <span class="comment">#配置SNMPv3用户。</span></span><br><span class="line">snmp-agent [ remote-engineid engineid ] usm-user v3 user-name authentication-mode &#123; md5 | sha &#125; [ cipher password ] <span class="comment">#配置SNMPv3用户认证密码。</span></span><br><span class="line">snmp-agent [ remote-engineid engineid ] usm-user v3 user-name privacy-mode &#123; des56 | aes128 |aes192 | aes256 | <span class="number">3</span>des &#125; [ cipher password ] <span class="comment">#配置SNMPv3用户加密密码。</span></span><br><span class="line"><span class="comment">#配置设备发送Trap告警和错误码的目的IP地址，请执行命令：</span></span><br><span class="line">snmp-agent target-host trap address udp-domain ip-address [ udp-port portnumber | source interface-type interface-number | [ public-net | vpn-instance vpninstance-name ] ] * params securityname security-name v3 [ authentication |</span><br><span class="line">privacy ] [ private-netmanager | notify-filter-profile profile-name | ext-vb ] *</span><br><span class="line"><span class="comment">#配置设备发送Inform告警和错误码的目的IP地址，请执行命令：</span></span><br><span class="line">snmp-agent target-host inform address udp-domain ip-address [ udp-port portnumber | source interface-type interface-number | [ vpn-instance vpn-instancename | public-net ] ]* params securityname security-name v3 [ authentication |</span><br><span class="line">privacy ] [ notify-filter-profile profile-name | ext-vb ] *</span><br><span class="line">(*)snmp-agent sys-info &#123; contact contact | location location &#125; <span class="comment">#配置设备管理员的联系方式和位置。</span></span><br><span class="line">(*)snmp-agent packet max-size byte-count <span class="comment">#配置SNMP报文的最大尺寸。</span></span><br><span class="line"><span class="comment">#缺省情况下，SNMP报文最大尺寸为12000字节。</span></span><br><span class="line">(*)snmp-agent protocol source-interface interface-type interface-number <span class="comment">#配置设备接收和响应网管请求报文的源接口信息。缺省情况下，设备对网管请求报文的接收和响应源接口是随机的，任意可用的接口都可以接收和响应网管请求报文。</span></span><br><span class="line"><span class="comment"># 当前只支持将Loopback接口配置成网管请求报文的接收和响应源接口。</span></span><br><span class="line">(*)snmp-agent protocol server [ ipv4 | ipv6 ] disable <span class="comment">#关闭SNMP IPv4或IPv6的侦听端口。</span></span><br><span class="line"><span class="comment"># 缺省情况下，SNMP IPv4或IPv6的侦听端口处于关闭状态。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看配置结果"><a href="#查看配置结果" class="headerlink" title="查看配置结果"></a>查看配置结果</h3><ul>
+<li>执行<strong>display snmp-agent usm-user</strong> [ <strong>engineid</strong> <em>engineid</em> | <strong>group</strong> <em>group-name</em> |<strong>username</strong> <em>user-name</em> ] *命令，查看用户信息。</li>
+<li>执行<strong>display snmp-agent sys-info version</strong>命令，查看SNMP使能的版本信息。</li>
+<li>执行<strong>display acl</strong> <em>acl-number</em>命令，显示配置的访问控制列表的规则。</li>
+<li>执行<strong>display snmp-agent mib-view</strong>命令，查看MIB视图信息。</li>
+<li>执行<strong>display snmp-agent sys-info contact</strong>命令，查看管理员的联系方式。</li>
+<li>执行<strong>display snmp-agent sys-info location</strong>命令，查看交换机的位置。</li>
+<li>执行<strong>display current-configuration</strong> | <strong>include max-size</strong>命令，查看SNMP报文的最大尺寸。</li>
+<li>执行<strong>display current-configuration</strong> | <strong>include trap</strong>命令，查看Trap配置信息。</li>
+<li>执行<strong>display snmp-agent trap all</strong>命令，查看所有特性下所有Trap开关当前的状态和缺省状态。</li>
+<li>执行<strong>display snmp-agent target-host</strong>命令，查看目标主机的信息。</li>
+<li>执行<strong>display snmp-agent inform</strong> [ <strong>address udp-domain</strong> <em>ip-address</em> [ <strong>vpn-instance <em>*vpn-instance-name</em> ] **params securityname</strong> { <em>security-name</em> | <strong>cipher</strong> <em>security-name</em> } ]命令，查看全局或指定目标主机的Inform参数。</li>
+<li>执行<strong>display snmp-agent extend error-code status</strong>命令，查看设备向网管发送扩展错误码的功能是否使能。</li>
+</ul>
+<h2 id="实验配置举例"><a href="#实验配置举例" class="headerlink" title="实验配置举例"></a>实验配置举例</h2><h3 id="配置设备使用-SNMPv1-与网管通信示例"><a href="#配置设备使用-SNMPv1-与网管通信示例" class="headerlink" title="配置设备使用 SNMPv1 与网管通信示例"></a><strong>配置设备使用</strong> <strong>SNMPv1</strong> 与网管通信示例</h3><p>现在由于扩容需要，新增一台Switch，并由网管NMS2对其进行监管。用户希望通过利用现有的网络资源对Switch进行监管，并且对发生故障能够快速对故障定位和排除。根据用户业务需要，网管站需要对Switch的除RMON的之外的节点管理。</p>
+<img src="../../../../images/S2750,+S5700,+S6720+snmp+%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E4%B8%8E%E7%9B%91%E6%8E%A7/image-20200929010225287.png" alt="image-20200929010225287" style="zoom:50%;" />
+
+<ul>
+<li><p>配置Switch的接口IP地址，使其和网管站之间路由可达</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;HUAWEI&gt; system-view</span><br><span class="line">[HUAWEI] sysname Switch</span><br><span class="line">[Switch] vlan <span class="number">100</span></span><br><span class="line">[Switch-vlan100] quit</span><br><span class="line">[Switch] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">1</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port link-type hybrid</span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port hybrid pvid vlan <span class="number">100</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port hybrid untagged vlan <span class="number">100</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] quit</span><br><span class="line">[Switch] interface vlanif <span class="number">100</span></span><br><span class="line">[Switch-Vlanif100] ip address <span class="number">10.1</span><span class="number">.2</span><span class="number">.1</span> <span class="number">24</span></span><br><span class="line">[Switch-Vlanif100] quit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置Switch的SNMP版本为SNMPv1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent sys-info version v1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置访问权限</p>
+<ul>
+<li><p>配置ACL，使NMS2可以管理Switch，NMS1不允许管理Switch。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Switch] acl <span class="number">2001</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] rule <span class="number">5</span> permit source <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] rule <span class="number">6</span> deny source <span class="number">10.1</span><span class="number">.1</span><span class="number">.1</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] quit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置MIB视图，限制NMS2可以管理Switch上除RMON之外的节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent mib-view excluded allextrmon <span class="number">1.3</span><span class="number">.6</span><span class="number">.1</span><span class="number">.2</span><span class="number">.1</span><span class="number">.16</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置团体名并引用ACL和MIB视图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent community write adminnms2 mib-view allextrmon acl <span class="number">2001</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>配置告警主机</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent target-host trap address udp-domain <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span> params securityname adminnms2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置网管站（NMS2）:网管系统的认证参数配置必须和设备上保持一致，否则网管系统无法管理设备。</p>
+</li>
+<li><p>验证配置结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[Switch] display snmp-agent sys-info version</span><br><span class="line"> SNMP version running <span class="keyword">in</span> the system: </span><br><span class="line"> SNMPv1 SNMPv3</span><br><span class="line">[Switch] display acl <span class="number">2001</span></span><br><span class="line">Basic ACL <span class="number">2001</span>, <span class="number">2</span> rules </span><br><span class="line">Acl<span class="string">'s step is 5 </span></span><br><span class="line"><span class="string"> rule 5 permit source 10.1.1.2 0 (match-counter 0) </span></span><br><span class="line"><span class="string"> rule 6 deny source 10.1.1.1 0 (match-counter 0)</span></span><br><span class="line"><span class="string">[Switch] display snmp-agent target-host</span></span><br><span class="line"><span class="string">Target-host NO. 1 </span></span><br><span class="line"><span class="string">----------------------------------------------------------- </span></span><br><span class="line"><span class="string"> IP-address : 10.1.1.2 </span></span><br><span class="line"><span class="string"> Source interface : - </span></span><br><span class="line"><span class="string"> VPN instance : - </span></span><br><span class="line"><span class="string"> Security name : %^%#uq/!YZfvW4*vf[~C|.:Cl&#125;UqS(vXd#wwqR~5M(rU%%^</span></span><br><span class="line"><span class="string">%# </span></span><br><span class="line"><span class="string"> Port : 162 </span></span><br><span class="line"><span class="string"> Type : trap </span></span><br><span class="line"><span class="string"> Version : v1 </span></span><br><span class="line"><span class="string"> Level : No authentication and privacy </span></span><br><span class="line"><span class="string"> NMS type : NMS </span></span><br><span class="line"><span class="string"> With ext-vb : No </span></span><br><span class="line"><span class="string">-----------------------------------------------------------</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="配置设备使用-SNMPv2-与网管通信示例"><a href="#配置设备使用-SNMPv2-与网管通信示例" class="headerlink" title="配置设备使用 SNMPv2 与网管通信示例"></a><strong>配置设备使用</strong> SNMPv2 与网管通信示例</h3><blockquote>
+<p>需求与拓扑与v1一致</p>
+</blockquote>
+<ul>
+<li><p>配置交换机的接口IP地址，使其和网管站之间路由可达</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;HUAWEI&gt; system-view</span><br><span class="line">[HUAWEI] sysname Switch</span><br><span class="line">[Switch] vlan <span class="number">100</span></span><br><span class="line">[Switch-vlan100] quit</span><br><span class="line">[Switch] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">1</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port link-type hybrid</span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port hybrid pvid vlan <span class="number">100</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port hybrid untagged vlan <span class="number">100</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] quit</span><br><span class="line">[Switch] interface vlanif <span class="number">100</span></span><br><span class="line">[Switch-Vlanif100] ip address <span class="number">10.1</span><span class="number">.2</span><span class="number">.1</span> <span class="number">24</span></span><br><span class="line">[Switch-Vlanif100] quit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置交换机的SNMP版本为SNMPv2c</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent sys-info version v2c</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置访问权限</p>
+<ul>
+<li><p>配置ACL，使NMS2可以管理Switch，NMS1不允许管理Switch。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Switch] acl <span class="number">2001</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] rule <span class="number">5</span> permit source <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] rule <span class="number">6</span> deny source <span class="number">10.1</span><span class="number">.1</span><span class="number">.1</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] quit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置MIB视图，限制NMS2可以管理Switch上除RMON之外的节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent mib-view excluded allextrmon <span class="number">1.3</span><span class="number">.6</span><span class="number">.1</span><span class="number">.2</span><span class="number">.1</span><span class="number">.16</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置团体名并引用ACL和MIB视图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent community write adminnms2 mib-view allextrmon acl <span class="number">2001</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>配置告警主机</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent target-host inform address udp-domain <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span> params securityname adminnms2 v2c</span><br><span class="line">[Switch] snmp-agent inform timeout <span class="number">5</span> resend-times <span class="number">6</span> pending <span class="number">7</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置网管站（NMS2）:网管系统的认证参数配置必须和设备上保持一致，否则网管系统无法管理设备。</p>
+</li>
+<li><p>验证配置结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[Switch] display snmp-agent sys-info version</span><br><span class="line"> SNMP version running <span class="keyword">in</span> the system: </span><br><span class="line"> SNMPv2c SNMPv3</span><br><span class="line">[Switch] display acl <span class="number">2001</span></span><br><span class="line">Basic ACL <span class="number">2001</span>, <span class="number">2</span> rules </span><br><span class="line">Acl<span class="string">'s step is 5 </span></span><br><span class="line"><span class="string"> rule 5 permit source 10.1.1.2 0 (match-counter 0) </span></span><br><span class="line"><span class="string"> rule 6 deny source 10.1.1.1 0 (match-counter 0)</span></span><br><span class="line"><span class="string">[Switch] display snmp-agent target-host</span></span><br><span class="line"><span class="string">Target-host NO. 1</span></span><br><span class="line"><span class="string">-----------------------------------------------------------</span></span><br><span class="line"><span class="string"> IP-address : 10.1.1.2</span></span><br><span class="line"><span class="string"> Source interface : - </span></span><br><span class="line"><span class="string"> VPN instance : - </span></span><br><span class="line"><span class="string"> Security name : %^%#uq/!YZfvW4*vf[~C|.:Cl&#125;UqS(vXd#wwqR~5M(rU%%^%#</span></span><br><span class="line"><span class="string"> Port : 162</span></span><br><span class="line"><span class="string"> Type : inform</span></span><br><span class="line"><span class="string"> Version : v2c</span></span><br><span class="line"><span class="string"> Level : No authentication and privacy</span></span><br><span class="line"><span class="string"> NMS type : NMS</span></span><br><span class="line"><span class="string"> With ext-vb : No</span></span><br><span class="line"><span class="string">-----------------------------------------------------------</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="配置设备使用-SNMPv3-与网管通信示例"><a href="#配置设备使用-SNMPv3-与网管通信示例" class="headerlink" title="配置设备使用 SNMPv3 与网管通信示例"></a><strong>配置设备使用</strong> SNMPv3 与网管通信示例</h3><blockquote>
+<p>需求与拓扑与v1一致</p>
+</blockquote>
+<ul>
+<li><p>配置交换机的接口IP地址，使其和网管站之间路由可达</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;HUAWEI&gt; system-view</span><br><span class="line">[HUAWEI] sysname Switch</span><br><span class="line">[Switch] vlan <span class="number">100</span></span><br><span class="line">[Switch-vlan100] quit</span><br><span class="line">[Switch] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">1</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port link-type hybrid</span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port hybrid pvid vlan <span class="number">100</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port hybrid untagged vlan <span class="number">100</span></span><br><span class="line">[Switch-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] quit</span><br><span class="line">[Switch] interface vlanif <span class="number">100</span></span><br><span class="line">[Switch-Vlanif100] ip address <span class="number">10.1</span><span class="number">.2</span><span class="number">.1</span> <span class="number">24</span></span><br><span class="line">[Switch-Vlanif100] quit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置交换机的SNMP版本为SNMPv3</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent sys-info version v3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置访问权限</p>
+<ul>
+<li><p>配置ACL，使NMS2可以管理Switch，NMS1不允许管理Switch。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Switch] acl <span class="number">2001</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] rule <span class="number">5</span> permit source <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] rule <span class="number">6</span> deny source <span class="number">10.1</span><span class="number">.1</span><span class="number">.1</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">[Switch-acl-basic<span class="number">-2001</span>] quit</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置MIB视图，限制NMS2可以管理Switch上除RMON之外的节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent mib-view included isoview iso</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置用户组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent group v3 admin privacy write-view isoview acl <span class="number">2001</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置用户</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent usm-user v3 nms2-admin group admin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对用户的数据进行认证，认证密码为Authe@1234</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent usm-user v3 nms2-admin authentication-mode sha</span><br><span class="line">Please configure the authentication password (<span class="number">8</span><span class="number">-64</span>) </span><br><span class="line">Enter Password: //输入认证密码，本例的认证密码为：Authe@<span class="number">1234</span>。</span><br><span class="line">Confirm Password: //输入认证密码，本例的认证密码为：Authe@<span class="number">1234</span>。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对用户的数据进行加密，加密密码为Priva@1234.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent usm-user v3 nms2-admin privacy-mode aes128</span><br><span class="line">Please configure the privacy password (<span class="number">8</span><span class="number">-64</span>) </span><br><span class="line">Enter Password: //输入加密密码，本例的加密密码为：Priva@<span class="number">1234</span>。 </span><br><span class="line">Confirm Password: //输入加密密码，本例的加密密码为：Priva@<span class="number">1234</span>。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>配置告警主机</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent target-host trap address udp-domain <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span> params securityname nms2-admin v3 privacy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置设备管理员联系方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Switch] snmp-agent sys-info contact call Operator at <span class="number">010</span><span class="number">-12345678</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置网管站:网管系统的认证参数配置必须和设备上保持一致，否则网管系统无法管理设备。</p>
+</li>
+<li><p>验证配置结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看SNMP版本。</span></span><br><span class="line">[Switch] display snmp-agent sys-info version</span><br><span class="line"> SNMP version running <span class="keyword">in</span> the system: </span><br><span class="line"> SNMPv3</span><br><span class="line"><span class="comment"># 查看用户组信息。</span></span><br><span class="line">[Switch] display snmp-agent group admin</span><br><span class="line"> Group name: admin</span><br><span class="line"> Security model: v3 AuthPriv</span><br><span class="line"> Readview: ViewDefault</span><br><span class="line"> Writeview: isoview</span><br><span class="line"> Notifyview :&lt;no specified&gt;</span><br><span class="line"> Storage-type: nonVolatile</span><br><span class="line"> Acl:<span class="number">2001</span></span><br><span class="line"><span class="comment"># 查看ACL配置。</span></span><br><span class="line">[Switch] display acl <span class="number">2001</span></span><br><span class="line">Basic ACL <span class="number">2001</span>, <span class="number">2</span> rules </span><br><span class="line">Acl<span class="string">'s step is 5 </span></span><br><span class="line"><span class="string"> rule 5 permit source 10.1.1.2 0 (match-counter 0) </span></span><br><span class="line"><span class="string"> rule 6 deny source 10.1.1.1 0 (match-counter 0)</span></span><br><span class="line"><span class="string"># 查看MIB视图。</span></span><br><span class="line"><span class="string">[Switch] display snmp-agent mib-view viewname isoview</span></span><br><span class="line"><span class="string"> View name:isoview </span></span><br><span class="line"><span class="string"> MIB Subtree:iso </span></span><br><span class="line"><span class="string"> Subtree mask:FC(Hex)</span></span><br><span class="line"><span class="string"> Storage-type: nonVolatile </span></span><br><span class="line"><span class="string"> View Type:included </span></span><br><span class="line"><span class="string"> View status:active</span></span><br><span class="line"><span class="string"># 查看告警的目标主机。</span></span><br><span class="line"><span class="string">[Switch] display snmp-agent target-host</span></span><br><span class="line"><span class="string">Target-host NO. 1</span></span><br><span class="line"><span class="string">-----------------------------------------------------------</span></span><br><span class="line"><span class="string"> IP-address : 10.1.1.2</span></span><br><span class="line"><span class="string"> Source interface : - </span></span><br><span class="line"><span class="string"> VPN instance : -</span></span><br><span class="line"><span class="string"> Security name : nms2-admin</span></span><br><span class="line"><span class="string"> Port : 162</span></span><br><span class="line"><span class="string"> Type : trap</span></span><br><span class="line"><span class="string"> Version : v3</span></span><br><span class="line"><span class="string"> Level : Privacy</span></span><br><span class="line"><span class="string"> NMS type : NMS</span></span><br><span class="line"><span class="string"> With ext-vb : No</span></span><br><span class="line"><span class="string">-----------------------------------------------------------</span></span><br><span class="line"><span class="string"># 配置设备管理员联系方式。</span></span><br><span class="line"><span class="string">[Switch] display snmp-agent sys-info contact</span></span><br><span class="line"><span class="string"> The contact person for this managed node: </span></span><br><span class="line"><span class="string"> call Operator at 010-12345678</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="常见配置错误"><a href="#常见配置错误" class="headerlink" title="常见配置错误"></a>常见配置错误</h2><h3 id="SNMP-主机无法与网管连接"><a href="#SNMP-主机无法与网管连接" class="headerlink" title="SNMP 主机无法与网管连接"></a><strong>SNMP</strong> 主机无法与网管连接</h3><p>执行<strong>display logbuffer</strong>命令查看主机上是否有SNMP用户登录失败的日志。</p>
+<table>
+<thead>
+<tr>
+<th>日志</th>
+<th>日志解释</th>
+<th>处理建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Failed to loginthrough SNMP.(Ip=10.1.1.1,Times=2, Reason=the version was incorrect,VPN= )</td>
+<td>SNMP主机和网管使用的SNMP协议版本不一致</td>
+<td>执行命令<strong>display snmp-agent sys-info**</strong>version**查看主机是否支持网管发送登录请求所使用的SNMP协议版本。</td>
+</tr>
+<tr>
+<td>Failed to login through SNMP.(Ip=10.135.180.98,Times=2, Reason=the packet was too large,VPN= )</td>
+<td>网管发送的报文太大，超过设备设置的阈值。</td>
+<td>执行命令<strong>snmp-agent packet max-size</strong>增大报文阈值。</td>
+</tr>
+<tr>
+<td>Failed to login through SNMP. (Ip=10.1.1.1, Times=2, Reason=the messages was failed to be added to the message list, VPN= )</td>
+<td>网管侧发送的请求报文速率超过了设备的处理能力。</td>
+<td>降低网管侧请求报文的发送速率。</td>
+</tr>
+<tr>
+<td>Failed to login through SNMP. (Ip=10.1.1.1, Times=2, Reason=the community was incorrect, VPN= )</td>
+<td>网管侧和设备侧配置的团体名不一致。</td>
+<td>执行命令<strong>display snmp-agent community</strong>查看主机配置的团体字。</td>
+</tr>
+<tr>
+<td>Failed to login through SNMP.(Ip=10.1.1.1, Times=2, Reason=decoded PDU error, VPN= )</td>
+<td>解码错误，可能原因有：<br />设备配置的SNMPv3用户名与网管侧配置的不一致。<br />设备的SNMP引擎ID和网管侧获得的引擎ID不一致。<br />网管侧使用的SNMPv3用户名的认证密码或者加密密码错误。</td>
+<td>执行命令<strong>display snmp-agent usm</strong>  user，查看SNMPv3用户信息。<br />执行命令<strong>display current configuration include snmp</strong>，查看设备的SNMP引擎ID。获取SNMP报文的报文头，查看报文中的设备SNMP引擎ID是否和设备显示一致<br />请使用正确的SNMPv3用户名的认证密码或者加密密码。</td>
+</tr>
+<tr>
+<td>Failed to login through SNMP.(Ip=10.1.1.1, Times=2,Reason=the ACL filter function,VPN= )</td>
+<td>该IP地址被ACL禁止。</td>
+<td>执行<strong>display acl</strong> {<em>acl-number</em> <em>name</em>  | <strong>all</strong> }命令查看主机ACL配置。</td>
+</tr>
+<tr>
+<td>Failed to login through SNMP.(Ip=10.1.1.1, Times=2,Reason=the contextname was incorrect, VPN= )</td>
+<td>网管侧的contextname设置错误。</td>
+<td>将网管侧的contextname修改为空或短横线。</td>
+</tr>
+</tbody></table>
+<h3 id="网管无法收到-Trap-告警消息"><a href="#网管无法收到-Trap-告警消息" class="headerlink" title="网管无法收到 Trap 告警消息"></a><strong>网管无法收到</strong> <strong>Trap</strong> <strong>告警消息</strong></h3><h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>设备配置了使用SNMPv3与网管通信，但是配置接收Trap消息的目的地时未指定Trap消息发送版本，设备发送Trap消息缺省情况下是SNMPv1版本。因此设备配置的SNMP版本与设备配置的Trap消息发送版本不一致导致SNMP模块不发送Trap报文，而信息中心Trap缓冲区是只要有Trap消息就会生成相应的记录。</p>
+<h4 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h4><ol>
+<li>检查当前系统中运行的SNMP版本。</li>
+<li>检查Trap消息发送版本。</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Huawei/" rel="tag"><i class="fa fa-tag"></i> Huawei</a>
+              <a href="/tags/Snmp/" rel="tag"><i class="fa fa-tag"></i> Snmp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/28/%E6%8A%A4%E7%BD%91%E8%A1%8C%E5%8A%A8%E5%AE%89%E5%85%A8%E9%98%B2%E5%AE%88%E5%B7%A5%E4%BD%9C%E6%8C%87%E5%8D%97.html" rel="prev" title="护网行动安全防守工作指南">
+      <i class="fa fa-chevron-left"></i> 护网行动安全防守工作指南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/28/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E6%A0%87%E5%87%86.html" rel="next" title="路由交换安全配置标准">
+      路由交换安全配置标准 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

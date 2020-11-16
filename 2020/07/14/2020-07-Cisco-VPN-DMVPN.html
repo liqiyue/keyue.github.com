@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DMVPN：动态多点虚拟VPN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cisco VPN ：DMVPN">
+<meta property="og:url" content="http://192.168.10.117/2020/07/14/2020-07-Cisco-VPN-DMVPN.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="DMVPN：动态多点虚拟VPN">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/DMVPN-1.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn-2.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn-3.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn-lab1.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn-lab2.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn-lab2-20200716012855630.png">
+<meta property="og:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn-lab3-1024x858.png">
+<meta property="article:published_time" content="2020-07-14T05:15:09.000Z">
+<meta property="article:modified_time" content="2020-11-07T22:07:12.113Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Cisco">
+<meta property="article:tag" content="VPN">
+<meta property="article:tag" content="DMVPN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/Cisco-VPN-DMVPN/dmvpn.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/14/2020-07-Cisco-VPN-DMVPN.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Cisco VPN ：DMVPN | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DMVPN：动态多点虚拟VPN"><span class="nav-number">1.</span> <span class="nav-text">DMVPN：动态多点虚拟VPN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DMVPN三大发展历程"><span class="nav-number">2.</span> <span class="nav-text">DMVPN三大发展历程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一阶段：星型拓扑设计"><span class="nav-number">2.1.</span> <span class="nav-text">第一阶段：星型拓扑设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二阶段：虚拟网状拓扑设计"><span class="nav-number">2.2.</span> <span class="nav-text">第二阶段：虚拟网状拓扑设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三阶段：树状设计与优化"><span class="nav-number">2.3.</span> <span class="nav-text">第三阶段：树状设计与优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验部分"><span class="nav-number">3.</span> <span class="nav-text">实验部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DMVPN第二阶段实验：单Hub单DMVPN（SHSD）"><span class="nav-number">3.1.</span> <span class="nav-text">DMVPN第二阶段实验：单Hub单DMVPN（SHSD）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拓扑图"><span class="nav-number">3.1.1.</span> <span class="nav-text">拓扑图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验需求"><span class="nav-number">3.1.2.</span> <span class="nav-text">实验需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预配置："><span class="nav-number">3.1.3.</span> <span class="nav-text">预配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试底层连通性："><span class="nav-number">3.1.4.</span> <span class="nav-text">测试底层连通性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置第二阶段DMVPN："><span class="nav-number">3.1.5.</span> <span class="nav-text">配置第二阶段DMVPN：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置mGRE："><span class="nav-number">3.1.5.1.</span> <span class="nav-text">配置mGRE：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置NHRP："><span class="nav-number">3.1.5.2.</span> <span class="nav-text">配置NHRP：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASAv放行mGRE流量："><span class="nav-number">3.1.6.</span> <span class="nav-text">ASAv放行mGRE流量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支站点配置mGRE与NHRP："><span class="nav-number">3.1.7.</span> <span class="nav-text">分支站点配置mGRE与NHRP：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中心站点检查注册信息："><span class="nav-number">3.1.8.</span> <span class="nav-text">中心站点检查注册信息：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署动态路由协议："><span class="nav-number">3.1.9.</span> <span class="nav-text">部署动态路由协议：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看路由邻居关系："><span class="nav-number">3.1.10.</span> <span class="nav-text">查看路由邻居关系：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASAv放行IPSec流量，去掉GRE流量的放行："><span class="nav-number">3.1.11.</span> <span class="nav-text">ASAv放行IPSec流量，去掉GRE流量的放行：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中心站点配置IPSec-VPN："><span class="nav-number">3.1.12.</span> <span class="nav-text">中心站点配置IPSec VPN：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支站点配置IPSec-VPN："><span class="nav-number">3.1.13.</span> <span class="nav-text">分支站点配置IPSec VPN：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试连通性："><span class="nav-number">3.1.14.</span> <span class="nav-text">测试连通性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看NHRP与IPSec之间的映射："><span class="nav-number">3.1.15.</span> <span class="nav-text">查看NHRP与IPSec之间的映射：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DMVPN第二阶段实验：双Hub单DMVPN（DHSD）"><span class="nav-number">3.2.</span> <span class="nav-text">DMVPN第二阶段实验：双Hub单DMVPN（DHSD）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验需求与预配置："><span class="nav-number">3.2.1.</span> <span class="nav-text">实验需求与预配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预配置：-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">预配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASAv基于对象分组放行DMVPN流量："><span class="nav-number">3.2.3.</span> <span class="nav-text">ASAv基于对象分组放行DMVPN流量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中心站点二配置mGRE、NHRP、EIGRP、IPSec："><span class="nav-number">3.2.4.</span> <span class="nav-text">中心站点二配置mGRE、NHRP、EIGRP、IPSec：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两个站点间互相映射，同时添加协商对等体："><span class="nav-number">3.2.5.</span> <span class="nav-text">两个站点间互相映射，同时添加协商对等体：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中心站点二查看路由："><span class="nav-number">3.2.6.</span> <span class="nav-text">中心站点二查看路由：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试连通性：-1"><span class="nav-number">3.2.7.</span> <span class="nav-text">测试连通性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支站点查看注册的NHRP信息："><span class="nav-number">3.2.8.</span> <span class="nav-text">分支站点查看注册的NHRP信息：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DMVPN第三阶段实验：双Hub单DMVPN（DHSD）"><span class="nav-number">3.3.</span> <span class="nav-text">DMVPN第三阶段实验：双Hub单DMVPN（DHSD）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求与配置："><span class="nav-number">3.3.1.</span> <span class="nav-text">需求与配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中心站点配置执行更改："><span class="nav-number">3.3.2.</span> <span class="nav-text">中心站点配置执行更改：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支站点配置执行更改："><span class="nav-number">3.3.3.</span> <span class="nav-text">分支站点配置执行更改：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触发加解密："><span class="nav-number">3.3.4.</span> <span class="nav-text">触发加解密：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看IPSec会话："><span class="nav-number">3.3.5.</span> <span class="nav-text">查看IPSec会话：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DMVPN第三阶段实验：优化与部署双Hub双DMVPN（DHDD）"><span class="nav-number">3.4.</span> <span class="nav-text">DMVPN第三阶段实验：优化与部署双Hub双DMVPN（DHDD）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求与预配置"><span class="nav-number">3.4.1.</span> <span class="nav-text">需求与预配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增预配："><span class="nav-number">3.4.2.</span> <span class="nav-text">新增预配：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spoke3配置DMVPN-1区域："><span class="nav-number">3.4.3.</span> <span class="nav-text">Spoke3配置DMVPN-1区域：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中心站点查看注册信息："><span class="nav-number">3.4.4.</span> <span class="nav-text">中心站点查看注册信息：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置DMVPN-2区域："><span class="nav-number">3.4.5.</span> <span class="nav-text">配置DMVPN-2区域：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASAv放行流量："><span class="nav-number">3.4.6.</span> <span class="nav-text">ASAv放行流量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决路由问题："><span class="nav-number">3.4.7.</span> <span class="nav-text">解决路由问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试流量："><span class="nav-number">3.4.8.</span> <span class="nav-text">测试流量：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看EIGRP路由（中心站点）："><span class="nav-number">3.4.9.</span> <span class="nav-text">查看EIGRP路由（中心站点）：</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/14/2020-07-Cisco-VPN-DMVPN.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cisco VPN ：DMVPN
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-14 13:15:09" itemprop="dateCreated datePublished" datetime="2020-07-14T13:15:09+08:00">2020-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-08 06:07:12" itemprop="dateModified" datetime="2020-11-08T06:07:12+08:00">2020-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cisco/" itemprop="url" rel="index"><span itemprop="name">Cisco</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+            <div class="post-description">DMVPN：动态多点虚拟VPN</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="DMVPN：动态多点虚拟VPN"><a href="#DMVPN：动态多点虚拟VPN" class="headerlink" title="DMVPN：动态多点虚拟VPN"></a>DMVPN：动态多点虚拟VPN</h1><ul>
+<li><p>由以下协议组成DMVPN整体架构</p>
+<ul>
+<li><p>动态多点GRE（mGRE）</p>
+<ul>
+<li>基于协议号47</li>
+<li>用于实现DMVPN虚拟网状全互联特性</li>
+<li>所有站点mGRE隧道接口均处于同一个网段</li>
+<li>可实现任何站点间的直接通信</li>
+</ul>
+</li>
+<li><p>下一跳解析协议（NHRP）</p>
+<ul>
+<li>二层协议，用于执行客户-服务器的流量解析</li>
+<li>在以太网进行数据包传输，发送者必须知道以下信息<ul>
+<li>目的逻辑地址IP</li>
+<li>目的物理地址Mac</li>
+<li>实现以上地址映射协议为ARP协议</li>
+</ul>
+</li>
+<li>在mGRE网络进行数据包传输，发送者必须知道以下信息<ul>
+<li>目的逻辑地址（mGRE隧道虚拟地址）</li>
+<li>目的物理地址（站点公网地址）</li>
+<li>实现以上地址映射协议为NHRP协议</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>动态路由协议</p>
+</li>
+<li><p>IPSec协议</p>
+<p><img src="../../../images/Cisco-VPN-DMVPN/dmvpn.png" alt="img"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="DMVPN三大发展历程"><a href="#DMVPN三大发展历程" class="headerlink" title="DMVPN三大发展历程"></a>DMVPN三大发展历程</h1><h2 id="第一阶段：星型拓扑设计"><a href="#第一阶段：星型拓扑设计" class="headerlink" title="第一阶段：星型拓扑设计"></a>第一阶段：星型拓扑设计</h2><ul>
+<li>优点：<ul>
+<li>新增分支站点无需添加新配置</li>
+<li>支持分支站点动态IP地址</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>分支站点流量依然经过中心站点</li>
+</ul>
+</li>
+<li>只做理论知识，不再使用</li>
+</ul>
+<img src="../../../images/Cisco-VPN-DMVPN/DMVPN-1.png" alt="img" style="zoom:50%;" />
+
+<h2 id="第二阶段：虚拟网状拓扑设计"><a href="#第二阶段：虚拟网状拓扑设计" class="headerlink" title="第二阶段：虚拟网状拓扑设计"></a>第二阶段：虚拟网状拓扑设计</h2><ul>
+<li>IOS_12.3或更高支持</li>
+<li>该阶段真正实现了DMVPN的高扩展性</li>
+<li>不支持路由汇总</li>
+<li>考试考点之一<img src="../../../images/Cisco-VPN-DMVPN/dmvpn-2.png" alt="img" style="zoom:50%;" /></li>
+</ul>
+<h2 id="第三阶段：树状设计与优化"><a href="#第三阶段：树状设计与优化" class="headerlink" title="第三阶段：树状设计与优化"></a>第三阶段：树状设计与优化</h2><ul>
+<li>IOS_12.4或更高支持</li>
+<li>分支站点无需通过次总站点即可按需建立隧道</li>
+<li>第三阶段在第二阶段基础上实现优化</li>
+<li>支持路由汇总</li>
+<li>不具备向下兼容特性</li>
+<li>考试考点之一，实际生产环境推荐部署方式</li>
+</ul>
+<img src="../../../images/Cisco-VPN-DMVPN/dmvpn-3.png" alt="img" style="zoom:50%;" />
+
+<h1 id="实验部分"><a href="#实验部分" class="headerlink" title="实验部分"></a>实验部分</h1><h2 id="DMVPN第二阶段实验：单Hub单DMVPN（SHSD）"><a href="#DMVPN第二阶段实验：单Hub单DMVPN（SHSD）" class="headerlink" title="DMVPN第二阶段实验：单Hub单DMVPN（SHSD）"></a>DMVPN第二阶段实验：单Hub单DMVPN（SHSD）</h2><h3 id="拓扑图"><a href="#拓扑图" class="headerlink" title="拓扑图"></a>拓扑图<img src="../../../images/Cisco-VPN-DMVPN/dmvpn-lab1.png" alt="img" style="zoom:75%;" /></h3><h3 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h3><ul>
+<li>通过部署DMVPN来实现流量安全传输</li>
+<li>预配置：<ul>
+<li>激活设备接口与配置IP地址</li>
+<li>中心站点和分支站点默认路由指向防火墙</li>
+<li>防火墙放行ICMP</li>
+</ul>
+</li>
+</ul>
+<h3 id="预配置："><a href="#预配置：" class="headerlink" title="预配置："></a>预配置：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Hub1</span></span><br><span class="line">interface Ethernet0/<span class="number">1</span></span><br><span class="line"> ip address <span class="number">192.168</span><span class="number">.100</span><span class="number">.100</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface Ethernet0/<span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">ip route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span></span><br><span class="line"><span class="comment">#ASAv</span></span><br><span class="line">interface GigabitEthernet0/<span class="number">0</span></span><br><span class="line"> nameif Inside</span><br><span class="line"> security-level <span class="number">100</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> </span><br><span class="line">interface GigabitEthernet0/<span class="number">1</span></span><br><span class="line"> nameif Outside</span><br><span class="line"> security-level <span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> </span><br><span class="line"><span class="comment">#Spoke1</span></span><br><span class="line">interface Ethernet0/<span class="number">1</span></span><br><span class="line"> ip address <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface Ethernet0/<span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">ip route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span></span><br><span class="line"><span class="comment">#Spoke2</span></span><br><span class="line">interface Ethernet0/<span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface Ethernet0/<span class="number">1</span></span><br><span class="line"> ip address <span class="number">192.168</span><span class="number">.2</span><span class="number">.2</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">ip route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span></span><br><span class="line"><span class="comment">#ASAv放行ICMP</span></span><br><span class="line">access-list out-icmp extended permit icmp any any </span><br><span class="line">access-gr</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试底层连通性："><a href="#测试底层连通性：" class="headerlink" title="测试底层连通性："></a>测试底层连通性：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Hub1#ping <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span></span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending <span class="number">5</span>, <span class="number">100</span>-byte ICMP Echos to <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span>, timeout <span class="keyword">is</span> <span class="number">2</span> seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate <span class="keyword">is</span> <span class="number">100</span> percent (<span class="number">5</span>/<span class="number">5</span>), round-trip min/avg/max = <span class="number">1</span>/<span class="number">2</span>/<span class="number">4</span> ms</span><br><span class="line">Hub1#ping <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span></span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending <span class="number">5</span>, <span class="number">100</span>-byte ICMP Echos to <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span>, timeout <span class="keyword">is</span> <span class="number">2</span> seconds:</span><br><span class="line">!!!!!</span><br><span class="line">Success rate <span class="keyword">is</span> <span class="number">100</span> percent (<span class="number">5</span>/<span class="number">5</span>), round-trip min/avg/max = <span class="number">2</span>/<span class="number">2</span>/<span class="number">3</span> ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置第二阶段DMVPN："><a href="#配置第二阶段DMVPN：" class="headerlink" title="配置第二阶段DMVPN："></a>配置第二阶段DMVPN：</h3><h4 id="配置mGRE："><a href="#配置mGRE：" class="headerlink" title="配置mGRE："></a>配置mGRE：</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface Tunnel10</span><br><span class="line"><span class="built_in"> ip address </span>172.16.1.100 255.255.255.0</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"><span class="comment">#多点GRE模式</span></span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"><span class="comment">#建议配置，老版本不配置Tunnel不会UP，与加密无关，用于标识隧道</span></span><br><span class="line"> tunnel key 12345</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置NHRP："><a href="#配置NHRP：" class="headerlink" title="配置NHRP："></a>配置NHRP：</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启用nhrp认证</span></span><br><span class="line">ip nhrp authentication cisco    </span><br><span class="line"><span class="comment">#动态接收组播映射</span></span><br><span class="line">ip nhrp map multicast dynamic</span><br><span class="line"><span class="comment">#在单DMVPN拓扑中，所以设备需要配置相同ID</span></span><br><span class="line">ip nhrp network-id 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="ASAv放行mGRE流量："><a href="#ASAv放行mGRE流量：" class="headerlink" title="ASAv放行mGRE流量："></a>ASAv放行mGRE流量：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access-list <span class="keyword">out</span>-icmp extended permit gre <span class="number">7.7</span><span class="number">.3</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="分支站点配置mGRE与NHRP："><a href="#分支站点配置mGRE与NHRP：" class="headerlink" title="分支站点配置mGRE与NHRP："></a>分支站点配置mGRE与NHRP：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Spoke1</span></span><br><span class="line">interface Tunnel10</span><br><span class="line"><span class="built_in"> ip address </span>172.16.1.1 255.255.255.0</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>redirects</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="comment">##手动映射组播到Hub公网地址，便于后续Spoke和Hub之间建立动态路由协议邻居</span></span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast 7.7.1.100</span><br><span class="line"><span class="comment">##静态映射服务器虚拟地址和真实物理地址</span></span><br><span class="line"><span class="built_in"> ip </span>nhrp map 172.16.1.100 7.7.1.100</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 12345</span><br><span class="line"><span class="comment">##指定NHRP服务器，注意是隧道地址</span></span><br><span class="line"><span class="built_in"> ip </span>nhrp nhs 172.16.1.100</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br><span class="line"><span class="comment">#Spoke2</span></span><br><span class="line">interface Tunnel10</span><br><span class="line"><span class="built_in"> ip address </span>172.16.1.2 255.255.255.0</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>redirects</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="comment">##手动映射组播到Hub公网地址，便于后续Spoke和Hub之间建立动态路由协议邻居</span></span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast 7.7.1.100</span><br><span class="line"><span class="comment">##静态映射服务器虚拟地址和真实物理地址</span></span><br><span class="line"><span class="built_in"> ip </span>nhrp map 172.16.1.100 7.7.1.100</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 12345</span><br><span class="line"><span class="comment">##指定NHRP服务器，注意是隧道地址</span></span><br><span class="line"><span class="built_in"> ip </span>nhrp nhs 172.16.1.100</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br></pre></td></tr></table></figure>
+
+<h3 id="中心站点检查注册信息："><a href="#中心站点检查注册信息：" class="headerlink" title="中心站点检查注册信息："></a>中心站点检查注册信息：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Hub1#sh ip nhrp</span><br><span class="line"><span class="number">172.16</span><span class="number">.1</span><span class="number">.1</span>/<span class="number">32</span> via <span class="number">172.16</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line">   Tunnel10 created <span class="number">00</span>:<span class="number">02</span>:<span class="number">50</span>, expire <span class="number">01</span>:<span class="number">57</span>:<span class="number">09</span></span><br><span class="line">   Type: dynamic, Flags: unique registered used nhop </span><br><span class="line">   NBMA address: <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> </span><br><span class="line"><span class="number">172.16</span><span class="number">.1</span><span class="number">.2</span>/<span class="number">32</span> via <span class="number">172.16</span><span class="number">.1</span><span class="number">.2</span></span><br><span class="line">   Tunnel10 created <span class="number">00</span>:<span class="number">00</span>:<span class="number">56</span>, expire <span class="number">01</span>:<span class="number">59</span>:<span class="number">03</span></span><br><span class="line">   Type: dynamic, Flags: unique registered used nhop </span><br><span class="line">   NBMA address: <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="部署动态路由协议："><a href="#部署动态路由协议：" class="headerlink" title="部署动态路由协议："></a>部署动态路由协议：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Hub1</span></span><br><span class="line">router eigrp 100</span><br><span class="line"><span class="built_in"> network </span>172.16.1.0 0.0.0.255</span><br><span class="line"><span class="built_in"> network </span>192.168.100.0</span><br><span class="line"><span class="comment">#Spoke1</span></span><br><span class="line">router eigrp 100</span><br><span class="line"><span class="built_in"> network </span>172.16.1.0 0.0.0.255</span><br><span class="line"><span class="built_in"> network </span>192.168.1.0</span><br><span class="line"><span class="comment">#Spoke2</span></span><br><span class="line">router eigrp 100</span><br><span class="line"><span class="built_in"> network </span>172.16.1.0 0.0.0.255</span><br><span class="line"><span class="built_in"> network </span>192.168.2.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看路由邻居关系："><a href="#查看路由邻居关系：" class="headerlink" title="查看路由邻居关系："></a>查看路由邻居关系：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看路由邻居关系</span></span><br><span class="line">Hub1#show<span class="built_in"> ip </span>eigrp neighbors </span><br><span class="line">EIGRP-IPv4 Neighbors <span class="keyword">for</span> AS(100)</span><br><span class="line">H  <span class="built_in"> Address </span>               <span class="built_in"> Interface </span>             Hold Uptime   SRTT   RTO  Q  Seq</span><br><span class="line">                                                   (sec)         (ms)       Cnt Num</span><br><span class="line">1   172.16.1.2              Tu10                     13 00:01:24    5  1428  0  3</span><br><span class="line">0   172.16.1.1              Tu10                     10 00:01:42    6  1428  0  3</span><br><span class="line">Spoke1#show<span class="built_in"> ip </span>eigrp neighbors </span><br><span class="line">EIGRP-IPv4 Neighbors <span class="keyword">for</span> AS(100)</span><br><span class="line">H  <span class="built_in"> Address </span>               <span class="built_in"> Interface </span>             Hold Uptime   SRTT   RTO  Q  Seq</span><br><span class="line">                                                   (sec)         (ms)       Cnt Num</span><br><span class="line">0   172.16.1.100            Tu10                     12 00:01:59   17  1470  0  6</span><br><span class="line"><span class="comment">#查看路由</span></span><br><span class="line">Hub1#show<span class="built_in"> ip route </span>eigrp </span><br><span class="line">Gateway of last resort is 7.7.1.10 <span class="keyword">to</span><span class="built_in"> network </span>0.0.0.0</span><br><span class="line">D     192.168.1.0/24 [90/26905600] via 172.16.1.1, 00:03:19, Tunnel10</span><br><span class="line">D     192.168.2.0/24 [90/26905600] via 172.16.1.2, 00:03:01, Tunnel10</span><br><span class="line">Spoke1#show<span class="built_in"> ip route </span>eigrp </span><br><span class="line">Gateway of last resort is 7.7.3.10 <span class="keyword">to</span><span class="built_in"> network </span>0.0.0.0</span><br><span class="line">D     192.168.100.0/24 [90/26905600] via 172.16.1.100, 00:03:15, Tunnel10</span><br><span class="line"><span class="comment">#解决分支站点没有路由问题</span></span><br><span class="line">Hub1(config)#int tunnel 10</span><br><span class="line">Hub1(config-if)#<span class="literal">no</span><span class="built_in"> ip </span>split-horizon eigrp 100</span><br><span class="line"><span class="comment">#再次查看路由</span></span><br><span class="line">Spoke1#show<span class="built_in"> ip route </span>eigrp </span><br><span class="line">Gateway of last resort is 7.7.3.10 <span class="keyword">to</span><span class="built_in"> network </span>0.0.0.0</span><br><span class="line">D     192.168.2.0/24 [90/28185600] via 172.16.1.100, 00:00:23, Tunnel10</span><br><span class="line">D     192.168.100.0/24 [90/26905600] via 172.16.1.100, 00:05:23, Tunnel10</span><br><span class="line"><span class="comment">#解决下一跳问题</span></span><br><span class="line">Hub1(config)#int tunnel 10</span><br><span class="line">Hub1(config-if)#<span class="literal">no</span><span class="built_in"> ip </span>next-hop-self eigrp 100</span><br><span class="line">Spoke1#show<span class="built_in"> ip route </span>eigrp </span><br><span class="line">Gateway of last resort is 7.7.3.10 <span class="keyword">to</span><span class="built_in"> network </span>0.0.0.0</span><br><span class="line">D     192.168.2.0/24 [90/28185600] via 172.16.1.2, 00:00:23, Tunnel10</span><br><span class="line">D     192.168.100.0/24 [90/26905600] via 172.16.1.100, 00:05:23, Tunnel10</span><br></pre></td></tr></table></figure>
+
+<h3 id="ASAv放行IPSec流量，去掉GRE流量的放行："><a href="#ASAv放行IPSec流量，去掉GRE流量的放行：" class="headerlink" title="ASAv放行IPSec流量，去掉GRE流量的放行："></a>ASAv放行IPSec流量，去掉GRE流量的放行：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">access-list <span class="keyword">out</span>-icmp extended permit udp <span class="number">7.7</span><span class="number">.3</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> eq isakmp </span><br><span class="line">access-list <span class="keyword">out</span>-icmp extended permit esp <span class="number">7.7</span><span class="number">.3</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> </span><br><span class="line">no access-list <span class="keyword">out</span>-icmp extended permit gre <span class="number">7.7</span><span class="number">.3</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.0</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="中心站点配置IPSec-VPN："><a href="#中心站点配置IPSec-VPN：" class="headerlink" title="中心站点配置IPSec VPN："></a>中心站点配置IPSec VPN：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">crypto isakmp<span class="built_in"> policy </span>10</span><br><span class="line"> encr 3des</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"><span class="built_in"> group </span>2</span><br><span class="line"><span class="comment">#使用动态Map，因为支持分支站点为动态地址</span></span><br><span class="line">crypto isakmp key cisco<span class="built_in"> address </span>0.0.0.0        </span><br><span class="line">crypto<span class="built_in"> ipsec </span>transform-<span class="builtin-name">set</span> DMVPN esp-3des esp-md5-hmac </span><br><span class="line"><span class="comment">#使用传输模式</span></span><br><span class="line"> mode transport</span><br><span class="line">crypto<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"> <span class="builtin-name">set</span> transform-<span class="builtin-name">set</span> DMVPN </span><br><span class="line">interface tunnel 10</span><br><span class="line"><span class="comment">#调整mtu防止分片</span></span><br><span class="line"> <span class="built_in"> ip </span>mtu 1400</span><br><span class="line">  tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支站点配置IPSec-VPN："><a href="#分支站点配置IPSec-VPN：" class="headerlink" title="分支站点配置IPSec VPN："></a>分支站点配置IPSec VPN：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Spoke1&amp;Spoke2</span></span><br><span class="line">crypto isakmp<span class="built_in"> policy </span>10</span><br><span class="line"> encr 3des</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"><span class="built_in"> group </span>2</span><br><span class="line">crypto isakmp key cisco<span class="built_in"> address </span>7.7.1.100      </span><br><span class="line">crypto<span class="built_in"> ipsec </span>transform-<span class="builtin-name">set</span> DMVPN esp-3des esp-md5-hmac </span><br><span class="line"><span class="comment">#使用传输模式</span></span><br><span class="line"> mode transport</span><br><span class="line">crypto<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"> <span class="builtin-name">set</span> transform-<span class="builtin-name">set</span> DMVPN </span><br><span class="line">interface tunnel 10</span><br><span class="line"><span class="comment">#调整mtu防止分片</span></span><br><span class="line"> <span class="built_in"> ip </span>mtu 1400</span><br><span class="line">  tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试连通性："><a href="#测试连通性：" class="headerlink" title="测试连通性："></a>测试连通性：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PC3&gt;<span class="built_in"> ping </span>192.168.100.101</span><br><span class="line"></span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.100.101 <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=7.406 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.100.101 <span class="attribute">icmp_seq</span>=2 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.426 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.100.101 <span class="attribute">icmp_seq</span>=3 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=1.941 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.100.101 <span class="attribute">icmp_seq</span>=4 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.599 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.100.101 <span class="attribute">icmp_seq</span>=5 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.156 ms</span><br><span class="line"></span><br><span class="line">PC3&gt;<span class="built_in"> ping </span>192.168.2.3    </span><br><span class="line"></span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=4.664 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=2 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=4.768 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=3 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=3.269 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=4 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=6.053 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=5 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=4.919 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看NHRP与IPSec之间的映射："><a href="#查看NHRP与IPSec之间的映射：" class="headerlink" title="查看NHRP与IPSec之间的映射："></a>查看NHRP与IPSec之间的映射：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Spoke1#show crypto sockets </span><br><span class="line"></span><br><span class="line">Number of Crypto Socket connections <span class="number">2</span></span><br><span class="line"></span><br><span class="line">  Tu10 Peers (local/remote): <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span>/<span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span> </span><br><span class="line">       Local Ident  (addr/mask/port/prot): (<span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span>/<span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span>/<span class="number">0</span>/<span class="number">47</span>)</span><br><span class="line">       Remote Ident (addr/mask/port/prot): (<span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span>/<span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span>/<span class="number">0</span>/<span class="number">47</span>)</span><br><span class="line">       IPSec Profile: <span class="string">"vpn"</span></span><br><span class="line">       Socket State: Closed</span><br><span class="line">       Client: <span class="string">"TUNNEL SEC"</span> (Client State: Active)</span><br><span class="line">  Tu10 Peers (local/remote): <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span>/<span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span> </span><br><span class="line">       Local Ident  (addr/mask/port/prot): (<span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span>/<span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span>/<span class="number">0</span>/<span class="number">47</span>)</span><br><span class="line">       Remote Ident (addr/mask/port/prot): (<span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span>/<span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span>/<span class="number">0</span>/<span class="number">47</span>)</span><br><span class="line">       IPSec Profile: <span class="string">"vpn"</span></span><br><span class="line">       Socket State: Open</span><br><span class="line">       Client: <span class="string">"TUNNEL SEC"</span> (Client State: Active)</span><br><span class="line">Crypto Sockets <span class="keyword">in</span> Listen state:</span><br><span class="line">Client: <span class="string">"TUNNEL SEC"</span> Profile: <span class="string">"vpn"</span> Map-name: <span class="string">"Tunnel10-head-0"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="DMVPN第二阶段实验：双Hub单DMVPN（DHSD）"><a href="#DMVPN第二阶段实验：双Hub单DMVPN（DHSD）" class="headerlink" title="DMVPN第二阶段实验：双Hub单DMVPN（DHSD）"></a>DMVPN第二阶段实验：双Hub单DMVPN（DHSD）</h2><h3 id="实验需求与预配置："><a href="#实验需求与预配置：" class="headerlink" title="实验需求与预配置："></a>实验需求与预配置：</h3><ul>
+<li>需求：通过部署DMVPN来实现流量安全传输</li>
+<li><strong>基于上一个实验延续进行</strong><img src="../../../images/Cisco-VPN-DMVPN/dmvpn-lab2.png" alt="img" style="zoom:75%;" /></li>
+</ul>
+<h3 id="预配置：-1"><a href="#预配置：-1" class="headerlink" title="预配置："></a>预配置：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Hub2</span></span><br><span class="line">interface Ethernet0/0</span><br><span class="line"><span class="built_in"> ip address </span>7.7.1.200 255.255.255.0</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"><span class="built_in"> ip address </span>192.168.200.200 255.255.255.0</span><br><span class="line">ip<span class="built_in"> route </span>0.0.0.0 0.0.0.0 7.7.1.10</span><br></pre></td></tr></table></figure>
+
+<h3 id="ASAv基于对象分组放行DMVPN流量："><a href="#ASAv基于对象分组放行DMVPN流量：" class="headerlink" title="ASAv基于对象分组放行DMVPN流量："></a>ASAv基于对象分组放行DMVPN流量：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">clear<span class="built_in"> config </span>access-list</span><br><span class="line">object-group<span class="built_in"> network </span>Outside-DMVPN-Device</span><br><span class="line"> network-object host 7.7.3.1</span><br><span class="line"> network-object host 7.7.3.2</span><br><span class="line">object-group<span class="built_in"> network </span>Inside-DMVPN-Device</span><br><span class="line"> network-object host 7.7.1.100</span><br><span class="line"> network-object host 7.7.1.200</span><br><span class="line">object-group<span class="built_in"> service </span>mGRE-Over-IPSec</span><br><span class="line"> service-object udp destination eq isakmp </span><br><span class="line"> service-object esp </span><br><span class="line">access-list out extended permit object-group mGRE-Over-IPSec object-group Outside-DMVPN-Device object-group Inside-DMVPN-Device </span><br><span class="line">access-group out <span class="keyword">in</span><span class="built_in"> interface </span>Outside</span><br></pre></td></tr></table></figure>
+
+<h3 id="中心站点二配置mGRE、NHRP、EIGRP、IPSec："><a href="#中心站点二配置mGRE、NHRP、EIGRP、IPSec：" class="headerlink" title="中心站点二配置mGRE、NHRP、EIGRP、IPSec："></a>中心站点二配置mGRE、NHRP、EIGRP、IPSec：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置IPSec</span></span><br><span class="line">crypto isakmp<span class="built_in"> policy </span>10</span><br><span class="line"> encr 3des</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"><span class="built_in"> group </span>2</span><br><span class="line">crypto isakmp key cisco<span class="built_in"> address </span>0.0.0.0        </span><br><span class="line">crypto<span class="built_in"> ipsec </span>transform-<span class="builtin-name">set</span> DMVPN esp-3des esp-md5-hmac </span><br><span class="line"> mode transport</span><br><span class="line">crypto<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"> <span class="builtin-name">set</span> transform-<span class="builtin-name">set</span> DMVPN </span><br><span class="line"><span class="comment">#配置mGRE和NHRP</span></span><br><span class="line">interface Tunnel10</span><br><span class="line"><span class="built_in"> ip address </span>172.16.1.200 255.255.255.0</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>redirects</span><br><span class="line"><span class="built_in"> ip </span>mtu 1400</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>next-hop-self eigrp 100</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>split-horizon eigrp 100</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast dynamic</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 10</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br><span class="line"> tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"><span class="comment">#配置EIGRP</span></span><br><span class="line">router eigrp 100</span><br><span class="line"><span class="built_in"> network </span>172.16.1.0 0.0.0.255</span><br><span class="line"><span class="built_in"> network </span>192.168.200.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="两个站点间互相映射，同时添加协商对等体："><a href="#两个站点间互相映射，同时添加协商对等体：" class="headerlink" title="两个站点间互相映射，同时添加协商对等体："></a>两个站点间互相映射，同时添加协商对等体：</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">Hub1</span><span class="params">(config)</span></span><span class="selector-id">#int</span> tunnel <span class="number">10</span></span><br><span class="line"><span class="function"><span class="title">Hub1</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map <span class="number">172.16</span>.<span class="number">1.200</span> <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Hub1</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map multicast <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Hub1</span><span class="params">(config)</span></span><span class="selector-id">#crypto</span> isakmp key cisco <span class="selector-tag">address</span> <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">Hub2</span><span class="params">(config)</span></span><span class="selector-id">#int</span> tunnel <span class="number">10</span></span><br><span class="line"><span class="function"><span class="title">Hub2</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map <span class="number">172.16</span>.<span class="number">1.100</span>  <span class="number">7.7</span>.<span class="number">1.100</span></span><br><span class="line"><span class="function"><span class="title">Hub2</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map multicast <span class="number">7.7</span>.<span class="number">1.100</span>                </span><br><span class="line"><span class="function"><span class="title">Hub2</span><span class="params">(config-if)</span></span><span class="selector-id">#crypto</span> isakmp key cisco <span class="selector-tag">address</span> <span class="number">7.7</span>.<span class="number">1.100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">Spoke1</span><span class="params">(config)</span></span><span class="selector-id">#crypto</span> isakmp key cisco <span class="selector-tag">address</span> <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Spoke1</span><span class="params">(config)</span></span><span class="selector-id">#interface</span> tunnel <span class="number">10</span></span><br><span class="line"><span class="function"><span class="title">Spoke1</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp nhs <span class="number">172.16</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Spoke1</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map <span class="number">172.16</span>.<span class="number">1.200</span> <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Spoke1</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map multicast <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">Spoke2</span><span class="params">(config)</span></span><span class="selector-id">#crypto</span> isakmp key cisco <span class="selector-tag">address</span> <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Spoke2</span><span class="params">(config)</span></span><span class="selector-id">#interface</span> tunnel <span class="number">10</span></span><br><span class="line"><span class="function"><span class="title">Spoke2</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp nhs <span class="number">172.16</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Spoke2</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map <span class="number">172.16</span>.<span class="number">1.200</span> <span class="number">7.7</span>.<span class="number">1.200</span></span><br><span class="line"><span class="function"><span class="title">Spoke2</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> nhrp map multicast <span class="number">7.7</span>.<span class="number">1.200</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="中心站点二查看路由："><a href="#中心站点二查看路由：" class="headerlink" title="中心站点二查看路由："></a>中心站点二查看路由：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Hub2#sh ip route eigrp </span><br><span class="line">Gateway of last resort <span class="keyword">is</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> to network <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">  </span><br><span class="line">D     <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">26905600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.1</span>, <span class="number">00</span>:<span class="number">01</span>:<span class="number">36</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.2</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">26905600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.2</span>, <span class="number">00</span>:<span class="number">00</span>:<span class="number">34</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.100</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">26905600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.100</span>, <span class="number">00</span>:<span class="number">07</span>:<span class="number">13</span>, Tunnel10</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试连通性：-1"><a href="#测试连通性：-1" class="headerlink" title="测试连通性："></a>测试连通性：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PC2&gt;<span class="built_in"> ping </span>192.168.2.3</span><br><span class="line"></span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=4.201 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=2 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.402 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=3 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=7.810 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=4 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=6.685 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=5 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.973 ms</span><br><span class="line"></span><br><span class="line">PC2&gt;<span class="built_in"> ping </span>192.168.1.2    </span><br><span class="line"></span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.1.2 <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=5.316 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.1.2 <span class="attribute">icmp_seq</span>=2 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=3.872 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.1.2 <span class="attribute">icmp_seq</span>=3 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=3.590 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.1.2 <span class="attribute">icmp_seq</span>=4 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.926 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.1.2 <span class="attribute">icmp_seq</span>=5 <span class="attribute">ttl</span>=62 <span class="attribute">time</span>=2.884 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支站点查看注册的NHRP信息："><a href="#分支站点查看注册的NHRP信息：" class="headerlink" title="分支站点查看注册的NHRP信息："></a>分支站点查看注册的NHRP信息：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Spoke1#sh ip nhrp</span><br><span class="line"><span class="number">172.16</span><span class="number">.1</span><span class="number">.100</span>/<span class="number">32</span> via <span class="number">172.16</span><span class="number">.1</span><span class="number">.100</span></span><br><span class="line">   Tunnel10 created <span class="number">00</span>:<span class="number">58</span>:<span class="number">07</span>, never expire </span><br><span class="line">   Type: static, Flags: used </span><br><span class="line">   NBMA address: <span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span> </span><br><span class="line"><span class="number">172.16</span><span class="number">.1</span><span class="number">.200</span>/<span class="number">32</span> via <span class="number">172.16</span><span class="number">.1</span><span class="number">.200</span></span><br><span class="line">   Tunnel10 created <span class="number">00</span>:<span class="number">01</span>:<span class="number">29</span>, never expire </span><br><span class="line">   Type: static, Flags: used </span><br><span class="line">   NBMA address: <span class="number">7.7</span><span class="number">.1</span><span class="number">.200</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="DMVPN第三阶段实验：双Hub单DMVPN（DHSD）"><a href="#DMVPN第三阶段实验：双Hub单DMVPN（DHSD）" class="headerlink" title="DMVPN第三阶段实验：双Hub单DMVPN（DHSD）"></a>DMVPN第三阶段实验：双Hub单DMVPN（DHSD）</h2><h3 id="需求与配置："><a href="#需求与配置：" class="headerlink" title="需求与配置："></a>需求与配置：</h3><ul>
+<li>需求：通过部署DMVPN来实现流量安全传输</li>
+<li>基于上一个实验延续进行<img src="../../../images/Cisco-VPN-DMVPN/dmvpn-lab2-20200716012855630.png" alt="img" style="zoom:75%;" /></li>
+</ul>
+<h3 id="中心站点配置执行更改："><a href="#中心站点配置执行更改：" class="headerlink" title="中心站点配置执行更改："></a>中心站点配置执行更改：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#隧道接口部署NHRP重定向</span></span><br><span class="line">ip nhrp redirect</span><br><span class="line"><span class="comment">#隧道接口部署路由汇总</span></span><br><span class="line">ip summary-address eigrp 100 192.168.0.0 255.255.0.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支站点配置执行更改："><a href="#分支站点配置执行更改：" class="headerlink" title="分支站点配置执行更改："></a>分支站点配置执行更改：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#隧道接口部署NHRP短路</span></span><br><span class="line">ip nhrp shortcut</span><br><span class="line"><span class="comment">#隧道接口配置NHRP重定向</span></span><br><span class="line">ip nhrp redirect</span><br></pre></td></tr></table></figure>
+
+<h3 id="触发加解密："><a href="#触发加解密：" class="headerlink" title="触发加解密："></a>触发加解密：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PC3&gt;<span class="built_in"> ping </span>192.168.2.3</span><br><span class="line"></span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=6.812 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=2 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=5.150 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=3 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=5.592 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=4 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=2.776 ms</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.2.3 <span class="attribute">icmp_seq</span>=5 <span class="attribute">ttl</span>=61 <span class="attribute">time</span>=4.820 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看IPSec会话："><a href="#查看IPSec会话：" class="headerlink" title="查看IPSec会话："></a>查看IPSec会话：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">Spoke1#show</span> <span class="string">crypto</span> <span class="string">session</span> </span><br><span class="line"><span class="string">Crypto</span> <span class="string">session</span> <span class="string">current</span> <span class="string">status</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Interface:</span> <span class="string">Tunnel10</span></span><br><span class="line"><span class="attr">Session status:</span> <span class="string">UP-ACTIVE</span>         <span class="string">//虚拟机是DOWN，这是虚拟机的BUG</span></span><br><span class="line"><span class="attr">Peer:</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span> <span class="string">port</span> <span class="number">500</span> </span><br><span class="line">  <span class="attr">IPSEC FLOW:</span> <span class="string">permit</span> <span class="number">47</span> <span class="string">host</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="string">host</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.2</span> </span><br><span class="line">        <span class="attr">Active SAs:</span> <span class="number">0</span><span class="string">,</span> <span class="attr">origin:</span> <span class="string">crypto</span> <span class="string">map</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Interface:</span> <span class="string">Tunnel10</span></span><br><span class="line"><span class="attr">Session status:</span> <span class="string">UP-ACTIVE</span>     </span><br><span class="line"><span class="attr">Peer:</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span> <span class="string">port</span> <span class="number">500</span> </span><br><span class="line">  <span class="attr">Session ID:</span> <span class="number">0</span>  </span><br><span class="line">  <span class="attr">IKEv1 SA:</span> <span class="string">local</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span><span class="string">/500</span> <span class="string">remote</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span><span class="string">/500</span> <span class="string">Active</span> </span><br><span class="line">  <span class="attr">IPSEC FLOW:</span> <span class="string">permit</span> <span class="number">47</span> <span class="string">host</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="string">host</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.100</span> </span><br><span class="line">        <span class="attr">Active SAs:</span> <span class="number">2</span><span class="string">,</span> <span class="attr">origin:</span> <span class="string">crypto</span> <span class="string">map</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Interface:</span> <span class="string">Tunnel10</span></span><br><span class="line"><span class="attr">Session status:</span> <span class="string">UP-ACTIVE</span>     </span><br><span class="line"><span class="attr">Peer:</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.200</span> <span class="string">port</span> <span class="number">500</span> </span><br><span class="line">  <span class="attr">Session ID:</span> <span class="number">0</span>  </span><br><span class="line">  <span class="attr">IKEv1 SA:</span> <span class="string">local</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span><span class="string">/500</span> <span class="string">remote</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.200</span><span class="string">/500</span> <span class="string">Active</span> </span><br><span class="line">  <span class="attr">IPSEC FLOW:</span> <span class="string">permit</span> <span class="number">47</span> <span class="string">host</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="string">host</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.200</span> </span><br><span class="line">        <span class="attr">Active SAs:</span> <span class="number">2</span><span class="string">,</span> <span class="attr">origin:</span> <span class="string">crypto</span> <span class="string">map</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="DMVPN第三阶段实验：优化与部署双Hub双DMVPN（DHDD）"><a href="#DMVPN第三阶段实验：优化与部署双Hub双DMVPN（DHDD）" class="headerlink" title="DMVPN第三阶段实验：优化与部署双Hub双DMVPN（DHDD）"></a>DMVPN第三阶段实验：优化与部署双Hub双DMVPN（DHDD）</h2><h3 id="需求与预配置"><a href="#需求与预配置" class="headerlink" title="需求与预配置"></a>需求与预配置</h3><ul>
+<li>需求：通过部署DMVPN来实现流量安全传输</li>
+<li>基于上一个实验延续进行<img src="../../../images/Cisco-VPN-DMVPN/dmvpn-lab3-1024x858.png" alt="img" style="zoom:75%;" /></li>
+</ul>
+<h3 id="新增预配："><a href="#新增预配：" class="headerlink" title="新增预配："></a>新增预配：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Spoke3</span></span><br><span class="line">interface Ethernet0/0</span><br><span class="line"><span class="built_in"> ip address </span>7.7.1.3 255.255.255.0</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"><span class="built_in"> ip address </span>7.7.2.3 255.255.255.0</span><br><span class="line">interface Ethernet0/2</span><br><span class="line"><span class="built_in"> ip address </span>192.168.3.3 255.255.255.0</span><br><span class="line">ip<span class="built_in"> route </span>0.0.0.0 0.0.0.0 7.7.1.10</span><br><span class="line"><span class="comment">#Spoke4</span></span><br><span class="line">interface Ethernet0/0</span><br><span class="line"><span class="built_in"> ip address </span>7.7.2.4 255.255.255.0</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"><span class="built_in"> ip address </span>192.168.4.4 255.255.255.0</span><br><span class="line">ip<span class="built_in"> route </span>0.0.0.0 0.0.0.0 7.7.2.3</span><br><span class="line"><span class="comment">#Spoke5</span></span><br><span class="line">interface Ethernet0/0</span><br><span class="line"><span class="built_in"> ip address </span>7.7.2.5 255.255.255.0</span><br><span class="line">interface Ethernet0/1</span><br><span class="line"><span class="built_in"> ip address </span>192.168.5.5 255.255.255.0</span><br><span class="line">ip<span class="built_in"> route </span>0.0.0.0 0.0.0.0 7.7.2.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="Spoke3配置DMVPN-1区域："><a href="#Spoke3配置DMVPN-1区域：" class="headerlink" title="Spoke3配置DMVPN-1区域："></a>Spoke3配置DMVPN-1区域：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#IPSec</span></span><br><span class="line">crypto isakmp<span class="built_in"> policy </span>10</span><br><span class="line"> encr 3des</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"><span class="built_in"> group </span>2</span><br><span class="line">crypto isakmp key cisco<span class="built_in"> address </span>0.0.0.0        </span><br><span class="line">crypto<span class="built_in"> ipsec </span>transform-<span class="builtin-name">set</span> DMVPN esp-3des esp-md5-hmac </span><br><span class="line"> mode transport</span><br><span class="line">crypto<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"> <span class="builtin-name">set</span> transform-<span class="builtin-name">set</span> DMVPN </span><br><span class="line"><span class="comment">#EIGRP</span></span><br><span class="line">router eigrp 100</span><br><span class="line"><span class="built_in"> network </span>172.16.1.0 0.0.0.255</span><br><span class="line"><span class="built_in"> network </span>192.168.3.0</span><br><span class="line"><span class="comment">#配置mGRE和NHRP</span></span><br><span class="line">interface Tunnel10</span><br><span class="line"><span class="built_in"> ip address </span>172.16.1.3 255.255.255.0</span><br><span class="line"><span class="built_in"> ip </span>mtu 1400</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast 7.7.1.100</span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast 7.7.1.200</span><br><span class="line"><span class="built_in"> ip </span>nhrp map 172.16.1.100 7.7.1.100</span><br><span class="line"><span class="built_in"> ip </span>nhrp map 172.16.1.200 7.7.1.200</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 10</span><br><span class="line"><span class="built_in"> ip </span>nhrp nhs 172.16.1.100</span><br><span class="line"><span class="built_in"> ip </span>nhrp nhs 172.16.1.200</span><br><span class="line"><span class="built_in"> ip </span>nhrp shortcut</span><br><span class="line"><span class="built_in"> ip </span>nhrp redirect</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br><span class="line"> tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"><span class="comment">#ASAv放行流量</span></span><br><span class="line">object-group<span class="built_in"> network </span>Inside-DMVPN-Device</span><br><span class="line"> network-object host 7.7.1.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="中心站点查看注册信息："><a href="#中心站点查看注册信息：" class="headerlink" title="中心站点查看注册信息："></a>中心站点查看注册信息：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Hub1#sh ip nhrp</span><br><span class="line"><span class="number">172.16</span><span class="number">.1</span><span class="number">.3</span>/<span class="number">32</span> via <span class="number">172.16</span><span class="number">.1</span><span class="number">.3</span></span><br><span class="line">   Tunnel10 created <span class="number">00</span>:<span class="number">01</span>:<span class="number">34</span>, expire <span class="number">01</span>:<span class="number">58</span>:<span class="number">25</span></span><br><span class="line">   Type: dynamic, Flags: unique registered used nhop </span><br><span class="line">   NBMA address: <span class="number">7.7</span><span class="number">.1</span><span class="number">.3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置DMVPN-2区域："><a href="#配置DMVPN-2区域：" class="headerlink" title="配置DMVPN-2区域："></a>配置DMVPN-2区域：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Spoke3配置作为次一级中心站点</span></span><br><span class="line"><span class="comment">##配置mGRE和NHRP</span></span><br><span class="line">interface Tunnel20</span><br><span class="line"><span class="built_in"> ip address </span>172.16.2.3 255.255.255.0</span><br><span class="line"><span class="built_in"> ip </span>mtu 1400</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>next-hop-self eigrp 100</span><br><span class="line"> <span class="literal">no</span><span class="built_in"> ip </span>split-horizon eigrp 100</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast dynamic</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 10</span><br><span class="line"><span class="built_in"> ip </span>nhrp redirect</span><br><span class="line"> tunnel source Ethernet0/1</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br><span class="line"> tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"><span class="comment">##EIGRP</span></span><br><span class="line">router eigrp 100</span><br><span class="line"> <span class="built_in"> network </span>172.16.2.0 0.0.0.255</span><br><span class="line"><span class="comment">#Spoke4配置</span></span><br><span class="line"><span class="comment">##IPSec</span></span><br><span class="line">crypto isakmp<span class="built_in"> policy </span>10</span><br><span class="line"> encr 3des</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"><span class="built_in"> group </span>2</span><br><span class="line">crypto isakmp key cisco<span class="built_in"> address </span>0.0.0.0        </span><br><span class="line">crypto<span class="built_in"> ipsec </span>transform-<span class="builtin-name">set</span> DMVPN esp-3des esp-md5-hmac </span><br><span class="line"> mode transport</span><br><span class="line">crypto<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"> <span class="builtin-name">set</span> transform-<span class="builtin-name">set</span> DMVPN </span><br><span class="line"><span class="comment">##配置mGRE和NHRP</span></span><br><span class="line">interface Tunnel20</span><br><span class="line"><span class="built_in"> ip address </span>172.16.2.4 255.255.255.0</span><br><span class="line"><span class="built_in"> ip </span>mtu 1400</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="built_in"> ip </span>nhrp map 172.16.2.3 7.7.2.3</span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast 7.7.2.3</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 10</span><br><span class="line"><span class="built_in"> ip </span>nhrp nhs 172.16.2.3</span><br><span class="line"><span class="built_in"> ip </span>nhrp shortcut</span><br><span class="line"><span class="built_in"> ip </span>nhrp redirect</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br><span class="line"> tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"><span class="comment">##EIGRP</span></span><br><span class="line">router eigrp 100</span><br><span class="line"> <span class="built_in"> network </span>172.16.2.0 0.0.0.255</span><br><span class="line"> <span class="built_in"> network </span>192.168.4.0</span><br><span class="line"><span class="comment">#Spoke5配置</span></span><br><span class="line"><span class="comment">##IPSec</span></span><br><span class="line">crypto isakmp<span class="built_in"> policy </span>10</span><br><span class="line"> encr 3des</span><br><span class="line"> hash md5</span><br><span class="line"> authentication pre-share</span><br><span class="line"><span class="built_in"> group </span>2</span><br><span class="line">crypto isakmp key cisco<span class="built_in"> address </span>0.0.0.0        </span><br><span class="line">crypto<span class="built_in"> ipsec </span>transform-<span class="builtin-name">set</span> DMVPN esp-3des esp-md5-hmac </span><br><span class="line"> mode transport</span><br><span class="line">crypto<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"> <span class="builtin-name">set</span> transform-<span class="builtin-name">set</span> DMVPN </span><br><span class="line"><span class="comment">##配置mGRE和NHRP</span></span><br><span class="line">interface Tunnel20</span><br><span class="line"><span class="built_in"> ip address </span>172.16.2.5 255.255.255.0</span><br><span class="line"><span class="built_in"> ip </span>mtu 1400</span><br><span class="line"><span class="built_in"> ip </span>nhrp authentication cisco</span><br><span class="line"><span class="built_in"> ip </span>nhrp map 172.16.2.3 7.7.2.3</span><br><span class="line"><span class="built_in"> ip </span>nhrp map multicast 7.7.2.3</span><br><span class="line"><span class="built_in"> ip </span>nhrp network-id 10</span><br><span class="line"><span class="built_in"> ip </span>nhrp nhs 172.16.2.3</span><br><span class="line"><span class="built_in"> ip </span>nhrp shortcut</span><br><span class="line"><span class="built_in"> ip </span>nhrp redirect</span><br><span class="line"> tunnel source Ethernet0/0</span><br><span class="line"> tunnel mode gre multipoint</span><br><span class="line"> tunnel key 12345</span><br><span class="line"> tunnel protection<span class="built_in"> ipsec profile </span>vpn</span><br><span class="line"><span class="comment">##EIGRP</span></span><br><span class="line">router eigrp 100</span><br><span class="line"> <span class="built_in"> network </span>172.16.2.0 0.0.0.255</span><br><span class="line"> <span class="built_in"> network </span>192.168.5.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="ASAv放行流量："><a href="#ASAv放行流量：" class="headerlink" title="ASAv放行流量："></a>ASAv放行流量：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">object-group<span class="built_in"> network </span>Inside-DMVPN-Device</span><br><span class="line"> network-object host 7.7.2.3</span><br><span class="line"> network-object host 7.7.2.4</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决路由问题："><a href="#解决路由问题：" class="headerlink" title="解决路由问题："></a>解决路由问题：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hub1(config)#ip<span class="built_in"> route </span>7.7.2.0 255.255.255.0 7.7.1.3</span><br><span class="line">Hub2(config)#ip<span class="built_in"> route </span>7.7.2.0 255.255.255.0 7.7.1.3</span><br><span class="line">ASAv(config)#<span class="built_in"> route </span>Inside 7.7.2.0 255.255.255.0 7.7.1.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试流量："><a href="#测试流量：" class="headerlink" title="测试流量："></a>测试流量：</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PC4&gt;<span class="built_in"> ping </span>192.168.4.1</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.4.1 <span class="attribute">icmp_seq</span>=1 <span class="attribute">ttl</span>=60 <span class="attribute">time</span>=6.712 ms</span><br><span class="line"></span><br><span class="line">PC4&gt;<span class="built_in"> ping </span>192.168.5.1</span><br><span class="line">84 bytes <span class="keyword">from</span> 192.168.5.1 <span class="attribute">icmp_seq</span>=5 <span class="attribute">ttl</span>=60 <span class="attribute">time</span>=5.570 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看EIGRP路由（中心站点）："><a href="#查看EIGRP路由（中心站点）：" class="headerlink" title="查看EIGRP路由（中心站点）："></a>查看EIGRP路由（中心站点）：</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Hub1#sh ip route eigrp </span><br><span class="line">Gateway of last resort <span class="keyword">is</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> to network <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">      <span class="number">172.16</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">16</span> <span class="keyword">is</span> variably subnetted, <span class="number">3</span> subnets, <span class="number">2</span> masks</span><br><span class="line">D        <span class="number">172.16</span><span class="number">.2</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">28160000</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.3</span>, <span class="number">00</span>:<span class="number">11</span>:<span class="number">45</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">16</span> <span class="keyword">is</span> a summary, <span class="number">00</span>:<span class="number">28</span>:<span class="number">38</span>, Null0</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.1</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">26905600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.1</span>, <span class="number">00</span>:<span class="number">28</span>:<span class="number">33</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.2</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">26905600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.2</span>, <span class="number">00</span>:<span class="number">28</span>:<span class="number">29</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.3</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">26905600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.3</span>, <span class="number">00</span>:<span class="number">17</span>:<span class="number">35</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.4</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">28185600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.3</span>, <span class="number">00</span>:<span class="number">08</span>:<span class="number">32</span>, Tunnel10</span><br><span class="line">D     <span class="number">192.168</span><span class="number">.5</span><span class="number">.0</span>/<span class="number">24</span> [<span class="number">90</span>/<span class="number">28185600</span>] via <span class="number">172.16</span><span class="number">.1</span><span class="number">.3</span>, <span class="number">00</span>:<span class="number">06</span>:<span class="number">14</span>, Tunnel10</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cisco/" rel="tag"><i class="fa fa-tag"></i> Cisco</a>
+              <a href="/tags/VPN/" rel="tag"><i class="fa fa-tag"></i> VPN</a>
+              <a href="/tags/DMVPN/" rel="tag"><i class="fa fa-tag"></i> DMVPN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/14/2020-07-Markdown-use.html" rel="prev" title="Markdown语法">
+      <i class="fa fa-chevron-left"></i> Markdown语法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/13/2020-07-Cisco-os-3A.html" rel="next" title="Cisco配置3A认证">
+      Cisco配置3A认证 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一文看懂！你绝对没见过的DHCP客户端配置及测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文看懂！你绝对没见过的DHCP客户端配置及测试">
+<meta property="og:url" content="http://192.168.10.117/2020/10/27/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%81%E4%BD%A0%E7%BB%9D%E5%AF%B9%E6%B2%A1%E8%A7%81%E8%BF%87%E7%9A%84DHCP%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%B5%8B%E8%AF%95.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="一文看懂！你绝对没见过的DHCP客户端配置及测试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640.png">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640.jpeg">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640-20201028050545104.png">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640-20201028045736780.png">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640-20201028045931546.png">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640-20201028045931617.png">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640-20201028045931570.png">
+<meta property="og:image" content="http://192.168.10.117/images/Linux-dhcp/640-20201028045931601.png">
+<meta property="article:published_time" content="2020-10-27T03:07:47.000Z">
+<meta property="article:modified_time" content="2020-11-06T17:59:13.037Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Dhcp">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/Linux-dhcp/640.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/10/27/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%81%E4%BD%A0%E7%BB%9D%E5%AF%B9%E6%B2%A1%E8%A7%81%E8%BF%87%E7%9A%84DHCP%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%B5%8B%E8%AF%95.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>一文看懂！你绝对没见过的DHCP客户端配置及测试 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP协议的工作过程？"><span class="nav-number">1.</span> <span class="nav-text">DHCP协议的工作过程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP由三种机制分配IP地址"><span class="nav-number">2.</span> <span class="nav-text">DHCP由三种机制分配IP地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP服务配置"><span class="nav-number">3.</span> <span class="nav-text">DHCP服务配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户机的配置"><span class="nav-number">4.</span> <span class="nav-text">客户机的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重启之前客户端的IP（ps：不要在意主机名）"><span class="nav-number">4.1.</span> <span class="nav-text">重启之前客户端的IP（ps：不要在意主机名）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启之后IP变成了设置的范围最小值-100-105-中的100"><span class="nav-number">4.2.</span> <span class="nav-text">重启之后IP变成了设置的范围最小值(100-105)中的100</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP客户端配置及测试"><span class="nav-number">5.</span> <span class="nav-text">DHCP客户端配置及测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤一：使用dhclient工具测试DHCP服务"><span class="nav-number">5.1.</span> <span class="nav-text">步骤一：使用dhclient工具测试DHCP服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤二：调整网卡配置的方式来验证DHCP服务"><span class="nav-number">5.2.</span> <span class="nav-text">步骤二：调整网卡配置的方式来验证DHCP服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端查看已获取的IP地址租约："><span class="nav-number">6.</span> <span class="nav-text">客户端查看已获取的IP地址租约：</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/10/27/%E4%B8%80%E6%96%87%E7%9C%8B%E6%87%82%EF%BC%81%E4%BD%A0%E7%BB%9D%E5%AF%B9%E6%B2%A1%E8%A7%81%E8%BF%87%E7%9A%84DHCP%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%B5%8B%E8%AF%95.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一文看懂！你绝对没见过的DHCP客户端配置及测试
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-27 11:07:47" itemprop="dateCreated datePublished" datetime="2020-10-27T11:07:47+08:00">2020-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 01:59:13" itemprop="dateModified" datetime="2020-11-07T01:59:13+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+            <div class="post-description">一文看懂！你绝对没见过的DHCP客户端配置及测试</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>DHCP，DNS和HTTP是3种常见的高层协议。</strong></p>
+<p><strong>什么是DHCP协议：</strong>DHCP（Dynamic Host Configuration Protocol ,动态主机配置协议）通常被用在大型的局域网络中，主要作用是集中的管理，分配IP地址，使网络环境中的主机动态的获得IP地址，Gateway地址，DNS服务器地址等信息，并能够提升地址的使用率。</p>
+<h2 id="DHCP协议的工作过程？"><a href="#DHCP协议的工作过程？" class="headerlink" title="DHCP协议的工作过程？"></a>DHCP协议的工作过程？</h2><ol>
+<li><p><strong>发现阶段：</strong>即DHCP客户机寻找DHCP服务器的阶段。DHCP客户机以广播的方式发送DHCP discover 发现信息来寻找DHCP服务器（因为DHCP服务器的IP地址对客户机来说是未知的），即向255.255.255.255发送特定的广播信息，网络上每一台安装了TCP/IP协议的主机都会接收到这种广播信息，但只有DHCP服务器才会作出响应。</p>
+</li>
+<li><p><strong>提供阶段：</strong>即DHCP服务器提供IP地址的阶段。在网络中收到DHCP discover发现信息的DHCP服务器都会作出响应，它从尚未出租的IP地址中挑选一个分配给DHCP客户机，向DHCP客户机发送一个包含出租的IP地址和其他设置额DHCP offer提供信息。</p>
+</li>
+<li><p><strong>选择阶段：</strong>DHCP客户机选择某台DHCP服务器提供的IP地址的阶段。 如果有多台DHCP服务器向DHCP客户机发来的DHCP offer，客户机只接收第一个收到的DHCP offer，然后它以广播的方式回答一个DHCP request请求信息。该信息中包含它所选定的DHCP服务器请求IP地址的内容。之所以要以广播的方式回答，是为了通知所有的DHCP服务器，它将选择某台DHCP服务器所提供的IP地址。</p>
+</li>
+<li><p><strong>确认阶段：</strong>即DHCP服务器确认所提供的IP地址的阶段。当DHCP服务器收到DHCP客户机回答的DHCP resquest请求后，它便向DHCP客户机发送一个包含它提供的IP地址和其他设置的DHCP ACK确认信息，告诉DHCP客户机可以使用它所提供的IP地址。然后DHCP客户机便将其TCP/IP协议与网卡绑定，除了DHCP客户机所选择的服务器IP外，其他的DHCP服务器都将收回曾提供的IP地址。</p>
+</li>
+<li><p><strong>重新登陆：</strong>以后DHCP客户机每次登陆网络时，就不需要再发送DHCP discover发现信息了。而是直接发送包含前一次所分配IP地址的DHCP resquest请求。当DHCP服务器收到这一信息后，它会尝试让客户机继续使用原来的IP并回答一个DHCP ACK确认信息，如果此IP地址无法分配个原来的DHCP客户机时（比如IP分配给其他DHCP客户机使用） ，则DHCP服务器给DHCP客户机回答一个DHCP NACK 否认消息，当原来的DHCP客户机收到此消息后，它就必须重新发送DHCP discover发现信息重新请求新的IP地址。</p>
+</li>
+<li><p><strong>更新租约：</strong>DHCP服务器向DHCP客户机出租的IP地址一般都由一个租借期限，期满后DHCP服务器会收回出租的IP地址。如果DHCP客户机要延长其IP租约，则必须更新其租约。DHCP客户机启动时和IP租约期限过一半时，DHCP客户机都会自动向DHCP服务器发送其更新租约的信息。</p>
+</li>
+</ol>
+<h2 id="DHCP由三种机制分配IP地址"><a href="#DHCP由三种机制分配IP地址" class="headerlink" title="DHCP由三种机制分配IP地址"></a><strong>DHCP由三种机制分配IP地址</strong></h2><ol>
+<li><p><strong>自动分配方式：</strong>DHCP服务器为主机指定一个永久性的IP地址，一旦DHCP客户端第一次成功从DHCP服务器租用到IP地址，就可以永久使用该地址。</p>
+</li>
+<li><p><strong>动态分配方式：</strong>DHCP服务器给主机指定一个有时间限制的IP地址， 时间到期或主机明确表示放弃该地址时，该地址可以被其他主机使用。</p>
+</li>
+<li><p><strong>手工分配方式：</strong>客户端的IP地址是由网络管理员指定的，DHCP服务器只是将指定的IP地址告诉客户端主机。 </p>
+</li>
+</ol>
+<blockquote>
+<p>三种地址分配方式中， 只有动态分配方式可以重复使用客户端不再需要的地址</p>
+</blockquote>
+<h2 id="DHCP服务配置"><a href="#DHCP服务配置" class="headerlink" title="DHCP服务配置"></a><strong>DHCP服务配置</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在开始之前注意selinux状态disable防火墙关闭</span></span><br><span class="line">[root@localhost ~]<span class="comment"># yum install -y dhcp</span></span><br><span class="line"><span class="comment">##安装服务</span></span><br><span class="line">[root@localhost ~]<span class="comment"># rpm -qc dhcp</span></span><br><span class="line">/etc/dhcp/dhcpd.conf</span><br><span class="line">/etc/dhcp/dhcpd6.conf</span><br><span class="line">/etc/openldap/schema/dhcp.schema</span><br><span class="line">/etc/sysconfig/dhcpd</span><br><span class="line">/var/lib/dhcpd/dhcpd.leases</span><br><span class="line">/var/lib/dhcpd/dhcpd6.leases</span><br><span class="line">[root@localhost ~]<span class="comment"># cat/etc/dhcp/dhcpd.conf</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># DHCP Server Configuration file.</span></span><br><span class="line"><span class="comment">#		see /usr/share/doc/dhcp*/dhcpd.conf.example</span></span><br><span class="line"><span class="comment">#		see dhcpd.conf(5) man page</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">[root@localhost ~]<span class="comment"># cp /usr/share/doc/dhc*/dhcpd.conf.example /etc/dhcp/dhcpd.conf</span></span><br><span class="line">сp: overwrite '/etc/dhcp/dhcpd.conf'? y</span><br><span class="line">[root@localhost ~]<span class="comment"># vim /etc/dhcp/dhcpd.conf</span></span><br><span class="line"><span class="number">7</span> option domain-name <span class="string">"test.com"</span>;           <span class="comment">##设置DNS域</span></span><br><span class="line"><span class="number">8</span> option domain-name-servers <span class="number">172.25</span><span class="number">.8</span><span class="number">.10</span>;  <span class="comment">##设置DNS服务器地址</span></span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">10</span> default-lease-time <span class="number">600</span>;                  <span class="comment">##设置默认租约时间，单位为秒</span></span><br><span class="line"><span class="number">11</span> max-lease-time <span class="number">7200</span>;                     <span class="comment">##设置最大租约时间，单位为秒</span></span><br><span class="line"><span class="number">14</span> <span class="comment">#ddns-update-style none;                 ##设置dns的更新方式</span></span><br><span class="line"><span class="number">22</span> log-facility local7;                     <span class="comment">##指定日志设备</span></span><br><span class="line"><span class="comment">####注释前面的subnet修改最后一 个subnet声明</span></span><br><span class="line"><span class="number">27</span> <span class="comment">#subnet 10.152.187.0 netmask 255.255.255.0 (</span></span><br><span class="line"><span class="number">28</span> <span class="comment">#&#125;</span></span><br><span class="line"><span class="number">32</span> subnet <span class="number">172.25</span><span class="number">.8</span><span class="number">.0</span> netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> [ <span class="comment">##子网网段和子网掩码 </span></span><br><span class="line"><span class="number">33</span> 	range <span class="number">172.25</span><span class="number">.8</span><span class="number">.100</span> <span class="number">172.25</span><span class="number">.8</span><span class="number">.105</span>;         <span class="comment">##设置ip地址池范围100-105</span></span><br><span class="line"><span class="number">34</span>	option routers <span class="number">172.25</span><span class="number">.8</span><span class="number">.254</span>;             <span class="comment">##设置客户机的默认网关</span></span><br><span class="line"><span class="number">35</span> ]</span><br><span class="line">[root@localhost ~]<span class="comment"># systemctl restart dhcpd  ##重启服务</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="客户机的配置"><a href="#客户机的配置" class="headerlink" title="客户机的配置"></a>客户机的配置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]<span class="comment"># vim /etc/sysconfig/network-scripts/ifcfg-etho</span></span><br><span class="line">BOOTPROTO=dhcp    <span class="comment">###找到BOOTPROTO改成dhcp</span></span><br><span class="line">[root@server ~]<span class="comment"># systemctl restart network     ##重启网络</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="重启之前客户端的IP（ps：不要在意主机名）"><a href="#重启之前客户端的IP（ps：不要在意主机名）" class="headerlink" title="重启之前客户端的IP（ps：不要在意主机名）"></a>重启之前客户端的IP（ps：不要在意主机名）</h3><p><img src="../../../../images/Linux-dhcp/640.png" alt="img"></p>
+<h3 id="重启之后IP变成了设置的范围最小值-100-105-中的100"><a href="#重启之后IP变成了设置的范围最小值-100-105-中的100" class="headerlink" title="重启之后IP变成了设置的范围最小值(100-105)中的100"></a>重启之后IP变成了设置的范围最小值(100-105)中的100</h3><p><img src="../../../../images/Linux-dhcp/640.jpeg" alt="img"></p>
+<h2 id="DHCP客户端配置及测试"><a href="#DHCP客户端配置及测试" class="headerlink" title="DHCP客户端配置及测试"></a><strong>DHCP客户端配置及测试</strong></h2><h3 id="步骤一：使用dhclient工具测试DHCP服务"><a href="#步骤一：使用dhclient工具测试DHCP服务" class="headerlink" title="步骤一：使用dhclient工具测试DHCP服务"></a>步骤一：使用dhclient工具测试DHCP服务</h3><ul>
+<li><p>针对eth0网卡执行dhclient调试</p>
+<p>如果DHCP服务可用且客户机之间的网络正常，则执行dhclient -d eth0操作后可以观察到DHCP通信获取地址的四个过程：DHCP Discover、DHCP Offer、DHCP Request、DHCP ACK。<img src="../../../../images/Linux-dhcp/640-20201028050545104.png" alt="img"></p>
+</li>
+<li><p>退出调试模式<br>若要退出dhclient调试模式，可以按Ctrl+c中断任务：</p>
+</li>
+</ul>
+<p><img src="../../../../images/Linux-dhcp/640-20201028045736780.png" alt="img"></p>
+<h3 id="步骤二：调整网卡配置的方式来验证DHCP服务"><a href="#步骤二：调整网卡配置的方式来验证DHCP服务" class="headerlink" title="步骤二：调整网卡配置的方式来验证DHCP服务"></a>步骤二：调整网卡配置的方式来验证DHCP服务</h3><ul>
+<li>修改网卡配置文件，启用BOOTPROTO=dhcp<br>BOOTPROTO表示启动网络接口的协议或方式，如果设为none、auto，通常需要在配置中手动指定IP地址等参数；而改成dhcp的话，表示查找DHCP服务器并申请分配可用的IP地址等参数。</li>
+</ul>
+<p><img src="../../../../images/Linux-dhcp/640-20201028045931546.png" alt="img"></p>
+<ul>
+<li><p>重启network服务，并确认地址获取结果</p>
+<p>重启network服务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@pc205 ~]<span class="comment"># service network restart</span></span><br><span class="line">正在关闭接口 eth0：[确定]</span><br><span class="line">关闭环回接口：[确定]</span><br><span class="line">弹出环回接口：[确定]</span><br><span class="line">弹出界面 eth0：</span><br><span class="line">正在决定 eth0 的 IP 信息…完成。[确定]</span><br></pre></td></tr></table></figure>
+
+<p>确认已获得DHCP服务器分配的IP地址：</p>
+</li>
+</ul>
+<p><img src="../../../../images/Linux-dhcp/640-20201028045931617.png" alt="img"></p>
+<p>确认已获得DHCP服务器分配的DNS服务器地址：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@pc205 ~]<span class="comment"># cat /etc/resolv.conf</span></span><br><span class="line">; generated by /sbin/dhclient-script</span><br><span class="line">search tedu.cn</span><br><span class="line">nameserver <span class="number">192.168</span><span class="number">.4</span><span class="number">.5</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看IP租约信息<br>DHCP服务器端查看地址分配情况：</li>
+</ul>
+<p><img src="../../../../images/Linux-dhcp/640-20201028045931570.png" alt="img"></p>
+<h2 id="客户端查看已获取的IP地址租约："><a href="#客户端查看已获取的IP地址租约：" class="headerlink" title="客户端查看已获取的IP地址租约："></a>客户端查看已获取的IP地址租约：</h2><p><strong><img src="../../../../images/Linux-dhcp/640-20201028045931601.png" alt="img"></strong></p>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Dhcp/" rel="tag"><i class="fa fa-tag"></i> Dhcp</a>
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/27/Huawei%20Wlan%E7%BB%B4%E6%8A%A4.html" rel="prev" title="Huawei Wlan维护">
+      <i class="fa fa-chevron-left"></i> Huawei Wlan维护
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/21/snmp%E5%91%BD%E4%BB%A4%E8%AF%B4%E6%98%8E.html" rel="next" title="snmp命令说明">
+      snmp命令说明 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

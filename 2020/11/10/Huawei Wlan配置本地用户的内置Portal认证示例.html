@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Huawei Wlan配置本地用户的内置Portal认证示例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Huawei Wlan配置本地用户的内置Portal认证示例">
+<meta property="og:url" content="http://192.168.10.117/2020/11/10/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="Huawei Wlan配置本地用户的内置Portal认证示例">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112191710019.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192052000.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192311550.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192405403.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192422946.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192537902.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192904858.png">
+<meta property="og:image" content="https://download.huawei.com/mdl/image/download?uuid=02672a0109cf4136b51bb9ceb30c300d">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193031840.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193253572.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193326026.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193332252.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193338093.png">
+<meta property="og:image" content="https://download.huawei.com/mdl/image/download?uuid=5d50e68c21d04f2586e2b2707e0c5d42">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193444882.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193442529.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193447516.png">
+<meta property="article:published_time" content="2020-11-10T12:45:26.000Z">
+<meta property="article:modified_time" content="2020-11-12T11:35:57.531Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Huawei">
+<meta property="article:tag" content="Wlan">
+<meta property="article:tag" content="Portal">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112191710019.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/11/10/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Huawei Wlan配置本地用户的内置Portal认证示例 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#业务需求"><span class="nav-number">1.</span> <span class="nav-text">业务需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组网需求"><span class="nav-number">2.</span> <span class="nav-text">组网需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据规划"><span class="nav-number">3.</span> <span class="nav-text">数据规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置思路"><span class="nav-number">4.</span> <span class="nav-text">配置思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置注意事项"><span class="nav-number">5.</span> <span class="nav-text">配置注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作步骤"><span class="nav-number">6.</span> <span class="nav-text">操作步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置周边设备"><span class="nav-number">6.1.</span> <span class="nav-text">配置周边设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置DHCP服务器为STA分配IP地址并指定STA网关"><span class="nav-number">6.2.</span> <span class="nav-text">配置DHCP服务器为STA分配IP地址并指定STA网关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置AC系统参数"><span class="nav-number">6.3.</span> <span class="nav-text">配置AC系统参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置AC基本参数。"><span class="nav-number">6.3.1.</span> <span class="nav-text">配置AC基本参数。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置端口"><span class="nav-number">6.3.2.</span> <span class="nav-text">配置端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置网络互联。"><span class="nav-number">6.3.3.</span> <span class="nav-text">配置网络互联。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置AC源地址。"><span class="nav-number">6.3.4.</span> <span class="nav-text">配置AC源地址。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置确认。"><span class="nav-number">6.3.5.</span> <span class="nav-text">配置确认。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置AP上线"><span class="nav-number">6.4.</span> <span class="nav-text">配置AP上线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置AP上线。"><span class="nav-number">6.4.1.</span> <span class="nav-text">配置AP上线。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置确认。-1"><span class="nav-number">6.4.2.</span> <span class="nav-text">配置确认。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置无线业务"><span class="nav-number">6.5.</span> <span class="nav-text">配置无线业务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置用户免认证时可以访问的网络资源"><span class="nav-number">6.6.</span> <span class="nav-text">配置用户免认证时可以访问的网络资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查配置结果"><span class="nav-number">6.7.</span> <span class="nav-text">检查配置结果</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/11/10/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Huawei Wlan配置本地用户的内置Portal认证示例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-10 20:45:26" itemprop="dateCreated datePublished" datetime="2020-11-10T20:45:26+08:00">2020-11-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-12 19:35:57" itemprop="dateModified" datetime="2020-11-12T19:35:57+08:00">2020-11-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Huawei/" itemprop="url" rel="index"><span itemprop="name">Huawei</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+            <div class="post-description">Huawei Wlan配置本地用户的内置Portal认证示例</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><p>某企业为了提高WLAN网络的安全性，采用portal认证方式，为了降低成本，将AC部署为Portal服务器，并选择本地认证方式，在AC上完成认证。</p>
+<h2 id="组网需求"><a href="#组网需求" class="headerlink" title="组网需求"></a>组网需求</h2><ul>
+<li>AC组网方式：旁挂二层组网。</li>
+<li>DHCP部署方式：<ul>
+<li>AC作为DHCP服务器为AP分配IP地址。</li>
+<li>汇聚交换机SwitchB作为DHCP服务器为STA分配IP地址。</li>
+</ul>
+</li>
+<li>业务数据转发方式：隧道转发。</li>
+<li>认证方式：内置Portal认证。</li>
+<li>安全策略：开放认证。</li>
+</ul>
+<p>配置WLAN本地用户的内置Portal认证示例组网图：</p>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112191710019.png" alt="img"></p>
+<h2 id="数据规划"><a href="#数据规划" class="headerlink" title="数据规划"></a>数据规划</h2><p>AC数据规划表</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>数据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AP管理VLAN</td>
+<td>VLAN100</td>
+</tr>
+<tr>
+<td>STA业务VLAN</td>
+<td>VLAN101</td>
+</tr>
+<tr>
+<td>DHCP服务器</td>
+<td>AC作为DHCP服务器为AP分配IP地址汇聚交换机SwitchB作为DHCP服务器为STA分配IP地址，STA的默认网关为10.23.101.2</td>
+</tr>
+<tr>
+<td>AP的IP地址池</td>
+<td>10.23.100.2～10.23.100.254/24</td>
+</tr>
+<tr>
+<td>STA的IP地址池</td>
+<td>10.23.101.4～10.23.101.254/24</td>
+</tr>
+<tr>
+<td>AC的源接口IP地址</td>
+<td>VLANIF100：10.23.100.1/24</td>
+</tr>
+<tr>
+<td>AP组</td>
+<td>名称：ap-group1绑定模板：VAP模板wlan-net、域管理模板default</td>
+</tr>
+<tr>
+<td>域管理模板</td>
+<td>名称：default国家码：中国</td>
+</tr>
+<tr>
+<td>SSID模板</td>
+<td>名称：wlan-netSSID名称：wlan-net</td>
+</tr>
+<tr>
+<td>安全模板</td>
+<td>名称：wlan-net安全策略：开放认证</td>
+</tr>
+<tr>
+<td>本地用户</td>
+<td>用户名：guest密码：guest@123</td>
+</tr>
+<tr>
+<td>认证方案</td>
+<td>名称：wlan-net认证方案：本地认证</td>
+</tr>
+<tr>
+<td>Portal接入模板</td>
+<td>名称：wlan-net使用内置Portal服务器，其中内置Portal服务器的IP地址：10.23.101.3/24使用的SSL策略：default_policy端口号：20000</td>
+</tr>
+<tr>
+<td>免认证规则模板</td>
+<td>名称：default_free_rule免认证资源：DNS服务器的地址（8.8.8.8）</td>
+</tr>
+<tr>
+<td>认证模板</td>
+<td>名称：wlan-net绑定的模板和认证方案：Portal接入模板wlan-net、免认证规则模板default_free_rule、认证方案wlan-net</td>
+</tr>
+<tr>
+<td>VAP模板</td>
+<td>名称：wlan-net转发模式：隧道转发业务VLAN：VLAN101绑定模板：SSID模板wlan-net、安全模板wlan-net、认证模板wlan-net</td>
+</tr>
+</tbody></table>
+<h2 id="配置思路"><a href="#配置思路" class="headerlink" title="配置思路"></a>配置思路</h2><p>采用如下的思路进行WLAN配置：</p>
+<ol>
+<li>配置AP、AC和周边网络设备之间实现网络互通。</li>
+<li>使用配置向导，配置AC系统参数。</li>
+<li>使用配置向导，配置AP在AC上线。</li>
+<li>使用配置向导在AC上配置WLAN相关业务及内置Portal认证的相关参数。</li>
+<li>在AP组下配置免认证规则。</li>
+<li>用户完成业务验证。</li>
+</ol>
+<h2 id="配置注意事项"><a href="#配置注意事项" class="headerlink" title="配置注意事项"></a>配置注意事项</h2><ul>
+<li><p>纯组播报文由于协议要求在无线空口没有ACK机制保障，且无线空口链路不稳定，为了纯组播报文能够稳定发送，通常会以低速报文形式发送。如果网络侧有大量异常组播流量涌入，则会造成无线空口拥堵。为了减小大量低速组播报文对无线网络造成的冲击，建议配置组播报文抑制功能。配置前请确认是否有组播业务，如果有，请谨慎配置限速值。</p>
+<ul>
+<li>业务数据转发方式采用直接转发时，建议在直连AP的交换机接口上配置组播报文抑制。</li>
+<li>业务数据转发方式采用隧道转发时，建议在AC的流量模板下配置组播报文抑制。</li>
+</ul>
+<p>配置方法请参见：<a href="http://support.huawei.com/hedex/hdx.do?docid=EDOC1100025388&id=ZH-CN_TOPIC_0117428937&text=null&lang=zh" target="_blank" rel="noopener">如何配置组播报文抑制，减小大量低速组播报文对无线网络造成的冲击？</a></p>
+</li>
+<li><p>建议在与AP直连的设备接口上配置端口隔离，如果不配置端口隔离，尤其是业务数据转发方式采用直接转发时，可能会在VLAN内形成大量不必要的广播报文，导致网络阻塞，影响用户体验。</p>
+</li>
+<li><p>隧道转发模式下，管理VLAN和业务VLAN不能配置为同一VLAN，且AP和AC之间只能放通管理VLAN，不能放通业务VLAN。</p>
+</li>
+</ul>
+<h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><h3 id="配置周边设备"><a href="#配置周边设备" class="headerlink" title="配置周边设备"></a>配置周边设备</h3><p>配置接入交换机SwitchA的GE0/0/1和GE0/0/2接口加入VLAN100，GE0/0/1的缺省VLAN为VLAN100。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;HUAWEI&gt; system-view</span><br><span class="line">[HUAWEI] sysname SwitchA</span><br><span class="line">[SwitchA] vlan batch <span class="number">100</span></span><br><span class="line">[SwitchA] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">1</span></span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port link-type trunk</span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port trunk pvid vlan <span class="number">100</span></span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port trunk allow-<span class="keyword">pass</span> vlan <span class="number">100</span></span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port-isolate enable</span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] quit</span><br><span class="line">[SwitchA] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">2</span></span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">2</span>] port link-type trunk</span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">2</span>] port trunk allow-<span class="keyword">pass</span> vlan <span class="number">100</span></span><br><span class="line">[SwitchA-GigabitEthernet0/<span class="number">0</span>/<span class="number">2</span>] quit</span><br></pre></td></tr></table></figure>
+
+<p>配置汇聚交换机SwitchB的接口GE0/0/1和GE0/0/2加入VLAN100，接口GE0/0/2和GE0/0/3加入VLAN101。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;HUAWEI&gt; system-view</span><br><span class="line">[HUAWEI] sysname SwitchB</span><br><span class="line">[SwitchB] vlan batch <span class="number">100</span> <span class="number">101</span></span><br><span class="line">[SwitchB] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">1</span></span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port link-type trunk</span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] port trunk allow-<span class="keyword">pass</span> vlan <span class="number">100</span></span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">1</span>] quit</span><br><span class="line">[SwitchB] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">2</span></span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">2</span>] port link-type trunk</span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">2</span>] port trunk allow-<span class="keyword">pass</span> vlan <span class="number">100</span> <span class="number">101</span></span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">2</span>] quit</span><br><span class="line">[SwitchB] interface gigabitethernet <span class="number">0</span>/<span class="number">0</span>/<span class="number">3</span></span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">3</span>] port link-type trunk</span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">3</span>] port trunk allow-<span class="keyword">pass</span> vlan <span class="number">101</span></span><br><span class="line">[SwitchB-GigabitEthernet0/<span class="number">0</span>/<span class="number">3</span>] quit</span><br></pre></td></tr></table></figure>
+
+<p>配置Router的接口GE1/0/0加入VLAN101，创建接口VLANIF101并配置IP地址为10.23.101.2/24。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;Huawei&gt; system-view</span><br><span class="line">[Huawei] sysname Router</span><br><span class="line">[Router] vlan batch <span class="number">101</span></span><br><span class="line">[Router] interface gigabitethernet <span class="number">1</span>/<span class="number">0</span>/<span class="number">0</span></span><br><span class="line">[Router-GigabitEthernet1/<span class="number">0</span>/<span class="number">0</span>] port link-type trunk</span><br><span class="line">[Router-GigabitEthernet1/<span class="number">0</span>/<span class="number">0</span>] port trunk allow-<span class="keyword">pass</span> vlan <span class="number">101</span></span><br><span class="line">[Router-GigabitEthernet1/<span class="number">0</span>/<span class="number">0</span>] quit</span><br><span class="line">[Router] interface vlanif <span class="number">101</span></span><br><span class="line">[Router-Vlanif101] ip address <span class="number">10.23</span><span class="number">.101</span><span class="number">.2</span> <span class="number">24</span></span><br><span class="line">[Router-Vlanif101] quit</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置DHCP服务器为STA分配IP地址并指定STA网关"><a href="#配置DHCP服务器为STA分配IP地址并指定STA网关" class="headerlink" title="配置DHCP服务器为STA分配IP地址并指定STA网关"></a>配置DHCP服务器为STA分配IP地址并指定STA网关</h3><p>在SwitchB上配置VLANIF101接口为STA提供IP地址，并指定10.23.101.2作为STA的默认网关地址。</p>
+<blockquote>
+<p>DNS服务器地址请根据实际需要配置。常用配置方法如下：</p>
+<ul>
+<li>接口地址池场景，需要在VLANIF接口视图下执行命令<strong>dhcp server dns-list</strong> <em>ip-address</em> &amp;&lt;1-8&gt;。</li>
+<li>全局地址池场景，需要在IP地址池视图下执行命令<strong>dns-list</strong> <em>ip-address</em> &amp;&lt;1-8&gt;。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[SwitchB] dhcp enable</span><br><span class="line">[SwitchB] interface vlanif <span class="number">101</span></span><br><span class="line">[SwitchB-Vlanif101] ip address <span class="number">10.23</span><span class="number">.101</span><span class="number">.1</span> <span class="number">24</span></span><br><span class="line">[SwitchB-Vlanif101] dhcp select interface</span><br><span class="line">[SwitchB-Vlanif101] dhcp server gateway-list <span class="number">10.23</span><span class="number">.101</span><span class="number">.2</span></span><br><span class="line">[SwitchB-Vlanif101] quit</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置AC系统参数"><a href="#配置AC系统参数" class="headerlink" title="配置AC系统参数"></a>配置AC系统参数</h3><h4 id="配置AC基本参数。"><a href="#配置AC基本参数。" class="headerlink" title="配置AC基本参数。"></a>配置AC基本参数。</h4><ul>
+<li><p>单击“配置 &gt; 配置向导 &gt; AC”，进入“AC基本配置”页面。</p>
+</li>
+<li><p>“所在国家/地区”按实际情况选择，以“中国”为例。“系统时间”配置为“手动设置”。“日期和时间”配置为“使用PC当前时间”。</p>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192052000.png" alt="点击放大"></p>
+</li>
+<li><p>单击页面下方的“下一步”，进入“端口配置”页面。</p>
+</li>
+</ul>
+<h4 id="配置端口"><a href="#配置端口" class="headerlink" title="配置端口"></a>配置端口</h4><ul>
+<li><p>选择接口“GigabitEthernet0/0/1”，展开“批量修改”，选择“接口类型”为“Trunk”，将“GigabitEthernet0/0/1”加入VLAN100（管理VLAN）和VLAN101（业务VLAN）。</p>
+<blockquote>
+<p>如果AC直接连接AP，需要在AC直连AP的接口上配置缺省VLAN为管理VLAN100。</p>
+</blockquote>
+<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192311550.png" alt="点击放大" style="zoom:75%;" />
+</li>
+<li><p>单击“应用”，在弹出的提示对话框中单击“确定”，完成配置。</p>
+</li>
+<li><p>单击“下一步”，进入“网络互联配置”页面。</p>
+</li>
+</ul>
+<h4 id="配置网络互联。"><a href="#配置网络互联。" class="headerlink" title="配置网络互联。"></a>配置网络互联。</h4><ul>
+<li><p>配置“DHCP状态”为“ON”。</p>
+</li>
+<li><p>单击“接口配置”下的“新建”，进入“新建接口配置”页面。</p>
+</li>
+<li><p>配置接口VLANIF100的IP地址为10.23.100.1/24。</p>
+<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192405403.png" alt="img" style="zoom:75%;" />
+</li>
+<li><p>单击“DHCPv4地址池列表”下的“新建”，采用“接口地址池”，选择接口VLANIF100。</p>
+<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192422946.png" alt="点击放大" style="zoom:75%;" />
+</li>
+<li><p>单击“确定”，完成VLANIF100接口地址池的配置。</p>
+</li>
+<li><p>单击“接口配置”下的“新建”，进入“新建接口配置”页面。选择“接口类型”为“Loopback”，“接口编号”为“1”，配置Loopback1接口的IP地址为10.23.101.3/24。</p>
+</li>
+<li><p>单击“确定”，完成Loopback1接口地址池的配置。</p>
+</li>
+<li><p>单击“静态路由表”下的“新建”，进入“新建静态路由表”页面。</p>
+</li>
+<li><p>配置缺省路由，指定下一跳为10.23.101.2。</p>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192537902.png" alt="img"></p>
+</li>
+<li><p>单击“确定”，完成静态路由的配置。</p>
+</li>
+<li><p>单击“下一步”。</p>
+</li>
+<li><p>单击“下一步”，进入“AC源地址”页面。</p>
+</li>
+</ul>
+<h4 id="配置AC源地址。"><a href="#配置AC源地址。" class="headerlink" title="配置AC源地址。"></a>配置AC源地址。</h4><ul>
+<li><p>“AC源地址”选择“VLANIF”，单击选择按钮，选择“Vlanif100”。</p>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112192904858.png" alt="点击放大"></p>
+</li>
+<li><p>单击“下一步”，进入“配置确认”页面。</p>
+<h4 id="配置确认。"><a href="#配置确认。" class="headerlink" title="配置确认。"></a>配置确认。</h4></li>
+<li><p>确认配置，单击“完成并继续AP上线配置”。</p>
+</li>
+</ul>
+<h3 id="配置AP上线"><a href="#配置AP上线" class="headerlink" title="配置AP上线"></a>配置AP上线</h3><h4 id="配置AP上线。"><a href="#配置AP上线。" class="headerlink" title="配置AP上线。"></a>配置AP上线。</h4><ul>
+<li>单击“批量导入”，进入“批量导入”页面。单击<img src="https://download.huawei.com/mdl/image/download?uuid=02672a0109cf4136b51bb9ceb30c300d" alt="img">，下载批量添加AP模板文件到本地。</li>
+</ul>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193031840.png" alt="img"></p>
+<ul>
+<li><p>在AP模板文件中填写AP信息，示例如下。如需添加多个AP，可以参照该示例在AP模板文件中填写多条AP信息。</p>
+<ul>
+<li>AP MAC地址：60de-4476-e360</li>
+<li>AP SN：210235419610CB002287</li>
+<li>AP名称：area_1</li>
+<li>AP组：ap-group1</li>
+</ul>
+<blockquote>
+<ul>
+<li><p>当选择“AP认证方式”为“MAC认证”时，AP MAC地址为必填项，AP SN可不填。</p>
+</li>
+<li><p>当选择“AP认证方式”为“SN认证”时，AP SN为必填项，AP MAC地址可不填。</p>
+<p>建议使用网络规划工具WLAN Planner将规划好的射频ID、AP信道、频宽、功率导出成.csv格式的表格，将表格中的这些信息填写到AP文件模板中，经度和纬度请根据实际情况配置。</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>单击“导入AP文件”后的<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193253572.png" alt="img">，选择填写后的模板文件，单击“导入”。</p>
+</li>
+<li><p>导入完成后，页面显示导入结果信息，单击“确定”，完成添加。</p>
+</li>
+<li><p>单击“下一步”，进入“AP分组”页面。</p>
+</li>
+<li><p>AP模板文件中已添加AP组信息，直接单击“下一步”，进入“配置确认”页面。</p>
+</li>
+</ul>
+<h4 id="配置确认。-1"><a href="#配置确认。-1" class="headerlink" title="配置确认。"></a>配置确认。</h4><ul>
+<li>确认配置，单击“完成并继续无线业务配置”。</li>
+</ul>
+<h3 id="配置无线业务"><a href="#配置无线业务" class="headerlink" title="配置无线业务"></a>配置无线业务</h3><ul>
+<li><p>单击“新建”，进入“基本信息”页面。</p>
+</li>
+<li><p>配置SSID名称、转发模式、业务VLAN ID等信息。</p>
+</li>
+</ul>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193326026.png" alt="img"></p>
+<ul>
+<li><p>单击“下一步”，进入“安全认证”页面。</p>
+</li>
+<li><p>选择“安全配置”为“Portal认证（企业网络适用）”，“Portal服务器”为“内置Portal服务器”。在“内置Portal服务器配置”页签下配置服务器IP地址和端口号，并选择“SSL策略”为“default_policy”，其中，IP地址为设备上与用户路由可达的三层接口的IP地址，该举例中配置的服务器IP地址为10.23.101.3。</p>
+</li>
+</ul>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193332252.png" alt="点击放大"></p>
+<ul>
+<li><p>点击“本地用户”右边的“管理”，进入“本地用户”配置页面。 </p>
+</li>
+<li><p>单击“新建”，进入“创建本地用户”页面。</p>
+</li>
+<li><p>选择“配置方式”为“手动添加”，配置本地用户的用户名和密码。</p>
+</li>
+</ul>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193338093.png" alt="img"></p>
+<ul>
+<li><p>单击“确定”。</p>
+</li>
+<li><p>在“本地用户”页面选择新建的本地用户名，单击“确定”。</p>
+</li>
+<li><p>单击“下一步”，进入“接入控制”页面。</p>
+</li>
+<li><p>选择“绑定AP组”为“ap-group1”。</p>
+</li>
+<li><p>单击“完成”。</p>
+</li>
+</ul>
+<h3 id="配置用户免认证时可以访问的网络资源"><a href="#配置用户免认证时可以访问的网络资源" class="headerlink" title="配置用户免认证时可以访问的网络资源"></a>配置用户免认证时可以访问的网络资源</h3><ul>
+<li><p>依次单击“配置 &gt; AP配置 &gt; 模板管理”，进入“模板管理”页面。</p>
+</li>
+<li><p>依次选择“无线业务 &gt; VAP模板 &gt; wlan-net &gt; 认证模板 &gt; 免认证规则模板”，进入“免认证规则模板”界面。</p>
+</li>
+<li><p>选择“免认证规则模板”为“default_free_rule”。</p>
+</li>
+<li><p>在“控制方式”处选择“免认证规则”。</p>
+</li>
+<li><p>单击“新建”，进入“新建免认证规则”页面，配置“规则编号”为“1”，免认证的目的IP地址为DNS服务器的IP地址。<br><img src="https://download.huawei.com/mdl/image/download?uuid=5d50e68c21d04f2586e2b2707e0c5d42" alt="img"></p>
+</li>
+<li><p>单击“确定”。</p>
+</li>
+<li><p>选中规则编号为1的免认证规则，单击“应用”，在弹出的提示页面中单击“确定”，完成配置。</p>
+</li>
+</ul>
+<h3 id="检查配置结果"><a href="#检查配置结果" class="headerlink" title="检查配置结果"></a>检查配置结果</h3><ul>
+<li><p>无线用户可以搜索到SSID为“wlan-net”的无线网络。</p>
+</li>
+<li><p>无线用户可以关联到无线网络中，获取到的IP地址为10.23.101.x/24，网关为10.23.101.2。</p>
+</li>
+</ul>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193444882.png" alt="img"></p>
+<ul>
+<li><p>无线用户浏览网页时，浏览器自动跳转到Portal认证页面，输入正确的用户名和密码后，认证成功，用户可以正常访问网页。</p>
+</li>
+<li><p>选择“监控 &gt; 用户 &gt; 上线用户统计”。在“用户列表”中可以看到所有上线的用户，使用筛选功能可以过滤显示结果。例如找到<strong>SSID</strong>列，单击“<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193442529.png" alt="img">”，设置筛选条件，输入“wlan-net”，单击“确定”，可以看到连接在该SSID的用户。筛选功能支持多列组合筛选，可以精确查找上线用户。</p>
+</li>
+</ul>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E7%94%A8%E6%88%B7%E7%9A%84%E5%86%85%E7%BD%AEPortal%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B/download-20201112193447516.png" alt="img"></p>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Huawei/" rel="tag"><i class="fa fa-tag"></i> Huawei</a>
+              <a href="/tags/Wlan/" rel="tag"><i class="fa fa-tag"></i> Wlan</a>
+              <a href="/tags/Portal/" rel="tag"><i class="fa fa-tag"></i> Portal</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/10/Huawei%20Wlan%E9%85%8D%E7%BD%AE802.1X%E8%AE%A4%E8%AF%81%E7%A4%BA%E4%BE%8B.html" rel="prev" title="Huawei Wlan配置802.1X认证示例">
+      <i class="fa fa-chevron-left"></i> Huawei Wlan配置802.1X认证示例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/08/Huawei%20Wlan%20FAT%20AP%E9%85%8D%E7%BD%AEWPA2-PSK-AES%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5%E7%A4%BA%E4%BE%8B.html" rel="next" title="Huawei Wlan FAT AP配置WPA2-PSK-AES安全策略示例">
+      Huawei Wlan FAT AP配置WPA2-PSK-AES安全策略示例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Hexo优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo优化">
+<meta property="og:url" content="http://192.168.10.117/2020/07/15/2020-07-Hexo%E4%BC%98%E5%8C%96.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="Hexo优化">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-15T02:58:52.000Z">
+<meta property="article:modified_time" content="2020-11-14T21:57:38.573Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Next">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/15/2020-07-Hexo%E4%BC%98%E5%8C%96.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Hexo优化 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#给Hexo添加本地搜索"><span class="nav-number">1.</span> <span class="nav-text">给Hexo添加本地搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装hexo-generator-searchdb插件"><span class="nav-number">1.1.</span> <span class="nav-text">安装hexo-generator-searchdb插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在站点-配置文件添加如下配置"><span class="nav-number">1.2.</span> <span class="nav-text">在站点 配置文件添加如下配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）"><span class="nav-number">1.3.</span> <span class="nav-text">在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给Hexo添加字数统计和阅读时长"><span class="nav-number">2.</span> <span class="nav-text">给Hexo添加字数统计和阅读时长</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装hexo-symbols-count-time"><span class="nav-number">2.1.</span> <span class="nav-text">安装hexo-symbols-count-time</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装eslint"><span class="nav-number">2.2.</span> <span class="nav-text">安装eslint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在站点-配置文件添加如下配置-1"><span class="nav-number">2.3.</span> <span class="nav-text">在站点 配置文件添加如下配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）-1"><span class="nav-number">2.4.</span> <span class="nav-text">在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo文章更改上下间隔"><span class="nav-number">3.</span> <span class="nav-text">Hexo文章更改上下间隔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#找到文件-post-expand-styl"><span class="nav-number">3.1.</span> <span class="nav-text">找到文件.post-expand.styl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改参数"><span class="nav-number">3.2.</span> <span class="nav-text">修改参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主题设置主页显示文章摘要方法"><span class="nav-number">4.</span> <span class="nav-text">主题设置主页显示文章摘要方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改文章宽度"><span class="nav-number">5.</span> <span class="nav-text">修改文章宽度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#颜色标签"><span class="nav-number">6.</span> <span class="nav-text">颜色标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法："><span class="nav-number">7.</span> <span class="nav-text">用法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改行间距"><span class="nav-number">8.</span> <span class="nav-text">修改行间距</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/15/2020-07-Hexo%E4%BC%98%E5%8C%96.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexo优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-15 10:58:52" itemprop="dateCreated datePublished" datetime="2020-07-15T10:58:52+08:00">2020-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-15 05:57:38" itemprop="dateModified" datetime="2020-11-15T05:57:38+08:00">2020-11-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9D%82%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">杂记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+            <div class="post-description">Hexo优化</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="给Hexo添加本地搜索"><a href="#给Hexo添加本地搜索" class="headerlink" title="给Hexo添加本地搜索"></a>给Hexo添加本地搜索</h2><h3 id="安装hexo-generator-searchdb插件"><a href="#安装hexo-generator-searchdb插件" class="headerlink" title="安装hexo-generator-searchdb插件"></a>安装<code>hexo-generator-searchdb</code>插件</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-generator-searchdb <span class="comment">--save</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在站点-配置文件添加如下配置"><a href="#在站点-配置文件添加如下配置" class="headerlink" title="在站点 配置文件添加如下配置"></a>在<font color="#dd00">站点</font> 配置文件添加如下配置</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）"><a href="#在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）" class="headerlink" title="在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）"></a>在NexT<font color="#dd00">主题</font>配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Local search</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/flashlab/hexo-generator-search</span></span><br><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># if auto, trigger search by changing input</span></span><br><span class="line">  <span class="comment"># if manual, trigger search by pressing enter key or search button</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span></span><br><span class="line">  <span class="comment"># show top n results per article, show all results by setting to -1</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="给Hexo添加字数统计和阅读时长"><a href="#给Hexo添加字数统计和阅读时长" class="headerlink" title="给Hexo添加字数统计和阅读时长"></a>给Hexo添加字数统计和阅读时长</h2><h3 id="安装hexo-symbols-count-time"><a href="#安装hexo-symbols-count-time" class="headerlink" title="安装hexo-symbols-count-time"></a>安装<code>hexo-symbols-count-time</code></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-symbols-count-time</span> <span class="string">--save</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装eslint"><a href="#安装eslint" class="headerlink" title="安装eslint"></a>安装<code>eslint</code></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">npm</span> <span class="string">install</span> <span class="string">eslint</span> <span class="string">--save</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在站点-配置文件添加如下配置-1"><a href="#在站点-配置文件添加如下配置-1" class="headerlink" title="在站点 配置文件添加如下配置"></a>在<font color="#dd00">站点</font> 配置文件添加如下配置</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span>                <span class="comment"># 文章字数统计</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span>                   <span class="comment"># 文章阅读时长</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">true</span>          <span class="comment"># 站点总字数统计</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">true</span>             <span class="comment"># 站点总阅读时长</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span>     <span class="comment"># 排除代码字数统计</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）-1"><a href="#在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）-1" class="headerlink" title="在NexT主题配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）"></a>在NexT<font color="#dd00">主题</font>配置文件添加如下配置（NexT主题已支持该插件，有的话无需再添加）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Post wordcount display settings</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/theme-next/hexo-symbols-count-time</span></span><br><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">true</span>     <span class="comment"># 是否另起一行（true的话不和发表时间等同一行）</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span>     <span class="comment"># 首页文章统计数量前是否显示文字描述（本文字数、阅读时长）</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span>   <span class="comment"># 页面底部统计数量前是否显示文字描述（站点总字数、站点阅读时长）</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">4</span>                   <span class="comment"># Average Word Length</span></span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span>                 <span class="comment"># Words Per Minute（每分钟阅读词数）</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">mins.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Hexo文章更改上下间隔"><a href="#Hexo文章更改上下间隔" class="headerlink" title="Hexo文章更改上下间隔"></a>Hexo文章更改上下间隔</h2><h3 id="找到文件-post-expand-styl"><a href="#找到文件-post-expand-styl" class="headerlink" title="找到文件.post-expand.styl"></a>找到文件<code>.post-expand.styl</code></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">路径：themes/next/source/css/_schemes/Mist/.post-expand.styl</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修改参数"><a href="#修改参数" class="headerlink" title="修改参数"></a>修改参数</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">.post-block:not(:first-child)</span> <span class="string">&#123;</span></span><br><span class="line">  <span class="attr">margin-top:</span> <span class="string">10px;</span>       <span class="string">//文章上下间隔,默认120px</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="主题设置主页显示文章摘要方法"><a href="#主题设置主页显示文章摘要方法" class="headerlink" title="主题设置主页显示文章摘要方法"></a>主题设置主页显示文章摘要方法</h2><p> 最近使用Hexo搭建了自己的博客，使用了简洁而强大的NexT主题。在写博客的过程中发现主页文章显示为全文模式，看起来很不美观。从网络上搜集了几种方法：</p>
+<ul>
+<li><p>在文章中使用<code>&lt;!--more--&gt;</code>手动进行截断，Hexo 提供的方式 <font color="#dd00">推荐</font> </p>
+</li>
+<li><p>在文章的 <code>front-matter</code>中添加 <code>description</code>，并提`供文章摘录</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: post</span><br><span class="line">categories:</span><br><span class="line">  - <span class="literal">null</span></span><br><span class="line">tags:</span><br><span class="line">  - <span class="literal">null</span></span><br><span class="line">date: <span class="number">2020</span><span class="number">-07</span><span class="number">-14</span> <span class="number">13</span>:<span class="number">58</span>:<span class="number">16</span>	</span><br><span class="line">description: 这种方式只会在首页列表中显示文章的摘要内容，进入文章详情后不会再显示。</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>自动形成摘要，在 <strong>主题配置文件</strong> 中添加： <font color="#dd00">不推荐</font> </li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  enable: <span class="literal">true</span></span><br><span class="line">  length: <span class="number">150</span></span><br><span class="line">默认截取的长度为 <span class="number">150</span> 字符，可以根据需要自行设定</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>建议使用<code>&lt;!--more--&gt;</code>（即第一种方式），除了可以精确控制需要显示的摘录内容以外， 这种方式也可以让 Hexo 中的插件更好的识别。</p>
+</blockquote>
+<h2 id="修改文章宽度"><a href="#修改文章宽度" class="headerlink" title="修改文章宽度"></a>修改文章宽度</h2><p>在对应的主题下修改,next下有四种选择，我用的是Mist</p>
+<p>文件路径为：/Library/WebServer/Hexo/themes/next/source/css/_schemes/Mist/_layout.styl，在最后面加入</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">header&#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">header</span><span class="selector-class">.post-header</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: auto ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: calc(<span class="number">100%</span> - <span class="number">252px</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@media (<span class="attribute">min-width</span>: <span class="number">1600px</span>)&#123;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.container</span> <span class="selector-class">.main-inner</span>, <span class="selector-class">.header</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">73%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.container</span> <span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">73%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@media (<span class="attribute">min-width</span>: <span class="number">1200px</span>)&#123;</span><br><span class="line">  <span class="selector-class">.container</span> <span class="selector-class">.main-inner</span>, <span class="selector-class">.header</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">90%</span>;       <span class="comment">//顶部宽度</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.container</span> <span class="selector-class">.header-inner</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">90%</span>;        <span class="comment">//文章宽度</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header</span> &#123;</span><br><span class="line">  +tablet() &#123;</span><br><span class="line">    <span class="attribute">width</span>: auto !important;</span><br><span class="line">  &#125;</span><br><span class="line">  +mobile() &#123;</span><br><span class="line">    <span class="attribute">width</span>: auto ;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span> <span class="selector-class">.main-inner</span> &#123;</span><br><span class="line">  +tablet() &#123;</span><br><span class="line">    <span class="attribute">width</span>: auto !important;</span><br><span class="line">  &#125;</span><br><span class="line">  +mobile() &#123;</span><br><span class="line">    <span class="attribute">width</span>: auto ;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.content-wrap</span> &#123;</span><br><span class="line">  +tablet() &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span> !important;</span><br><span class="line">  &#125;</span><br><span class="line">  +mobile() &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span> ;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="颜色标签"><a href="#颜色标签" class="headerlink" title="颜色标签"></a>颜色标签</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">note:</span><br><span class="line">  <span class="comment"># Note tag style values:</span></span><br><span class="line">  <span class="comment">#  - simple    bs-callout old alert style. Default.</span></span><br><span class="line">  <span class="comment">#  - modern    bs-callout new (v2-v3) alert style.</span></span><br><span class="line">  <span class="comment">#  - flat      flat callout style with background, like on Mozilla or StackOverflow.</span></span><br><span class="line">  <span class="comment">#  - disabled  disable all CSS styles import of note tag.</span></span><br><span class="line">  style: simple</span><br><span class="line">  icons: false</span><br><span class="line">  <span class="comment"># Offset lighter of background in % for modern and flat styles (modern: -12 | 12; flat: -18 | 6).</span></span><br><span class="line">  <span class="comment"># Offset also applied to label tag variables. This option can work with disabled note tag.</span></span><br><span class="line">  light_bg_offset: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% note [<span class="class"><span class="keyword">class</span>] [<span class="title">no</span>-<span class="title">icon</span>] %&#125;</span></span><br><span class="line"><span class="class"><span class="title">Any</span> <span class="title">content</span> <span class="params">(support inline tags too.io)</span>.</span></span><br><span class="line">&#123;% endnote %&#125;</span><br><span class="line"></span><br><span class="line">[<span class="class"><span class="keyword">class</span>]   :</span> default | primary | success | info | warning | danger.</span><br><span class="line">[no-icon] : Disable icon <span class="keyword">in</span> note.</span><br><span class="line"></span><br><span class="line">All parameters are optional.</span><br><span class="line"><span class="comment"># 不在代码块中书写，注意空格。[]中为可选参数。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="修改行间距"><a href="#修改行间距" class="headerlink" title="修改行间距"></a>修改行间距</h2><p>文章内容较多时，next原来的间距太大了，要上下来回滚动。<br>修改<code>themes\next\source\css\_variables\base.styl</code>，修改</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="built_in">line</span>-<span class="built_in">height</span>-base           = <span class="number">1.5</span></span><br></pre></td></tr></table></figure>
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+              <a href="/tags/Next/" rel="tag"><i class="fa fa-tag"></i> Next</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/15/2020-07-Cisco%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86Telnet.html" rel="prev" title="Cisco设置远程登陆Telnet">
+      <i class="fa fa-chevron-left"></i> Cisco设置远程登陆Telnet
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/14/2020-07-Markdown-use.html" rel="next" title="Markdown语法">
+      Markdown语法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

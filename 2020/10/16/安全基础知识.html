@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="安全基础知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全基础知识">
+<meta property="og:url" content="http://192.168.10.117/2020/10/16/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="安全基础知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-15T17:02:01.000Z">
+<meta property="article:modified_time" content="2020-11-06T18:03:43.609Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://192.168.10.117/2020/10/16/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>安全基础知识 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络安全"><span class="nav-number">1.</span> <span class="nav-text">网络安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主机安全"><span class="nav-number">2.</span> <span class="nav-text">主机安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用安全"><span class="nav-number">3.</span> <span class="nav-text">应用安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据安全及备份恢复"><span class="nav-number">4.</span> <span class="nav-text">数据安全及备份恢复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web业务安全"><span class="nav-number">5.</span> <span class="nav-text">Web业务安全</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/10/16/%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安全基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-16 01:02:01" itemprop="dateCreated datePublished" datetime="2020-10-16T01:02:01+08:00">2020-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 02:03:43" itemprop="dateModified" datetime="2020-11-07T02:03:43+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">原理以及基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+            <div class="post-description">安全基础知识</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h1><p>&ensp;&ensp; 很多的公司和环境并未使用第三方审计系统，未能根据记录数据进行分形，并生成 审计报表。其实审计系统是很重要的，可以进行操作溯源，这可比你一张嘴说的话有用多了。</p>
+<p>&ensp;&ensp; 其实网络安全范围很广，还有比如说你可以将设备惊醒ARP绑定，那就可以避免arp攻击等，也可以购买入侵检测设备、入侵防御设备，防火墙等，网络设备定期修改密码，网络设备配置鉴别失败登录处理功能，配置操作超时等功能，尽量使用https协议加密传输。</p>
+<p>&ensp;&ensp; 除上述以外，应定期自检(漏洞扫描、弱口令扫描、基线配置信息等)，对主机的端 口、弱口令、安全漏洞进行扫描和发现，对已知业务应用漏洞进行扫描和发现，对已知木马进行扫描和发现，对扫描结果进行分析和提交，促进业务安全性管理和安全问题的解决。</p>
+<h1 id="主机安全"><a href="#主机安全" class="headerlink" title="主机安全"></a>主机安全</h1><p>&ensp;&ensp; 在现在大多数的公司中，操作系统未安装主机入侵检测系统，未能检测到对重要服务器进行入侵的行为，能够记录攻击者的源IP、攻击类型、攻击目标、攻击时间等，未能够在发生严重入侵事件时提供报警。很多人说，这个需要购买硬件WAF或者入侵防御设备，这个的确是个不小的花销，一般的公司估计也买不起，像我们，也买不起。但是并不是说我们毫无办法。我们可以在操作系统安装实时检测与查杀恶意代码的软件产品，对恶意代码实时检测与查杀，如OSSEC和 HIDS等，这些产品都是免费开源的。</p>
+<p>&ensp;&ensp; 主机安全还包括系统配置安全、验证安全等等。就比如操作系统提供身份鉴别措施、配置鉴别失败处理功能（也就是登录尝试失败次数，这个可以有效防止恶意破解）、加强口令复杂度要求，在原基础上还应不含有常用字符组合、数字组合、键盘顺序等可预测密码组合、重要服务器用使用资源强制访问控制策略（如用户、进程、文件内核级保护）、应限制默认账户的访问权限，修改这些账户的默认口令，条件允许下，应重命名默认账户；</p>
+<h1 id="应用安全"><a href="#应用安全" class="headerlink" title="应用安全"></a>应用安全</h1><ol>
+<li>建议应用系统采用了两种或两种以上的组合机制进行用户身份鉴别； </li>
+<li>建议应用系统对账号口令复杂度进行限制，口令长度限制为8-20位；要求口令为数字、字母字符至少两种组合，限制口令周期不大于半年； </li>
+<li>建议应用系统启用登录失败处理功能，限制次数不大于5次，并且对登录失败用户进行帐号处理；</li>
+<li>建议应用系统应启用用户身份鉴别信息复杂度要求和登录失败处理功能； </li>
+<li>建议应用系统对重要信息资源设置敏感标记，系统不支持设置敏感标记的，应采用专用安全设备生成敏感标记，用以支持强制访问控制机制； </li>
+<li>建议应用系统开启安全审计功能，安全审计范围覆盖到每个用户以及其相关操作；</li>
+<li>建议应用系统开启安全审计功能，且审计功能不能中断和安全记录非管理员无法删除、修改或覆盖； </li>
+<li>建议限制应用系统一段时间的并发会话连接数； </li>
+<li>建议应用系统限制一个访问账号或一个请求进程的最大限额； </li>
+<li>建议应用系统提供服务优先级设定功能，根据安全策略设定访问帐户或请求进程的优先级，根据优先级分配系统资源； </li>
+</ol>
+<h1 id="数据安全及备份恢复"><a href="#数据安全及备份恢复" class="headerlink" title="数据安全及备份恢复"></a>数据安全及备份恢复</h1><ol>
+<li>建议提供异地数据备份功能，利用通信网络将关键数据定时批量传送到备用场地；</li>
+<li>建议提供主要网络设备、通信线路和数据处理系统的硬件冗余，保证系统的高可用性；</li>
+<li>数据的开发、测试环境如果要导入生产数据，则需要指定数据脱敏流程，将敏感的个人信息，如银行卡、手机号等信息做脱敏； </li>
+<li>数据的访问要有严格的流程，非运维人员如要访问数据，在走完权限申请流程后，可以给予他读取的权限，但是不能给他将数据备份至本地的权限，该操作可以通过windows堡垒机进行权限限制，通过管理员将该人员的剪贴板禁用即可；</li>
+<li>数据库一年要升级一次，即使你的数据库是放在内网的，但是你不能保证你们开发人员的代码不会被入侵，只要代码被入侵，或者被植入后门，就可以通过你的程序扫描到数据库。数据库的漏洞可不止一两个，基本上一年下来，一个稳定版本的数据库可以有30个左右的高危漏洞，50个左右的中危漏洞，这些个漏洞，你靠打补丁的方式根本不是解决办法，最好的方式还是升级到数据库最新版本前一个稳定版； </li>
+</ol>
+<h1 id="Web业务安全"><a href="#Web业务安全" class="headerlink" title="Web业务安全"></a>Web业务安全</h1><ol>
+<li>应设置合理的会话超时阀值，在合理范围内尽可能减小会话超时阀值，可以降低会话被劫持和重复攻击的风险，超过会话超时阀值后立刻销毁会话，清除会话的信息；</li>
+<li>应限制会话并发连接数，限制同一用户的会话并发连接数，避免恶意用户创建多个并发的会话来消耗系统资源，影响业务可用性； </li>
+<li>应确保敏感信息通信信道的安全，建议在客户端与web服务器之间使用SSL。并正确配置SSL，建议使用SSL3.0/TLS1.0以上版本，对称加密密钥长度不少于128位，非对称加密密钥长度不少于1024位，单向散列值位数不小于128位； </li>
+<li>日志记录范围应覆盖到每个用户的关键操作、重要行为、业务资源使用情况等重要事件。如普通用户异常登录、发布恶意代码、异常修改账号信息等行为，以及管理员在业务功能及账号控制方面的关键操作； </li>
+<li>Web程序上线前或升级后应进行代码审计，形成报告，并对审计出的问题进行代码升级完善； </li>
+<li>应禁止明文传输用户密码，建议采用SSL加密隧道确保用户密码的传输安全； </li>
+<li>应对关键业务操作，例如修改用户认证鉴权信息（如密码、密码取回问题及答案、绑定手机号码等），需要经过二次鉴权，以避免因用户身份被冒用，给用户造成损失；</li>
+<li>应避免认证错误提示泄露信息，在认证失败时，应向用户提供通用的错误提示信息，不应区分是账号错误还是密码错误，避免这些错误提示信息被攻击者利用； </li>
+<li>应支持密码策略设置，从业务系统层面支持强制的密码策略，包括密码长度、复杂度、更换周期等，特别是业务系统的管理员密码； </li>
+<li>应支持账号锁定功能，系统应限制连续登录失败次数，在客户端多次尝试失败后，服务器端需要对用户账号进行短时锁定，且锁定策略支持配置解锁时长； </li>
+<li>应采取会话保护措施防止软件与服务器之间的会话不可被篡改、伪造、重放等；</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Security/" rel="tag"><i class="fa fa-tag"></i> Security</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/16/%E8%99%9A%E6%8B%9F%E8%B7%AF%E7%94%B1%E5%86%97%E4%BD%99%E5%8D%8F%E8%AE%AEVRRP%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D.html" rel="prev" title="虚拟路由冗余协议VRRP原理介绍">
+      <i class="fa fa-chevron-left"></i> 虚拟路由冗余协议VRRP原理介绍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/28/Cisco%20AP%201852%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E7%99%BB%E5%BD%95ME%EF%BC%8C%E5%8D%87%E7%BA%A7%E7%89%88%E6%9C%AC%E5%90%8E%E6%98%BE%E7%A4%BA%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95.html" rel="next" title="Cisco AP 1852无法正常登录ME，升级版本后显示空间不足解决方法">
+      Cisco AP 1852无法正常登录ME，升级版本后显示空间不足解决方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

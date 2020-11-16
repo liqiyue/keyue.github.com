@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="绿盟网络入侵防护系统NIPS操作手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="绿盟网络入侵防护系统NIPS操作手册">
+<meta property="og:url" content="http://192.168.10.117/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BD%91%E7%BB%9C%E5%85%A5%E4%BE%B5%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9FNIPS%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="绿盟网络入侵防护系统NIPS操作手册">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-21T08:54:02.000Z">
+<meta property="article:modified_time" content="2020-08-10T02:52:21.323Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="绿盟">
+<meta property="article:tag" content="NIPS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BD%91%E7%BB%9C%E5%85%A5%E4%BE%B5%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9FNIPS%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>绿盟网络入侵防护系统NIPS操作手册 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化参数"><span class="nav-number">1.</span> <span class="nav-text">初始化参数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#授权"><span class="nav-number">2.</span> <span class="nav-text">授权</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#产品概述"><span class="nav-number">3.</span> <span class="nav-text">产品概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#产品特点"><span class="nav-number">3.1.</span> <span class="nav-text">产品特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要功能"><span class="nav-number">3.2.</span> <span class="nav-text">主要功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统维护"><span class="nav-number">4.</span> <span class="nav-text">系统维护</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#备份恢复"><span class="nav-number">4.1.</span> <span class="nav-text">备份恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份文件"><span class="nav-number">4.1.1.</span> <span class="nav-text">备份文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恢复文件"><span class="nav-number">4.1.2.</span> <span class="nav-text">恢复文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统配置还原"><span class="nav-number">4.1.3.</span> <span class="nav-text">系统配置还原</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络配置"><span class="nav-number">5.</span> <span class="nav-text">网络配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口类型"><span class="nav-number">5.1.</span> <span class="nav-text">接口类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网管配置SNMP"><span class="nav-number">5.2.</span> <span class="nav-text">网管配置SNMP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Agent-访问控制"><span class="nav-number">5.2.1.</span> <span class="nav-text">Agent 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Trap"><span class="nav-number">5.2.2.</span> <span class="nav-text">Trap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高可用性设置"><span class="nav-number">5.3.</span> <span class="nav-text">高可用性设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">5.3.1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本配置"><span class="nav-number">5.3.2.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟线配置"><span class="nav-number">5.3.3.</span> <span class="nav-text">虚拟线配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟路由冗余配置"><span class="nav-number">5.3.4.</span> <span class="nav-text">虚拟路由冗余配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二层HA配置"><span class="nav-number">5.3.5.</span> <span class="nav-text">二层HA配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非对称路由支持"><span class="nav-number">5.3.6.</span> <span class="nav-text">非对称路由支持</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BD%91%E7%BB%9C%E5%85%A5%E4%BE%B5%E9%98%B2%E6%8A%A4%E7%B3%BB%E7%BB%9FNIPS%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          绿盟网络入侵防护系统NIPS操作手册
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-21 16:54:02" itemprop="dateCreated datePublished" datetime="2020-07-21T16:54:02+08:00">2020-07-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-10 10:52:21" itemprop="dateModified" datetime="2020-08-10T10:52:21+08:00">2020-08-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%BF%E7%9B%9F/" itemprop="url" rel="index"><span itemprop="name">绿盟</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+            <div class="post-description">绿盟网络入侵防护系统NIPS操作手册</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="初始化参数"><a href="#初始化参数" class="headerlink" title="初始化参数"></a>初始化参数</h1><table>
+<thead>
+<tr>
+<th align="center">IP地址</th>
+<th align="center">M:192.168.1.1<br />H1:192.168.2.1（H1 口是否存在视硬件平台而定）255.255.255.0<br />G1/1:0.0.0.0<br />G1/2:0.0.0.0<br />……（除管理口外，其余工作口初始 IP 均为 0.0.0.0）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">子网掩码</td>
+<td align="center">255.255.255.0</td>
+</tr>
+<tr>
+<td align="center">Web操作员/密码</td>
+<td align="center">admin</td>
+</tr>
+<tr>
+<td align="center">Web审计员</td>
+<td align="center">auditor</td>
+</tr>
+<tr>
+<td align="center">Web审计员密码</td>
+<td align="center">无（由 admin 启用时设置）</td>
+</tr>
+<tr>
+<td align="center">Web运维账户/密码</td>
+<td align="center">supervisor</td>
+</tr>
+<tr>
+<td align="center"><strong>Console</strong>管理员</td>
+<td align="center">admin</td>
+</tr>
+<tr>
+<td align="center"><strong>ESPC</strong> 管理员</td>
+<td align="center">admin</td>
+</tr>
+<tr>
+<td align="center"><strong>CLI</strong> 管理员初始帐号/密码</td>
+<td align="center">shell</td>
+</tr>
+<tr>
+<td align="center"><strong>Console</strong> <strong>口通讯参数</strong></td>
+<td align="center">115200</td>
+</tr>
+</tbody></table>
+<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><p>NIPS 的证书分为以下两类:</p>
+<ul>
+<li>试用证书 <ul>
+<li>试用证书多用于售前测试。以引擎软件更新日期为准，过期后，无法登录Web 界面，无法继续使用安全检测功能。</li>
+</ul>
+</li>
+<li>正式证书<ul>
+<li>正式证书只能付费后使用。主要用于控制在升级服务授权时间范围内各模块的升级 服务:</li>
+<li>− 当引擎软件更新过期后，升级界面自动隐藏，不仅引擎软件不能更新，各种库 均无法进行升级;</li>
+<li>− 当引擎软件更新未过期，其他库(系统规则库、URL 分类库、病毒库)过期后， 过期的库无法进行升级;</li>
+<li>正式证书过期只会导致各模块不能升级，老版本的各种库依然有效，所以安全检测 和日志查看等功能可以一直使用。</li>
+</ul>
+</li>
+</ul>
+<h1 id="产品概述"><a href="#产品概述" class="headerlink" title="产品概述"></a>产品概述</h1><h2 id="产品特点"><a href="#产品特点" class="headerlink" title="产品特点"></a>产品特点</h2><p>NIPS 相比其他厂商的入侵防御设备最突出的特点是提供开箱即用的零配置上线功能。零配置上线是指 NIPS 设备预置成熟的默认安全策略模板，并根据导入的证书自动进行接口配置、自动选择适合的安全策略模板，添加一条默认安全策略，并启用防护模式。</p>
+<blockquote>
+<p>NIPS 设备在导入相应证书后自动将相邻两个网络接口配置为一对直通口。</p>
+</blockquote>
+<p>零配置上线处理流程完成后，NIPS 会生成一条源地址对象、目的地址对象、用户对象、时间对象均为 <strong>any</strong>，规则模板为 <strong>default</strong>，默认启用防护模式的安全策略</p>
+<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><p>能够协助客户实现以下功能：</p>
+<ul>
+<li>网络防护<br>NIPS 具有实时的、主动的网络防护功能。此外，NIPS 还具有流量管理功能，对于可能出现的异常流量，提供抗拒绝服务攻击功能。</li>
+<li>应用防护<br>NIPS 提供对应用层的防护功能，针对操作系统、应用软件以及数据库，提供深度的内容检测技术、过滤报文中的恶意流量和攻击行为，保护存在的漏洞，防止操作系统和应用程序损坏或宕机。</li>
+<li>内容管理<br>NIPS 对企业内部网络资源提供内容管理，可有效检测并阻断间谍软件，包括木马后门、恶意程序和广告软件等，并可对即时通讯、P2P 下载、网络游戏和在线视频等内容进行监控并阻断。</li>
+<li>防病毒<br>NIPS 可对 HTTP、SMTP、POP3、FTP 等多种协议类型的近百万种病毒进行查杀，包括木马、蠕虫、宏病毒、脚本病毒等，同时可对多线程并发、深层次压缩文件等进行有效控制和查杀。</li>
+</ul>
+<blockquote>
+<p>1、登录本系统之前，请检查浏览器是否设置了禁止弹出窗口属性或者禁止javascript；如果是，请撤销此设置<br>2、建议使用 Firefox 最新版本浏览器或 IE8.0 及以上版本浏览器，屏幕分辨设置为 1024*768 或更高<br>3、初次使用本系统时可用默认的缺省操作员登录，用户名和密码均是 admin。初次登录必须修改用户密码并重新登录。<br>4、管理员登录后，如果不活动的时间超过 5 分钟，系统将超时并自动退回到登录页面，请重新登录继续使用<br>5、登录失败的原因有可能是：①用户名输入错误；②密码输入错误；③未区分大小写；④帐户被禁用或删除</p>
+</blockquote>
+<h1 id="系统维护"><a href="#系统维护" class="headerlink" title="系统维护"></a>系统维护</h1><h2 id="备份恢复"><a href="#备份恢复" class="headerlink" title="备份恢复"></a>备份恢复</h2><h3 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h3><p>目前，NIPS 中能够备份的文件包括：</p>
+<ul>
+<li>全部配置文件</li>
+<li>引擎参数文件</li>
+<li>接口参数文件</li>
+<li>自定义规则</li>
+<li>本地认证文件</li>
+<li>流媒体服务器列表文件</li>
+<li>对象配置文件</li>
+<li>规则配置文件</li>
+<li>入侵防护策略配置文件</li>
+<li>Snmp Agent MIB 文件</li>
+<li>Snmp Trap 相关文档</li>
+<li>Syslog 相关文档</li>
+<li>证书文件以</li>
+<li>规则弱口令字典</li>
+</ul>
+<h3 id="恢复文件"><a href="#恢复文件" class="headerlink" title="恢复文件"></a>恢复文件</h3><p>目前，NIPS 中能够恢复的备份文件包括：</p>
+<ul>
+<li>引擎参数文件（*.ebk）</li>
+<li>接口参数文件（*.ebk） </li>
+<li>自定义规则（*.xml） </li>
+<li>本地认证文件（*.list） </li>
+<li>流媒体服务器列表文件（*.conf） </li>
+<li>配置文件（*.ebk） </li>
+<li>规则弱口令字典（*.txt）</li>
+</ul>
+<h3 id="系统配置还原"><a href="#系统配置还原" class="headerlink" title="系统配置还原"></a>系统配置还原</h3><p>系统配置还原是指按照 NIPS 设备上创建的还原点，对 NIPS 系统配置进行还原。NIPS设备支持通过手动和自动两种方式创建还原点。</p>
+<ul>
+<li>手动创建还原点<br>在任何时候将 NIPS 设备当前的系统配置文件进行备份。</li>
+<li>自动创建还原点<br>配置自动备份周期和时间，NIPS 按照设定时间对全部配置文件进行备份。</li>
+</ul>
+<blockquote>
+<p>为了节约 NIPS 设备磁盘空间，只保存最近一次创建的手动还原点和自动还原点。</p>
+</blockquote>
+<h1 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h1><h2 id="接口类型"><a href="#接口类型" class="headerlink" title="接口类型"></a>接口类型</h2><p>接口的类型由其“所属安全区”的类型来决定：</p>
+<ul>
+<li><strong>monitor</strong> ：监听类型安全区，在此类安全区之内的接口处于监听工作模式。</li>
+<li><strong>direct</strong>：直通类型安全区，在此类安全区之内的接口处于直通工作模式。</li>
+<li><strong>interconnect</strong> ：设备互联安全区，在此类安全区之内的接口处于互联模式。</li>
+<li><strong>layer2</strong>：透明类型安全区，在此类安全区之内的接口处于二层交换工作模式。</li>
+<li><strong>layer3</strong>：路由类型安全区，在此类安全区之内的接口处于路由工作模式，只有三层接口可以工作在此模式下。</li>
+<li><strong>vwire</strong>：虚拟线类型安全区，在此类安全区之内的接口处于虚拟线工作模式。</li>
+<li><strong>mgt</strong>：管理类型安全区，在此类安全区之内的接口处于原有工作模式，并可以作为带外管理使用。</li>
+<li>*<em>global *</em>：系统缺省安全区，不可配置，包含所有的安全区。</li>
+</ul>
+<blockquote>
+<p>以下几种情况不允许编辑所属安全区：</p>
+<ul>
+<li>不能修改管理口 M 口和 H1 口的所属安全区。</li>
+<li>非千兆 intel 网卡的接口不允许修改所属安全区。</li>
+<li>接口存在路由策略时不允许修改所属安全区。</li>
+<li>证书存在问题时不允许修改所属安全区，例如：未导入证书之前不允许修改任何接口的所属安全区。</li>
+<li>接口上配有子接口、或被策略引用时不允许修改所属安全区。</li>
+</ul>
+<p>global 安全区不能被编辑或删除，Management 安全区不能被删除</p>
+</blockquote>
+<h2 id="网管配置SNMP"><a href="#网管配置SNMP" class="headerlink" title="网管配置SNMP"></a>网管配置SNMP</h2><p>NIPS 设备支持主流的 SNMP 管理软件，如 MIB BROWSER、solarwind。<br>NIPS 设备需要进行基本的配置后才能支持 SNMP 管理</p>
+<pre class="mermaid">graph LR
+网络-->网管配置-->系统配置信息-->开启SnmpTrap/SnmpAgent-->应用</pre>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SnmpTrap：是否开启 NIPS 设备主动向 Snmp 主机发送报警消息的功能。开启后Trap中配置生效。</span><br><span class="line">SnmpAgent:是否开启 NIPS 设备接受 SNMP 管理主机管理的功能。开启后Agent访问控制中的配置生效。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Agent-访问控制"><a href="#Agent-访问控制" class="headerlink" title="Agent 访问控制"></a><strong>Agent</strong> <strong>访问控制</strong></h3><pre class="mermaid">graph LR
+网络-->网管配置-->Agent访问控制-->新建-->确定-->应用</pre>
+
+<table>
+<thead>
+<tr>
+<th align="center"><strong>配置项</strong></th>
+<th align="center"><strong>描述</strong>(v1,v2版本)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">团体名</td>
+<td align="center">NIPS 设备开启 SnmpAgent 代理功能后，SNMP 管理主机访问 NIPS 设备时使用的团体名。</td>
+</tr>
+<tr>
+<td align="center">请求来源</td>
+<td align="center">SNMP 管理主机的来源 IP 地址。</td>
+</tr>
+<tr>
+<td align="center">MIB 子树</td>
+<td align="center">管理主机对 NIPS 设备中管理信息库子树的访问权限，访问权限是通过 OID<br />（Object identifier，对象标识）实现的控制。<br />1 表示具有所有节点的访问权限，例：1.3.6.1.4.1.19849.2。</td>
+</tr>
+<tr>
+<td align="center">读写权限</td>
+<td align="center">管理主机对 NIPS 设备中管理信息库子树的读写权限，可选项：<strong>rw</strong>（读写）、 <strong>r</strong>（读）。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>配置项</strong></th>
+<th align="center"><strong>描述</strong>(v3版本)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">用户名</td>
+<td align="center">SNMP v3 用户的名称。</td>
+</tr>
+<tr>
+<td align="center">认证协议</td>
+<td align="center">进行认证时使用的认证协议，可选项：<strong>MD5</strong> 和 <strong>SHA</strong>。</td>
+</tr>
+<tr>
+<td align="center">认证用 key</td>
+<td align="center">进行认证时使用的密钥。</td>
+</tr>
+<tr>
+<td align="center">加密协议</td>
+<td align="center">加密传送信息时使用的加密算法，可选项：<strong>DES</strong> 和 <strong>AES</strong>。</td>
+</tr>
+<tr>
+<td align="center">加密用 key</td>
+<td align="center">进行信息加密时使用的密钥。</td>
+</tr>
+<tr>
+<td align="center">MIB 子树</td>
+<td align="center">管理主机对 NIPS 设备中管理信息库子树的访问权限，访问权限是通过 OID<br />（Object identifier，对象标识）实现的控制。<br />1 表示具有所有节点的访问权限，例：1.3.6.1.4.1.19849.2。</td>
+</tr>
+<tr>
+<td align="center">读写权限</td>
+<td align="center">管理主机对 NIPS 设备中管理信息库子树的读写权限，可选项：<strong>rw</strong>（读写）、 <strong>r</strong>（读）。</td>
+</tr>
+<tr>
+<td align="center">安全等级</td>
+<td align="center">用户必须满足什么安全等级才能访问，可选项：<strong>不认证</strong>、<strong>需认证</strong>、<strong>认证且加密</strong></td>
+</tr>
+</tbody></table>
+<h3 id="Trap"><a href="#Trap" class="headerlink" title="Trap"></a><strong>Trap</strong></h3><p>Trap 是一种自陷信息，是指 NIPS 作为 SNMP Agent 设备可以在任何时候向 SNMP 管理主机报告自身情况，而并不需要等到 SNMP 管理主机为获得这些情况而轮询他的时候才发送。</p>
+<pre class="mermaid">graph LR
+网络-->网管配置-->Trap-->新建-->确定-->应用</pre>
+
+<table>
+<thead>
+<tr>
+<th align="center"><strong>配置项</strong></th>
+<th align="center"><strong>描述</strong>(v1,v2版本)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">团体名</td>
+<td align="center">接收 SNMP Trap 报警消息的主机的团体名。</td>
+</tr>
+<tr>
+<td align="center">目的主机</td>
+<td align="center">接收 NIPS 设备发出 SNMP Trap 报警消息的主机。<br />支持 IPv4 或 IPv6 地址，例：192.168.1.0 或 2001:abcd:123:1::</td>
+</tr>
+<tr>
+<td align="center">接收端口</td>
+<td align="center">用于接收 SNMP Trap 报警消息的端口号。</td>
+</tr>
+<tr>
+<td align="center">协议版本</td>
+<td align="center">使用的 SNMP 协议的版本。可选项：<strong>v1</strong> 和 <strong>v2</strong></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>配置项</strong></th>
+<th align="center"><strong>描述</strong>(v3版本)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">目的主机</td>
+<td align="center">接收 NIPS 设备发出 SNMP Trap 报警消息的主机。<br />支持 IPv4 或 IPv6 地址，例：192.168.1.0 或 2001:abcd:123:1::</td>
+</tr>
+<tr>
+<td align="center">接收端口</td>
+<td align="center">用于接收 SNMP Trap 报警消息的端口号。</td>
+</tr>
+<tr>
+<td align="center">用户名</td>
+<td align="center">SNMP v3 用户的名称。</td>
+</tr>
+<tr>
+<td align="center">认证协议</td>
+<td align="center">进行认证时使用的认证协议，可选项：<strong>MD5</strong> 和 <strong>SHA</strong>。</td>
+</tr>
+<tr>
+<td align="center">认证用 key</td>
+<td align="center">进行认证时使用的密钥。</td>
+</tr>
+<tr>
+<td align="center">加密协议</td>
+<td align="center">加密传送信息时使用的加密算法，可选项：<strong>DES</strong> 和 <strong>AES</strong>。</td>
+</tr>
+<tr>
+<td align="center">加密用 key</td>
+<td align="center">进行信息加密时使用的密钥。</td>
+</tr>
+<tr>
+<td align="center">安全等级</td>
+<td align="center">用户必须满足什么安全等级才能访问，可选项：<strong>不加密不认证</strong>、<strong>需认证</strong>、<strong>认证且加密</strong>。</td>
+</tr>
+<tr>
+<td align="center">engineID</td>
+<td align="center">SNMP 引擎的 ID 号。ID 号为 16 位的 16 进制数，例：0x8000000001020304。</td>
+</tr>
+</tbody></table>
+<h2 id="高可用性设置"><a href="#高可用性设置" class="headerlink" title="高可用性设置"></a>高可用性设置</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>NIPS 的高可用性（High Availability，HA）功能应用于两台设备之间，有四种实现方式：</p>
+<ul>
+<li>虚拟线 HA<br>虚拟线 HA 即虚拟线配置，当设备使用 vwire 类型安全区时使用该 HA 方式。NIPS的虚拟线 HA 仅支持主从模式。</li>
+<li>虚拟路由冗余协议<br>虚拟路由冗余协议（Virtual Router Redundancy Protocol，VRRP）是一种容错协议，通过交互 VRRP 组播报文的方法将多台物理路由器模拟成一台虚拟路由器，与网络上的主机进行通信。当 VRRP 组中的主路由器失效时，从路由器将自动接替其工作，从而保证通信的连续性和可靠性。</li>
+<li>二层 HA<br>透明模式下的高可用性配置。</li>
+<li>非对称路由支持<br>配置非对称路由支持后，非对称路由支持组中的 NIPS 设备相互转发数据报文传输信息，以便在传输出去的数据选择其他路由回来时进行数据信息整合，形成完整的数据传输会话，从而在不改变数据传输路径的同时完成数据包的深度检测。</li>
+</ul>
+<p>HA 的工作模式有如下几类：</p>
+<ul>
+<li>主从模式<br>主从模式下的两台设备，其中一台作为主机，另一台作为从机。主机处理所有业务，并将产生的会话信息和配置信息发送到从机进行备份；从机不处理业务，只用做备份。当主机故障，从机接替主机处理业务，从而保证新发起的会话能正常建立，当前正在进行的会话也不会中断。</li>
+<li>主主模式<br>主主模式下，两台设备均为主设备，都处理业务流量，同时又作为另一台设备的备份设备，备份对端的会话信息和配置文件。当其中一台故障后，另一台设备负责处理全部业务，从而保证新发起的会话能正常建立，当前正在进行的会话也不会中断。</li>
+<li>抢占模式<br>抢占模式下，主机宕掉后，链路会切换到从机，主机恢复正常后，将抢占从机流量，此时主机切换到激活状态，而从机切换到非激活状态。</li>
+<li>非抢占模式<br>非抢占模式下，主机宕掉后，链路会切换到从机，主机恢复正常后，不会抢占从机流量，从机仍然处于激活状态，主机则处于非激活状态，直到从机宕掉后，主机才会接管流量。</li>
+</ul>
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p>两台设备之间各通过一个管理口（心跳口）相连，用于设备之间收发心跳信息、同步配置文件和会话信息。</p>
+<p>高可用性的基本配置如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>配置项</strong></th>
+<th align="left"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">心跳接口</td>
+<td align="left">本设备的心跳口。NIPS 可以用作心跳接口的接口：M、H1 以及三层工作接口。<br />心跳接口不能用于处理业务。<br />心跳接口与对端 IP 地址在如下情况置灰，不可编辑：<br />HA 启动，会话同步启动，置灰。<br />HA 启动，会话同步未启动，置灰。<br />HA 未启动，会话同步启动，置灰。</td>
+</tr>
+<tr>
+<td align="center">对端 IP 地址</td>
+<td align="left">对端设备心跳口的 IP 地址。</td>
+</tr>
+<tr>
+<td align="center">心跳时间间隔(毫 秒)</td>
+<td align="left">向对端设备发送心跳信息的时间间隔。取值范围：大于等于 1000毫秒。<br />主、从机的该参数值要保持一致。</td>
+</tr>
+<tr>
+<td align="center">失去心跳次数</td>
+<td align="left">当本地设备未接到对端设备心跳信息的次数超过该参数值时，本地设备认为对端设备 down 掉。若本地设备处于主机状态，则保持主机状态不变，将对端设备状态显示为未知。若本地设备处于从机状态，则切换到主机状态进行报文转发，将本机系统状态显示为激活，将对端系统状态显示为未知。</td>
+</tr>
+<tr>
+<td align="center">会话同步</td>
+<td align="left">开启该项后，会话通过心跳口或其他接口进行会话同步。</td>
+</tr>
+<tr>
+<td align="center">复用 HA 配置</td>
+<td align="left">* 选择是，表示会话同步通过心跳口进行。<br />* 选择否，还需配置会话同步的同步接口和对端 IP 地址。<br />          ** 同步接口：会话同步使用的接口，只有开启会话同步，复用 HA 配置选择否时，该项才可见。<br />        **  对端 IP 地址：与会话同步的对端接口的 IP 地址。只有开启会话同步，“复用 HA 配置”选择“否“时，该项才可见。</td>
+</tr>
+<tr>
+<td align="center">同步配置</td>
+<td align="left">NIPS 支持手动和自动同步所有配置。仅当正确配置心跳接口和对端 IP 地址参数后，才能够进行配置同步。同步配置默认关闭，单击“是”单选框，才能开启同步配置。开启后可以选择自动同步</td>
+</tr>
+</tbody></table>
+<h3 id="虚拟线配置"><a href="#虚拟线配置" class="headerlink" title="虚拟线配置"></a>虚拟线配置</h3><p>虚拟线配置即虚拟线 HA，当设备使用 <strong>vwire 类型安全区</strong>时使用该 HA 方式。NIPS 的虚拟线 HA <strong>仅支持主从模式</strong>。<br>启用虚拟线 HA 后，主设备处于工作状态，承担报文转发任务，从设备处于备份状态并准备随时接替主设备工作。主、从设备之间周期性发送心跳信息，通告本地可用的虚拟线条数。</p>
+<h3 id="虚拟路由冗余配置"><a href="#虚拟路由冗余配置" class="headerlink" title="虚拟路由冗余配置"></a>虚拟路由冗余配置</h3><p>虚拟路由冗余配置即<strong>三层 HA 配置</strong>，当设备使用 <strong>layer3 类型安全区</strong>时使用该 HA 方式。NIPS 的三层 HA 支持<strong>主从模式和主主模式</strong>。<br>三层 HA 模式下，每台设备中可以设置多个 VRRP 备份组，并且两台设备中虚拟路由 ID（Virtual Router ID，VRID）相同的接口相互备份。在每个 VRRP 组中，优先级高的设备作为主设备，优先级低的设备作为从设备</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>VRRP配置项</strong></th>
+<th align="left"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">心跳口传送 VRRP报文</td>
+<td align="left">本配置是否通过心跳口来传送 VRRP 报文。<br />默认配置为<strong>否</strong>，NIPS 通过 VRRP 的成员接口发送 VRRP 报文，当 NIPS 设备与路由器连接且配置 HA 了时，必须选择否，否则无法进行 VRRP 报文传送。</td>
+</tr>
+<tr>
+<td align="center">使用虚拟 MAC</td>
+<td align="left">配置是否使用虚拟 MAC 进行 VRRP 报文传送。<br />默认选择为<strong>是</strong>，表示 VRRP 组的虚拟路由器的 IP 地址将对应唯一的 MAC 地址。建议用户保持默认配置。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>监控线路配置项</strong></th>
+<th align="left"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">线路 ID</td>
+<td align="left">标识一条线路的 ID 号，仅支持数字，取值范围为 1～255。<br />本地设备配置的线路 ID 必须与对端设备的线路 ID 保持一致。</td>
+</tr>
+<tr>
+<td align="center">线路名称</td>
+<td align="left">标识一条线路的名称，仅支持英文字母和数字，区分大小写。</td>
+</tr>
+<tr>
+<td align="center">工作模式</td>
+<td align="left">三层 HA 支持主主模式和主从模式。<br />- 主：指该线路在启动三层 HA 后承担报文转发任务，直到发生故障切换。<br />- 从：指该线路在启动三层 HA 后处于备份状态，不转发数据，直到发生故障切换。</td>
+</tr>
+<tr>
+<td align="center">抢占模式</td>
+<td align="left">选择<strong>是</strong>，当主线路因故障 down 掉发生数据切换后，再次恢复正常工作时，是否重新抢占为主线路的工作模式，重新转发数据。<br />选择<strong>否</strong>，当主线路因故障 down 掉发生数据切换后，即使主线路再次恢复正常，业务也不会发生切换，仍以原来的从线路为主线路来转发数据。</td>
+</tr>
+<tr>
+<td align="center">状态</td>
+<td align="left">该条监控线路的工作状态，可以选择开启或关闭。只有开启，配置才能生效。</td>
+</tr>
+<tr>
+<td align="center">心跳时间</td>
+<td align="left">指设备每隔多长时间以组播方式发送一次心跳信息，以通告自己的状态。建议保持默认值。<br />当从线路接口经过【3*心跳时间+(255-从线路接口优先级)/256】时间后，没有收到主线路接口发送的组播报文，则认为主线路 down 掉，将从线路切换至主线路状态，开始转发数据。<br />本地设备配置的心跳时间必须与对端设备配置的心跳时间保持一致。</td>
+</tr>
+</tbody></table>
+<h3 id="二层HA配置"><a href="#二层HA配置" class="headerlink" title="二层HA配置"></a>二层HA配置</h3><p>NIPS 支持透明模式下的高可用性，通过二层 HA 配置，当设备使用 <strong>layer2 类型安全区</strong>时，可以通过二层 HA 提供链路的冗余备份。<br>二层 HA 模式下，每台设备中可以设置多个监控线路，并且两台设备中相同线路 ID 的成员接口相互备份。二层HA <strong>仅支持主从模式</strong>，设备的工作模式在添加监控线路时指定。</p>
+<ol>
+<li>配置监控线路。</li>
+<li>选择菜单 <strong>网络</strong> <strong>&gt;</strong> <strong>高可用性设置</strong> &gt; <strong>二层配置</strong>，进入二层 HA 配置页面</li>
+<li>配置监控线路。<strong>只有二层</strong> <strong>HA</strong> <strong>为停止状态时才能添加、修改和删除监控线路。</strong><ol>
+<li>线路ID：标识一条线路的 ID 号，仅支持数字，取值范围为 1～255。本地设备配置的线路 ID 必须与对端设备的线路 ID 保持一致。</li>
+<li>接口：配置该线路包含的成员接口，需要选择二层以太网接口或二层聚合接口。<br><strong>说明：</strong>作为二层 HA 的成员接口，接口上不能启用 STP 协议。</li>
+<li>工作模式：二层 HA 仅支持主从模式。</li>
+</ol>
+</li>
+<li>启用二层 HA 功能。</li>
+</ol>
+<h3 id="非对称路由支持"><a href="#非对称路由支持" class="headerlink" title="非对称路由支持"></a>非对称路由支持</h3><p>所有型号的 NIPS 设备均支持非对称路由功能，但是配置略有不同：</p>
+<ul>
+<li>非 NX5-T9010A、NX5-T9020A 型号：<br>只有点到点虚拟线部署的两台 NIPS 才能配置非对称路由支持功能。</li>
+<li>NX5-T9010A、NX5-T9020A 型号：<br>直通模式部署的两台 NIPS 设备才能配置非对称路由功能。</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%BF%E7%9B%9F/" rel="tag"><i class="fa fa-tag"></i> 绿盟</a>
+              <a href="/tags/NIPS/" rel="tag"><i class="fa fa-tag"></i> NIPS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/22/Cisco%E9%85%8D%E7%BD%AEPPPoe.html" rel="prev" title="Cisco配置PPPoe">
+      <i class="fa fa-chevron-left"></i> Cisco配置PPPoe
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/21/%E7%BB%BF%E7%9B%9F%E7%BB%9F%E4%B8%80%E5%A8%81%E8%83%81%E6%8E%A2%E9%92%88UTS%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.html" rel="next" title="绿盟统一威胁探针UTS">
+      绿盟统一威胁探针UTS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

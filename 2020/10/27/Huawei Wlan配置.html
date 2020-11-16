@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Huawei Wlan配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Huawei Wlan配置">
+<meta property="og:url" content="http://192.168.10.117/2020/10/27/Huawei%20Wlan%E9%85%8D%E7%BD%AE.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="Huawei Wlan配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110225018915.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110181956613.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110220735781.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110223852637.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110230517014.png">
+<meta property="og:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110231150621.png">
+<meta property="article:published_time" content="2020-10-27T03:07:50.000Z">
+<meta property="article:modified_time" content="2020-11-10T15:50:58.478Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Huawei">
+<meta property="article:tag" content="Wlan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110225018915.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/10/27/Huawei%20Wlan%E9%85%8D%E7%BD%AE.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Huawei Wlan配置 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#WLAN基本业务配置流程图"><span class="nav-number">1.</span> <span class="nav-text">WLAN基本业务配置流程图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AP上线及配置"><span class="nav-number">2.</span> <span class="nav-text">AP上线及配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AC升级"><span class="nav-number">3.</span> <span class="nav-text">AC升级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行升级"><span class="nav-number">3.1.</span> <span class="nav-text">命令行升级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#保存配置文件"><span class="nav-number">3.1.1.</span> <span class="nav-text">保存配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份文件"><span class="nav-number">3.1.2.</span> <span class="nav-text">备份文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件转换"><span class="nav-number">3.2.</span> <span class="nav-text">配置文件转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级设备"><span class="nav-number">3.3.</span> <span class="nav-text">升级设备</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AP升级"><span class="nav-number">4.</span> <span class="nav-text">AP升级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AC模式"><span class="nav-number">4.1.</span> <span class="nav-text">AC模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FTP模式"><span class="nav-number">4.2.</span> <span class="nav-text">FTP模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SFTP模式"><span class="nav-number">4.3.</span> <span class="nav-text">SFTP模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据转发模式"><span class="nav-number">5.</span> <span class="nav-text">数据转发模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#隧道转发（集中转发）"><span class="nav-number">5.1.</span> <span class="nav-text">隧道转发（集中转发）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接转发（本地转发）"><span class="nav-number">5.2.</span> <span class="nav-text">直接转发（本地转发）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置AP组"><span class="nav-number">6.</span> <span class="nav-text">配置AP组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加AP设备"><span class="nav-number">7.</span> <span class="nav-text">添加AP设备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#离线导入AP"><span class="nav-number">7.1.</span> <span class="nav-text">离线导入AP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动发现AP"><span class="nav-number">7.2.</span> <span class="nav-text">自动发现AP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手工确认未认证列表中的AP"><span class="nav-number">7.3.</span> <span class="nav-text">手工确认未认证列表中的AP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看所有在线AP"><span class="nav-number">7.4.</span> <span class="nav-text">查看所有在线AP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置基础业务"><span class="nav-number">8.</span> <span class="nav-text">配置基础业务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建安全模版（默认为default）"><span class="nav-number">8.1.</span> <span class="nav-text">创建安全模版（默认为default）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建SSID模板："><span class="nav-number">8.2.</span> <span class="nav-text">创建SSID模板：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建VAP模板："><span class="nav-number">8.3.</span> <span class="nav-text">创建VAP模板：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置AP组引用VAP模板，并在射频0和1上引用VAP模板："><span class="nav-number">8.4.</span> <span class="nav-text">配置AP组引用VAP模板，并在射频0和1上引用VAP模板：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#射频管理"><span class="nav-number">9.</span> <span class="nav-text">射频管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#射频调优功能有三种模式"><span class="nav-number">9.1.</span> <span class="nav-text">射频调优功能有三种模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置射频调优"><span class="nav-number">9.2.</span> <span class="nav-text">配置射频调优</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置调优扫描功能"><span class="nav-number">9.3.</span> <span class="nav-text">配置调优扫描功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将指定射频模版和域管理模版绑定到AP组或指定AP"><span class="nav-number">9.4.</span> <span class="nav-text">将指定射频模版和域管理模版绑定到AP组或指定AP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#负载均衡"><span class="nav-number">10.</span> <span class="nav-text">负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态负载均衡"><span class="nav-number">10.1.</span> <span class="nav-text">静态负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态负载均衡"><span class="nav-number">10.2.</span> <span class="nav-text">动态负载均衡</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WLAN接入认证"><span class="nav-number">11.</span> <span class="nav-text">WLAN接入认证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Portal认证"><span class="nav-number">11.1.</span> <span class="nav-text">Portal认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#802-1x认证"><span class="nav-number">11.2.</span> <span class="nav-text">802.1x认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#认证过程"><span class="nav-number">11.2.1.</span> <span class="nav-text">认证过程</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/10/27/Huawei%20Wlan%E9%85%8D%E7%BD%AE.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Huawei Wlan配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-27 11:07:50" itemprop="dateCreated datePublished" datetime="2020-10-27T11:07:50+08:00">2020-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-10 23:50:58" itemprop="dateModified" datetime="2020-11-10T23:50:58+08:00">2020-11-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Huawei/" itemprop="url" rel="index"><span itemprop="name">Huawei</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+            <div class="post-description">Huawei Wlan配置</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="WLAN基本业务配置流程图"><a href="#WLAN基本业务配置流程图" class="headerlink" title="WLAN基本业务配置流程图"></a>WLAN基本业务配置流程图</h1><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110225018915.png" alt="image-20201110225018915" style="zoom:50%;" />
+
+
+
+<h1 id="AP上线及配置"><a href="#AP上线及配置" class="headerlink" title="AP上线及配置"></a>AP上线及配置</h1><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110181956613.png" alt="image-20201110181956613" style="zoom:50%;" />
+
+<ul>
+<li>AP只有存在IP地址时，才会与AC通信</li>
+<li>AP软件版本要与AC版本互相兼容，否则无法管理</li>
+<li>AP一般设备较多，通常使用dhcp地址</li>
+<li>若dhcp配置option 43，则AP可通过optin 43发现AC（三层组网）</li>
+</ul>
+<h1 id="AC升级"><a href="#AC升级" class="headerlink" title="AC升级"></a>AC升级</h1><ul>
+<li>确认AC有足够的空间存放新的系统软件包（dir）<ul>
+<li>若空间不足，需要执行命令delete /unreserved删除当前不用的文件确保有空间存放相关升级文件。</li>
+</ul>
+</li>
+<li>准备好软件包（验证MD5值）</li>
+<li>准备TFTP Server\FTP Server\SFTP Server任意一种</li>
+<li>需要备份的文件有：<ul>
+<li>系统软件.cc</li>
+<li>配置文件.cfg</li>
+<li>补丁文件.pat</li>
+<li>License文件.dat</li>
+</ul>
+</li>
+</ul>
+<h2 id="命令行升级"><a href="#命令行升级" class="headerlink" title="命令行升级"></a>命令行升级</h2><h3 id="保存配置文件"><a href="#保存配置文件" class="headerlink" title="保存配置文件"></a>保存配置文件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;AC6605&gt;save</span><br><span class="line">  The current configuration will be written to the device. </span><br><span class="line">  Are you sure to continue? (y/n)[n]:y</span><br><span class="line">  It will take several minutes to save configuration file, please wait.........</span><br><span class="line">  Configuration file has been saved successfully</span><br><span class="line">  Note: The configuration file will take effect after being activated</span><br><span class="line">&lt;AC6605&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[AC6605]sftp <span class="number">192.168</span><span class="number">.10</span><span class="number">.11</span>      <span class="comment">#输入sftp地址</span></span><br><span class="line">Please input the username:    <span class="comment">#根据提示输入用户名和密码</span></span><br><span class="line">sftp-client&gt;put vrpcfg.cfg vrpcfg-bak.cfg  <span class="comment">#备份配置文件并重命名为vrpcfg-bak.cfg</span></span><br><span class="line">sftp-client&gt;put AC6605V200R006C10SPC200.cc AC6605V200R006C10SPC200-bak.cc <span class="comment">#备份系统文件并重命名为AC6605V200R006C10SPC200-bak.cc</span></span><br><span class="line">sftp-client&gt;put AC6605V200R006C10SPH203.pat AC6605V200R006C10SPH203-bak.pat <span class="comment">#备份补丁文件并重命名为AC6605V200R006C10SPH203-bak.pat</span></span><br><span class="line">sftp-client&gt;put xxxxx.dat xxxxx-bak.dat  <span class="comment">#备份License文件并重命名</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文件转换"><a href="#配置文件转换" class="headerlink" title="配置文件转换"></a>配置文件转换</h2><ul>
+<li>V2R3和V2R5的配置文件不能直接作用于V2R6，需要进行转换后才能使用</li>
+<li>只能转换cfg格式的文件</li>
+</ul>
+<h2 id="升级设备"><a href="#升级设备" class="headerlink" title="升级设备"></a>升级设备</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;AC6605&gt;startup system-software xxxxxxx.cc   <span class="comment">#指定设备启动时加载的新系统软件</span></span><br><span class="line">&lt;AC6605&gt;startup saved-configuration xxxxxxx.cfg  <span class="comment">#指定设备启动时加载的新配置文件</span></span><br><span class="line">&lt;AC6605&gt;reboot fast          <span class="comment">#重启生效</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重启设备前，执行命令display startup 查看下次启动所用的系统软件和配置文件是否为新的</li>
+<li>直接reboot fast即可，不要再次保存配置文件</li>
+</ul>
+<h1 id="AP升级"><a href="#AP升级" class="headerlink" title="AP升级"></a>AP升级</h1><ul>
+<li>请确保AP的版本文件已经成功上传到AC、SFTP服务器或FTP服务器上。</li>
+</ul>
+<h2 id="AC模式"><a href="#AC模式" class="headerlink" title="AC模式"></a>AC模式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">ap update mode  AC <span class="comment">#缺省为AC模式</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="FTP模式"><a href="#FTP模式" class="headerlink" title="FTP模式"></a>FTP模式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">ap update mode ftp-mode</span><br><span class="line">ap update ftp-server &#123; ip-address //server-ip-address// | ipv6-address //server-ipv6-address// &#125; ftp-username //ftp-username// ftp-password cipher //ftp-password// <span class="comment">#当前AP密码不支持特殊字符“"”</span></span><br><span class="line">ap update ftp-server max-connect-number max-connect-number &#123; ipv4 | ipv6 &#125; <span class="comment">#配置能够同时升级的AP最大数目。缺省情况下，FTP升级模式下能同时升级的AP最大数目为50个。</span></span><br><span class="line">ap update update-filename //filename// ap-type //type-id// [ ap-group //ap-group-name// ]<span class="comment">#配置指定AP类型的AP对应的升级文件。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="SFTP模式"><a href="#SFTP模式" class="headerlink" title="SFTP模式"></a>SFTP模式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">ap update mode sftp-mode</span><br><span class="line">ap update sftp-server &#123; ip-address //server-ip-address// | ipv6-address //server-ipv6-address// &#125; sftp-username //sftp-username// sftp-password cipher //sftp-password// <span class="comment">#当前AP密码不支持特殊字符“"”</span></span><br><span class="line">ap update sftp-server max-connect-number //max-connect-number// &#123; ipv4 | ipv6 &#125; <span class="comment">#配置能够同时升级的AP最大数目。缺省情况下，FTP升级模式下能同时升级的AP最大数目为50个。</span></span><br><span class="line">ap update update-filename //filename// ap-type //type-id// [ ap-group //ap-group-name// ]<span class="comment">#配置指定AP类型的AP对应的升级文件。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="数据转发模式"><a href="#数据转发模式" class="headerlink" title="数据转发模式"></a>数据转发模式</h1><h2 id="隧道转发（集中转发）"><a href="#隧道转发（集中转发）" class="headerlink" title="隧道转发（集中转发）"></a>隧道转发（集中转发）</h2><ul>
+<li>用户的数据报文到达AP后，需要经过CAPWAP数据隧道封装后发送给AC，然后由AC再转发到上层网络</li>
+</ul>
+<h2 id="直接转发（本地转发）"><a href="#直接转发（本地转发）" class="headerlink" title="直接转发（本地转发）"></a>直接转发（本地转发）</h2><ul>
+<li>用户的数据报文到达AP后，不需要经过CAPWAP数据隧道封装后发送给AC，然后由AC再转发到上层网络</li>
+</ul>
+<h1 id="配置AP组"><a href="#配置AP组" class="headerlink" title="配置AP组"></a>配置AP组</h1><blockquote>
+<p>每个AP都会加入并且只能加入到一个AP组中，AP组通常用于多个AP的通用配置，同时在单个AP下也可以配置AP的独有配置。</p>
+</blockquote>
+<blockquote>
+<p>如果不手动配置AP加入到指定AP组中，则AP会自动加入到名为<strong>default</strong>的缺省AP组中。缺省的AP组不能被删除，但是可以进行修改。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">ap-group name wifi</span><br></pre></td></tr></table></figure>
+
+<h1 id="添加AP设备"><a href="#添加AP设备" class="headerlink" title="添加AP设备"></a>添加AP设备</h1><p>添加AP有三种方式：离线导入AP、自动发现AP以及手工确认未认证列表中的AP。</p>
+<ul>
+<li>离线导入AP：预先配置AP的MAC地址和SN，当AP与AC连接时，如果AC发现AP和预先增加的AP的MAC地址和SN匹配，则AC开始与AP建立连接。</li>
+<li>自动发现AP：当配置AP的认证模式为不认证或配置AP的认证模式为MAC或SN认证且将AP加入AP白名单中，则当AP与AC连接时，AP将被AC自动发现并正常上线。</li>
+<li>手工确认未认证列表中的AP：当配置AP的认证模式为MAC或SN认证但AP没有离线导入且不在已设置的AP白名单中，则该AP会被记录到未授权的AP列表中。需要用户手工确认后，此AP才能正常上线。</li>
+</ul>
+<p>AC上可以管理的AP数量受以下因素限制：</p>
+<ul>
+<li>License资源项：普通AP+中心AP的总数不超过AC本地License资源项数目，远端单元数量不占用License资源。</li>
+<li>AC可管理AP的最大数：AC可管理中心AP的最大数和可管理普通AP+远端单元的最大数是独立的。<ul>
+<li>普通AP+远端单元的总数不超过AC可管理普通AP+远端单元的最大数。</li>
+<li>中心AP的总数不超过AC可管理中心AP的最大数。</li>
+</ul>
+</li>
+</ul>
+<h2 id="离线导入AP"><a href="#离线导入AP" class="headerlink" title="离线导入AP"></a>离线导入AP</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">system-view</span><br><span class="line">wlan</span><br><span class="line">ap auth-mode &#123;mac-auth | sn-auth&#125;   <span class="comment">#配置AP认证模式为MAC认证或SN认证。</span></span><br><span class="line">ap-id 1 ?</span><br><span class="line">  ap-mac   AP MAC address</span><br><span class="line">  ap-sn    AP SN</span><br><span class="line">  ap-type  AP type</span><br><span class="line">  type-id  AP type ID</span><br><span class="line">  &lt;cr&gt;     Please press ENTER to execute command </span><br><span class="line">ap-name name      <span class="comment">#配置AP的名称。缺省情况下，未配置单个AP的名称。</span></span><br><span class="line">ap-group name     <span class="comment">#配置AP加入AP组。缺省情况下，未配置AP加入的组。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="自动发现AP"><a href="#自动发现AP" class="headerlink" title="自动发现AP"></a>自动发现AP</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system-view</span><br><span class="line">wlan</span><br><span class="line">ap auth-mode no-auth      <span class="comment">#配置AP认证方式为不认证</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="手工确认未认证列表中的AP"><a href="#手工确认未认证列表中的AP" class="headerlink" title="手工确认未认证列表中的AP"></a>手工确认未认证列表中的AP</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">system-view</span><br><span class="line">wlan</span><br><span class="line">ap auth-mode &#123;mac-auth | sn-auth&#125;   <span class="comment">#配置AP认证模式为MAC认证或SN认证。</span></span><br><span class="line">display ap unauthorized record  <span class="comment">#查看未认证通过的AP信息。</span></span><br><span class="line">ap-confirm &#123; all | mac ap-mac | sn ap-sn &#125;  <span class="comment">#确认未认证通过的AP，确认后，AP将进入“normal”状态。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看所有在线AP"><a href="#查看所有在线AP" class="headerlink" title="查看所有在线AP"></a>查看所有在线AP</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">display ap all</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置基础业务"><a href="#配置基础业务" class="headerlink" title="配置基础业务"></a>配置基础业务</h1><h2 id="创建安全模版（默认为default）"><a href="#创建安全模版（默认为default）" class="headerlink" title="创建安全模版（默认为default）"></a>创建安全模版（默认为default）</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">security<span class="literal">-profile</span> name ssid_name  <span class="comment">#安全认证模板名称</span></span><br><span class="line">security wpa<span class="literal">-wpa2</span> psk pass<span class="literal">-phrase</span> a1234567 aes  <span class="comment">#便是加密类型wpa-wpa2 认证密码为a1234567</span></span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建SSID模板："><a href="#创建SSID模板：" class="headerlink" title="创建SSID模板："></a>创建SSID模板：</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssid<span class="literal">-profile</span> name ssid_name</span><br><span class="line">ssid ssid_name</span><br><span class="line">Info: This operation may take a few seconds, please wait.done.</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建VAP模板："><a href="#创建VAP模板：" class="headerlink" title="创建VAP模板："></a>创建VAP模板：</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vap<span class="literal">-profile</span> name ssid_name</span><br><span class="line">forward<span class="literal">-mode</span> direct<span class="literal">-forward</span></span><br><span class="line">service<span class="literal">-vlan</span> vlan<span class="literal">-id</span> <span class="number">3</span>  <span class="comment">#配置VAP的业务VLAN</span></span><br><span class="line">security<span class="literal">-profile</span> ssid_name</span><br><span class="line">Info: This operation may take a few seconds, please wait.done.</span><br><span class="line">ssid<span class="literal">-profile</span> ssid_name</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置AP组引用VAP模板，并在射频0和1上引用VAP模板："><a href="#配置AP组引用VAP模板，并在射频0和1上引用VAP模板：" class="headerlink" title="配置AP组引用VAP模板，并在射频0和1上引用VAP模板："></a>配置AP组引用VAP模板，并在射频0和1上引用VAP模板：</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ap<span class="literal">-group</span> name ap<span class="literal">-group1</span></span><br><span class="line">vap<span class="literal">-profile</span> ssid_name wlan <span class="number">1</span> radio <span class="number">0</span></span><br><span class="line">vap<span class="literal">-profile</span> ssid_name wlan <span class="number">1</span> radio <span class="number">1</span></span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="射频管理"><a href="#射频管理" class="headerlink" title="射频管理"></a>射频管理</h1><ul>
+<li><p>缺省情况下，射频的工作带宽为20MHz，未配置指定射频的信道。</p>
+</li>
+<li><p>为了避免信号干扰，请确保相邻AP工作在非重叠信道上。</p>
+</li>
+<li><p>如果AP工作在双5G，两个5G射频工作的信道之间至少相隔一个信道</p>
+</li>
+</ul>
+<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110220735781.png" alt="image-20201110220735781" style="zoom:50%;" />
+
+<h2 id="射频调优功能有三种模式"><a href="#射频调优功能有三种模式" class="headerlink" title="射频调优功能有三种模式"></a>射频调优功能有三种模式</h2><ul>
+<li><p>自动模式</p>
+<ul>
+<li>缺省时间60分钟调优一次，由参数interval指定</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">calibrate enable auto</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>手动模式</p>
+<ul>
+<li>不会主动调优，需要执行calibrate manual startup来触发全局调优</li>
+</ul>
+</li>
+<li><p>定时模式</p>
+<ul>
+<li>仅在指定时刻触发全局调优（推荐）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">calibrate enable schedule time <span class="number">20</span>:<span class="number">30</span>:<span class="number">00</span>  <span class="comment">#配置定时调优时间为20:30</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="配置射频调优"><a href="#配置射频调优" class="headerlink" title="配置射频调优"></a>配置射频调优</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">calibrate enable schedule time <span class="number">20</span>:<span class="number">30</span>:<span class="number">00</span>  <span class="comment">#配置定时调优时间为20:30</span></span><br><span class="line">rrm-profile name wlan-net  <span class="comment">#创建RRM模版wlan-net</span></span><br><span class="line">undo calibrate auto-channel-select disable  <span class="comment">#开启信道自动选择</span></span><br><span class="line">undo calibrate auto-txpower-select disable  <span class="comment">#开启发射功率自动选择信道</span></span><br><span class="line">quit</span><br><span class="line">radio<span class="number">-2</span>g-profile name radio-profile1   <span class="comment">#进入2G或5G射频模版视图</span></span><br><span class="line">rrm-profile wlan-net    <span class="comment">#将RRM模版wlan-net绑定到2G或5G射频模版</span></span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置调优扫描功能"><a href="#配置调优扫描功能" class="headerlink" title="配置调优扫描功能"></a>配置调优扫描功能</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">air-scan-profile name wlan-airscan  <span class="comment">#创建空口扫描模版wlan-airscan</span></span><br><span class="line">scan-channel-set country-channel    <span class="comment">#配置空口扫描信道集合</span></span><br><span class="line">scan-period <span class="number">80</span>                      <span class="comment">#配置空口扫描持续时间</span></span><br><span class="line">scan-interval <span class="number">80000</span>                 <span class="comment">#配置空口扫描间隔时间</span></span><br><span class="line">quit</span><br><span class="line">radio<span class="number">-2</span>g-profile name radio-profile1   <span class="comment">#进入2G或5G射频模版视图 </span></span><br><span class="line">air-scan-profile wlan-airscan   <span class="comment">#将空口扫描模版wlan-airscan绑定到2G或5G射频模版</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="将指定射频模版和域管理模版绑定到AP组或指定AP"><a href="#将指定射频模版和域管理模版绑定到AP组或指定AP" class="headerlink" title="将指定射频模版和域管理模版绑定到AP组或指定AP"></a>将指定射频模版和域管理模版绑定到AP组或指定AP</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">ap-group name ap-group1             <span class="comment">#进入指定AP组</span></span><br><span class="line">regulatory-domain-profile domain1   <span class="comment">#将指定域管理模版绑定到AP组</span></span><br><span class="line">radio<span class="number">-5</span>g-profile radio5g     <span class="comment">#将2G或5G射频模版绑定到AP组  </span></span><br><span class="line">radio<span class="number">-2</span>g-profile radio2g     <span class="comment">#将2G或5G射频模版绑定到AP组  </span></span><br><span class="line">quit</span><br><span class="line">-------------------------------------------------------</span><br><span class="line">wlan</span><br><span class="line">ap-specific name specific-name <span class="comment">#进入指定AP个性视图</span></span><br><span class="line">regulatory-domain-profile domain1   <span class="comment">#将指定域管理模版绑定到AP</span></span><br><span class="line">radio<span class="number">-5</span>g-profile radio5g     <span class="comment">#将2G或5G射频模版绑定到AP </span></span><br><span class="line">radio<span class="number">-2</span>g-profile radio2g     <span class="comment">#将2G或5G射频模版绑定到AP </span></span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><h2 id="静态负载均衡"><a href="#静态负载均衡" class="headerlink" title="静态负载均衡"></a>静态负载均衡</h2><blockquote>
+<p>将提供相同业务的一些AP通过手工配置加入到一个负载均衡组中。</p>
+</blockquote>
+<ul>
+<li>一个AP的同一个射频只能加入到一个负载均衡组。（2.4G一个组，5G一个组）</li>
+<li>每个负载均衡组成员有限，最多支持16个成员</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">sta-load-balance static-group name static<span class="number">-1</span>   <span class="comment">#创建静态负载均衡组并进入视图 </span></span><br><span class="line">member ap-name office radio <span class="number">0</span>        <span class="comment">#向负载均衡组中添加AP射频</span></span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="动态负载均衡"><a href="#动态负载均衡" class="headerlink" title="动态负载均衡"></a>动态负载均衡</h2><blockquote>
+<p>AC将所有上报同一个STA的AP动态组成一个组。STA上线之前，发送广播的Probe Request报文，扫描周围的AP，AP收到STA探测信号后，上报AC，AC将所有上报该STA的AP动态组成一个组，然后根据负载均衡算法是否允许接入</p>
+</blockquote>
+<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110223852637.png" alt="image-20201110223852637" style="zoom:100%;" />
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wlan</span><br><span class="line">rrm-profile name profile-name      <span class="comment">#创建RRM模版</span></span><br><span class="line">sta-load-balance dynamic enable    <span class="comment">#开启动态负载均衡</span></span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
+
+<h1 id="WLAN接入认证"><a href="#WLAN接入认证" class="headerlink" title="WLAN接入认证"></a>WLAN接入认证</h1><h2 id="Portal认证"><a href="#Portal认证" class="headerlink" title="Portal认证"></a>Portal认证</h2><blockquote>
+<p>portal协议主要用于Web服务器和其他设备之间的信息交互.</p>
+</blockquote>
+<img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110230517014.png" alt="image-20201110230517014" style="zoom:200%;" />
+
+<blockquote>
+<p>又称Web认证，方案首先需要给用户分配一个地址，用于访问门户网站，在登陆窗口上键入用户名与密码，然后通过Radius客户端去Radius服务器认证，如认证通过，则触发客户端重新发起地址分配请求，给用户分配可以访问外网的权限。用户下线时通过客户端发起离线请求 </p>
+</blockquote>
+<p><img src="../../../../images/Huawei%20Wlan%E9%85%8D%E7%BD%AE/image-20201110231150621.png" alt="image-20201110231150621"></p>
+<h2 id="802-1x认证"><a href="#802-1x认证" class="headerlink" title="802.1x认证"></a>802.1x认证</h2><h3 id="认证过程"><a href="#认证过程" class="headerlink" title="认证过程"></a>认证过程</h3><ol>
+<li><p>客户端向接入设备发送一个EAPoL-Start报文，开始802.1x认证接入;</p>
+</li>
+<li><p>接入设备向客户端发送EAP-Request/Identity报文，要求客户端将用户名送上来;</p>
+</li>
+<li><p>客户端回应一个EAP-Response/Identity给接入设备的请求，其中包括用户名;</p>
+</li>
+<li><p>接入设备将EAP-Response/Identity报文封装到RADIUS Access-Request报文中，发送给认证服务器;</p>
+</li>
+<li><p>认证服务器产生一个Challenge，通过接入设备将RADIUS Access-Challenge报文发送给客户端，其中包含有EAP-Request/MD5-Challenge;</p>
+</li>
+<li><p>接入设备通过EAP-Request/MD5-Challenge发送给客户端，要求客户端进行认证</p>
+</li>
+<li><p>客户端收到EAP-Request/MD5-Challenge报文后，将密码和Challenge做MD5算法后的Challenged-Pass-word，在EAP-Response/MD5-Challenge回应给接入设备</p>
+</li>
+<li><p>接入设备将Challenge，Challenged Password和用户名一起送到RADIUS服务器，由RADIUS服务器进行认证</p>
+</li>
+<li><p>RADIUS服务器根据用户信息，做MD5算法，判断用户是否合法，然后回应认证成功/失败报文到接入设备。如果成功，携带协商参数，以及用户的相关业务属性给用户授权。如果认证失败，则流程到此结束;</p>
+</li>
+<li><p>如果认证通过，用户通过标准的DHCP协议 (可以是DHCP Relay) ，通过接入设备获取规划的IP地址;</p>
+</li>
+<li><p>如果认证通过，接入设备发起计费开始请求给RADIUS用户认证服务器;</p>
+</li>
+<li><p>RADIUS用户认证服务器回应计费开始请求报文，用户上线完毕。</p>
+</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Huawei/" rel="tag"><i class="fa fa-tag"></i> Huawei</a>
+              <a href="/tags/Wlan/" rel="tag"><i class="fa fa-tag"></i> Wlan</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/27/Huawei%E4%BA%A4%E6%8D%A2%E6%9C%BA%E9%85%8D%E7%BD%AE%E5%8F%91%E7%94%9F%E5%8F%98%E5%8C%96%E6%97%B6%EF%BC%8C%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD%E5%88%B0FTP.html" rel="prev" title="Huawei交换机配置发生变化时，自动备份到FTP">
+      <i class="fa fa-chevron-left"></i> Huawei交换机配置发生变化时，自动备份到FTP
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/27/Huawei%20Wlan%E7%BB%B4%E6%8A%A4.html" rel="next" title="Huawei Wlan维护">
+      Huawei Wlan维护 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

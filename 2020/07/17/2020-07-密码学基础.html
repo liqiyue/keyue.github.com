@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="密码技术是网络安全的基础，也是核心。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学基础">
+<meta property="og:url" content="http://192.168.10.117/2020/07/17/2020-07-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="密码技术是网络安全的基础，也是核心。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/QQ20200701-004215@2x-1024x296.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/111-1024x303.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/12-1024x255.png">
+<meta property="og:image" content="http://192.168.10.117/images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/2222-1024x566.png">
+<meta property="article:published_time" content="2020-07-17T06:07:47.000Z">
+<meta property="article:modified_time" content="2020-11-06T18:03:08.530Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="HASH">
+<meta property="article:tag" content="PKI">
+<meta property="article:tag" content="Password">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/QQ20200701-004215@2x-1024x296.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/17/2020-07-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>密码学基础 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码系统"><span class="nav-number">2.</span> <span class="nav-text">密码系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码体制"><span class="nav-number">3.</span> <span class="nav-text">密码体制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#散列函数与消息摘要"><span class="nav-number">3.0.1.</span> <span class="nav-text">散列函数与消息摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数字签名"><span class="nav-number">3.0.2.</span> <span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数字证书"><span class="nav-number">3.0.3.</span> <span class="nav-text">数字证书</span></a></li></ol></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/17/2020-07-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          密码学基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-17 14:07:47" itemprop="dateCreated datePublished" datetime="2020-07-17T14:07:47+08:00">2020-07-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 02:03:08" itemprop="dateModified" datetime="2020-11-07T02:03:08+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">原理以及基础</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+            <div class="post-description">密码技术是网络安全的基础，也是核心。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>密码技术是网络安全的基础，也是核心。现在对隐私保护、敏感信息尤其重视，所以不论是系统开发还是App开发，只要有网络通信，很多信息都需要进行加密，以防止被截取篡改</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">明文M：原始数据，待加密的数据</span><br><span class="line">密文C：对明文进行某种伪装或变换后的输出</span><br><span class="line">密钥K：加密或解密中所使用的专门工具</span><br><span class="line">加密E：用某种方法将明文变成密文的过程</span><br><span class="line">解密D：将密文恢复成明文的过程</span><br></pre></td></tr></table></figure>
+
+<h2 id="密码系统"><a href="#密码系统" class="headerlink" title="密码系统"></a>密码系统</h2><p>一个密码系统由五元组（M、C、K、E、D）组成，如图所示</p>
+<p><img src="../../../images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/QQ20200701-004215@2x-1024x296.png" alt="img"></p>
+<h2 id="密码体制"><a href="#密码体制" class="headerlink" title="密码体制"></a>密码体制</h2><p><strong>对称密码体制</strong>：对信息进行明/密文变换时，加解和解密使用相同密钥的密码体制</p>
+<p><img src="../../../images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/111-1024x303.png" alt="img"></p>
+<blockquote>
+<p>安全性依赖于：1、加密算法的安全性 2、密钥的秘密性<br>优点：算法公开、速度快、保密强度高、占用空间小<br>缺点：密钥的分发和管理非常复杂<br>用途：信息量大的加密<br>代表算法：DES算法、3DES算法、IDEA算法、AES算法<br>问题：若接收方伪造一个消息并诬陷是发送方发送的，发送方无法辩解，也就是无法解决消息的确认问题，不能实现数字签名；另一个问题是建立安全的信道之前，如何实现通信双方的加密密钥的交换</p>
+</blockquote>
+<p><strong>非对称密码体制</strong>：对信息进行明/密文变换时，加密和解密密钥不相同的密码体制<br>在非对称密码体制中，每个用户都具有一对密钥，一个用于加密，一个用于解密，其中加密密钥可以公开，称之为公钥，解密密钥属于秘密，称之为私钥，只有用户一人知道。</p>
+<p><img src="../../../images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/12-1024x255.png" alt="img"></p>
+<blockquote>
+<p>优点：通信双方不需要通过建立一个安全信道来进行密钥的交换，密钥空间小，降低了密钥管理的难度<br>缺点：实现速度慢，不适合通信负荷较重的情况<br>用途：加密关键性的、核心的机密数据<br>代表算法：RSA算法、ElGamal算法、椭圆曲线加密算法<br>问题：由于自己的公钥对外公开，因此<br>1、如果一个人用自己的公钥加密数据发送给我，我无法断定是谁发送的；<br>2、我用私钥加密的数据，任何知道我公钥的人都能解密我的数据。</p>
+</blockquote>
+<p><strong>混合加密体制</strong>：同时使用对称密码和非对称密码的体制<br>对称加密的一个很大问题就是通信双方如何将密钥传输给对方，为了安全，一般采取带外传输，也就是说如果加密通信是在网络，那么密钥的传输需要通过其他途径，如短信，即使如此，也很难保证密钥传输的安全性。非对称加密加解最大的优点是事先不需要传输密钥，但速度慢，因此实际应用中，经常采取混合密码体制。假设A与B要实现保密通信，工作过程如下：</p>
+<blockquote>
+<p>1、A找到B的公钥<br>2、A选择一个大随机数作为此次会话的加密密钥，即会话密钥<br>3、A以会话密钥加密通信内容，再以B的公钥加密会话密钥后发送给B<br>4、B收到数据以后，先用自己的私钥解密出会话密钥，然后用会话密钥解密出通信内容</p>
+</blockquote>
+<h4 id="散列函数与消息摘要"><a href="#散列函数与消息摘要" class="headerlink" title="散列函数与消息摘要"></a>散列函数与消息摘要</h4><p>Hash函数也称为<strong>散列函数</strong>，它能够对不同长度的输入信息，产生固定长度的输出。这种固定长度的输出称之为原消息的散列或者<strong>消息摘要</strong>，消息摘要长度固定且比原始信息小得多，一般情况下，消息摘要是不可逆的，即从消息摘要无法还原原文，为什么说一般情况下呢，中国出了个牛人王小云，感兴趣的自行Google<del>~</del></p>
+<p>散列算法：散列算法就是产生信息散列值的算法，它有一个特性，就是在输入信息中如果发生细微的改变，比如给变了二进制的一位，都可以改变散列值中每个比特的特性，导致最后的输出结果大相径庭，所以它对于检测消息或者密钥等信息对象中的任何微小的变化非常有用。</p>
+<p>一个安全的散列算法H需要满足：</p>
+<blockquote>
+<p>1、输入长度是任意的，输出是固定的<br>2、对每一个给定的输入,计算输出是很容易的<br>3、给定H,找到两个不同的输入，输出同一个值在计算上不可行<br>4、给定H和一个消息x,找到另一个不同的消息y，使它们散列到同一个值在计算上不可行<br>常见的散列算法：MD2、MD4、MD5、SHA、SHA-1</p>
+</blockquote>
+<h4 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h4><p>数字签名是指发送方以电子形式签名一个消息或文件，签名后的消息或文件能在网络中传输，并表示签名人对该消息或文件的内容负有责任。数字签名综合使用了消息摘要和非对称加密技术，可以保证接受者能够核实发送者对报文的签名，发送者事后不抵赖报文的签名，接受者不能篡改报文内容和伪造对报文的签名。</p>
+<p>数字签名需要做到两点：</p>
+<blockquote>
+<p>1、确认信息是由签名者发送的；<br>2、确认信息从签发到接受没有被修改过。</p>
+</blockquote>
+<p>数字签名的过程与示意图：</p>
+<blockquote>
+<p>1、发送方要发送消息运用散列函数（MD5、SHA-1等）形成消息摘要；<br>2、发送方用<strong>自己的私钥</strong>对消息摘要进行加密，形成数字签名；<br>3、发送方将数字签名附加在消息后发送给接收方；<br>4、接受方用发送方的公钥对签名信息进行解密，得到消息摘要；<br>5、接收方以相同的散列函数对接收到的消息进行散列，也得到一份消息摘要；<br>6、接收方比较两个消息摘要，如果完全一致，说明数据没有被篡改，签名真实有效；否则拒绝该签名。</p>
+</blockquote>
+<p><img src="../../../images/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/2222-1024x566.png" alt="img"></p>
+<p>如果通信的内容是加密的，就需要采用<strong>数字信封</strong>：发送方用对称密钥加密明文，然后用对方的公钥加密对称密钥发送给对方，对方收到电子信封，用自己的私钥解密，得到对称密钥解密，还原明文。此时数字签名的过程如下：</p>
+<blockquote>
+<p>1、发送方要发送消息运用散列函数（MD5、SHA-1等）形成消息摘要；<br>2、发送方用<strong>自己的私钥</strong>对消息摘要进行加密，形成数字签名；<br>3、发送方用对称加密算法对消息原文、数字签名进行加密，得到密文信息；<br>4、发送方用<strong>接收方的公钥</strong>加密对称加密算法的密钥进行加密，形成数字信封；<br>5、发送方将3中的密文信息和数字信封一起发给接收方；<br>6、接收方首先用自己的私钥解密数字信封，还原对称加密算法的密钥；<br>7、接受方用6中的密钥解密接收到的密文，得到原文信息和数字签名；<br>8、接受方用发送方的公钥对签名信息进行解密，得到消息摘要；<br>9、接收方以相同的散列函数对接收到的消息进行散列，也得到一份消息摘要；<br>10、接收方比较两个消息摘要，如果完全一致，说明数据没有被篡改，签名真实有效；否则拒绝该签名。</p>
+</blockquote>
+<h4 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h4><p>数字证书是一种权威的电子文档，由权威公正的第三方认证机构（CA）签发，广泛用于涉及需要身份认证和数据安全的领域。</p>
+<p>数字证书种类：</p>
+<blockquote>
+<p>1、服务器证书：证明服务器的身份和进行通信加密，客户端可以与服务器端建立SSL连接，然后通信数据都会被加密。<br>2、电子邮件证书：证明电子邮件发件人的真实性，也可发送加密邮件，只有接收方才能打得开。<br>3、客户端证书：主要用于身份验证和数字签名，安全的客户端证书经常存储的专门的USBKey中，使用的时候需要输入保护密码，以防被导出和复制，如指纹识别、语音播报、带显示器的USBKey等等。</p>
+</blockquote>
+<ul>
+<li>数字证书功能：<ul>
+<li>1、信息保密</li>
+<li>2、身份确认</li>
+<li>3、不可否认性</li>
+<li>4、数据完整性</li>
+</ul>
+</li>
+</ul>
+<p>数字证书的格式：</p>
+<p>最简单的可以是：公钥、名称和证书授权中心的数字签名，目前 <strong>X.509</strong> 是一种通用的证书格式，它的第三个版本目前使用广泛，证书内容包括：版本、序列号、签名算法标识、签发者、有效期、主体、主体公开密钥、CA的数字签名、可选型等等</p>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HASH/" rel="tag"><i class="fa fa-tag"></i> HASH</a>
+              <a href="/tags/PKI/" rel="tag"><i class="fa fa-tag"></i> PKI</a>
+              <a href="/tags/Password/" rel="tag"><i class="fa fa-tag"></i> Password</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/17/2020-07-Mac%E4%B8%ADWordPress%E4%B8%AD%E5%9B%BA%E5%AE%9A%E9%93%BE%E6%8E%A5%E4%B8%8D%E8%83%BD%E4%BF%AE%E6%94%B9%E7%9A%84%E9%97%AE%E9%A2%98.html" rel="prev" title="Mac中WordPress中固定链接不能修改的问题">
+      <i class="fa fa-chevron-left"></i> Mac中WordPress中固定链接不能修改的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/17/2020-07-H3C%E8%AE%BE%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86Telnet.html" rel="next" title="H3C设置远程登陆Telnet">
+      H3C设置远程登陆Telnet <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

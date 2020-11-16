@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Juniper SRX防火墙简明配置手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Juniper SRX防火墙简明配置手册">
+<meta property="og:url" content="http://192.168.10.117/2020/10/27/Juniper%20SRX%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E6%98%8E%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="Juniper SRX防火墙简明配置手册">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-27T03:07:56.000Z">
+<meta property="article:modified_time" content="2020-11-04T19:43:23.960Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Juniper">
+<meta property="article:tag" content="SRX">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://192.168.10.117/2020/10/27/Juniper%20SRX%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E6%98%8E%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Juniper SRX防火墙简明配置手册 | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Juniper-SRX防火墙简明配置手册"><span class="nav-number">1.</span> <span class="nav-text">Juniper SRX防火墙简明配置手册</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JUNOS-操作系统介绍"><span class="nav-number">2.</span> <span class="nav-text">JUNOS 操作系统介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#层次化配置结构"><span class="nav-number">2.1.</span> <span class="nav-text">层次化配置结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JunOS配置管理"><span class="nav-number">2.2.</span> <span class="nav-text">JunOS配置管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SRX主要配置内容"><span class="nav-number">2.3.</span> <span class="nav-text">SRX主要配置内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SRX防火墙配置对照说明"><span class="nav-number">3.</span> <span class="nav-text">SRX防火墙配置对照说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始安装"><span class="nav-number">3.1.</span> <span class="nav-text">初始安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登陆"><span class="nav-number">3.1.1.</span> <span class="nav-text">登陆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置root用户口令"><span class="nav-number">3.1.2.</span> <span class="nav-text">设置root用户口令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置远程登陆管理用户"><span class="nav-number">3.1.3.</span> <span class="nav-text">设置远程登陆管理用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程管理SRX相关配置"><span class="nav-number">3.1.4.</span> <span class="nav-text">远程管理SRX相关配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Policy"><span class="nav-number">3.2.</span> <span class="nav-text">Policy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT"><span class="nav-number">3.3.</span> <span class="nav-text">NAT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Interface-based-NAT"><span class="nav-number">3.3.1.</span> <span class="nav-text">Interface based NAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Poo-based-Source-NAT"><span class="nav-number">3.3.2.</span> <span class="nav-text">Poo*based Source NAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Poo-base-destination-NAT"><span class="nav-number">3.3.3.</span> <span class="nav-text">Poo*base destination NAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Poo-base-Static-NAT"><span class="nav-number">3.3.4.</span> <span class="nav-text">Poo*base Static NAT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPSEC-VPN"><span class="nav-number">3.4.</span> <span class="nav-text">IPSEC VPN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Application-and-ALG"><span class="nav-number">3.5.</span> <span class="nav-text">Application and ALG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSRP（HA配置）"><span class="nav-number">3.6.</span> <span class="nav-text">JSRP（HA配置）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整个JSRP配置过程包括如下7个步骤："><span class="nav-number">3.6.1.</span> <span class="nav-text">整个JSRP配置过程包括如下7个步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SRX-JSRP配置样例："><span class="nav-number">3.6.2.</span> <span class="nav-text">SRX JSRP配置样例：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Cluster-id和Node-id"><span class="nav-number">3.6.2.1.</span> <span class="nav-text">配置Cluster id和Node id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定Contro-Port（如果主控板RE上有固定control-ports，则无需指定）："><span class="nav-number">3.6.2.2.</span> <span class="nav-text">指定Contro*Port（如果主控板RE上有固定control-ports，则无需指定）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定Fabric-Link-Port"><span class="nav-number">3.6.2.3.</span> <span class="nav-text">指定Fabric Link Port</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Redundancy-Group"><span class="nav-number">3.6.2.4.</span> <span class="nav-text">配置Redundancy Group</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#每个机箱的个性化配置，便于对两台设备的区分与管理"><span class="nav-number">3.6.2.5.</span> <span class="nav-text">每个机箱的个性化配置，便于对两台设备的区分与管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Redundant-Ethernet-Interface"><span class="nav-number">3.6.2.6.</span> <span class="nav-text">配置Redundant Ethernet Interface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Interface-Monitoring，被监控的接口Down掉后，RG1将自动进行主备切换（与ScreenOS类似），"><span class="nav-number">3.6.2.7.</span> <span class="nav-text">配置Interface Monitoring，被监控的接口Down掉后，RG1将自动进行主备切换（与ScreenOS类似），</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSRP维护命令"><span class="nav-number">3.6.3.</span> <span class="nav-text">JSRP维护命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SRX防火墙常规操作与维护"><span class="nav-number">4.</span> <span class="nav-text">SRX防火墙常规操作与维护</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设备关机"><span class="nav-number">4.1.</span> <span class="nav-text">设备关机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设备重启"><span class="nav-number">4.2.</span> <span class="nav-text">设备重启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统升级"><span class="nav-number">4.3.</span> <span class="nav-text">操作系统升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码恢复"><span class="nav-number">4.4.</span> <span class="nav-text">密码恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用监控维护命令"><span class="nav-number">4.5.</span> <span class="nav-text">常用监控维护命令</span></a></li></ol></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/10/27/Juniper%20SRX%E9%98%B2%E7%81%AB%E5%A2%99%E7%AE%80%E6%98%8E%E9%85%8D%E7%BD%AE%E6%89%8B%E5%86%8C.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Juniper SRX防火墙简明配置手册
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-27 11:07:56" itemprop="dateCreated datePublished" datetime="2020-10-27T11:07:56+08:00">2020-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-05 03:43:23" itemprop="dateModified" datetime="2020-11-05T03:43:23+08:00">2020-11-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Juniper/" itemprop="url" rel="index"><span itemprop="name">Juniper</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>16 分钟</span>
+            </span>
+            <div class="post-description">Juniper SRX防火墙简明配置手册</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Juniper-SRX防火墙简明配置手册"><a href="#Juniper-SRX防火墙简明配置手册" class="headerlink" title="Juniper SRX防火墙简明配置手册"></a>Juniper SRX防火墙简明配置手册</h1><blockquote>
+<p>SRX系列防火墙是Juniper公司基于JUNOS操作系统的安全系列产品，JUNOS集成了路由、交换、安全性和一系列丰富的网络服务。目前Juniper公司的全系列路由器产品、交换机产品和SRX安全产品均采用统一源代码的JUNOS操作系统，JUNOS是全球首款将转发与控制功能相隔离，并采用模块化软件架构的网络操作系统。JUNOS作为电信级产品的精髓是Juniper真正成功的基石，它让企业级产品同样具有电信级的不间断运营特性，更好的安全性和管理特性，JUNOS软件创新的分布式架构为高性能、高可用、高可扩展的网络奠定了基础。基于NP架构的SRX系列产品产品同时提供性能优异的防火墙、NAT、IPSEC、IPS、SS*VPN和UTM等全系列安全功能，其安全功能主要来源于已被广泛证明的ScreenOS操作系统。</p>
+<p>  本文旨在为熟悉Netscreen防火墙ScreenOS操作系统的工程师提供SRX防火墙参考配置，以便于大家能够快速部署和维护SRX防火墙，文档介绍JUNOS操作系统，并参考ScreenOS配置介绍SRX防火墙配置方法，最后对SRX防火墙常规操作与维护做简要说明。</p>
+</blockquote>
+<h1 id="JUNOS-操作系统介绍"><a href="#JUNOS-操作系统介绍" class="headerlink" title="JUNOS 操作系统介绍"></a>JUNOS 操作系统介绍</h1><h2 id="层次化配置结构"><a href="#层次化配置结构" class="headerlink" title="层次化配置结构"></a>层次化配置结构</h2><p>JUNOS采用基于FreeBSD内核的软件模块化操作系统，支持CLI命令行和WEBUI两种接口配置方式，本文主要对CLI命令行方式进行配置说明。JUNOS CLI使用层次化配置结构，分为操作（operational）和配置（configure）两类模式，在操作模式下可对当前配置、设备运行状态、路由及会话表等状态进行查看及设备运维操作，并通过执行config或edit命令进入配置模式，在配置模式下可对各相关模块进行配置并能够执行操作模式下的所有命令（run）。在配置模式下JUNOS采用分层分级模块下配置结构，如下图所示，edit命令进入下一级配置（类似unix cd命令）,exit命令退回上一级，top命令回到根级。</p>
+<h2 id="JunOS配置管理"><a href="#JunOS配置管理" class="headerlink" title="JunOS配置管理"></a>JunOS配置管理</h2><p>​    JUNOS通过set语句进行配置，配置输入后并不会立即生效，而是作为候选配置（Candidate Config）等待管理员提交确认，管理员通过输入commit命令来提交配置，配置内容在通过SRX语法检查后才会生效，一旦commit通过后当前配置即成为有效配置（Active config）。另外，JUNOS允许执行commit命令时要求管理员对提交的配置进行两次确认，如执行commit confirmed 2命令要求管理员必须在输入此命令后2分钟内再次输入commit以确认提交，否则2分钟后配置将自动回退，这样可以避免远程配置变更时管理员失去对SRX的远程连接风险。</p>
+<p>​    在执行commit命令前可通过配置模式下show命令查看当前候选配置（Candidate Config），在执行commit后配置模式下可通过run show config命令查看当前有效配置（Active config）。此外可通过执行show  |  compare比对候选配置和有效配置的差异。</p>
+<p>​    SRX上由于配备大容量硬盘存储器，缺省按先后commit顺序自动保存50份有效配置，并可通过执行rolback和commit命令返回到以前配置（如rollback 0/commit可返回到前一commit配置）；也可以直接通过执行save <em>configname.conf*手动保存当前配置，并执行load override *configname.conf</em> / commit调用前期手动保存的配置。执行load factory-default / commit命令可恢复到出厂缺省配置。</p>
+<p>​    SRX可对模块化配置进行功能关闭与激活，如执行deactivate security nat/comit命令可使NAT相关配置不生效，并可通过执行activate security nat/commit使NAT配置再次生效。</p>
+<p>​    SRX通过set语句来配置防火墙，通过delete语句来删除配置，如delete security nat和edit security nat / delete一样，均可删除security防火墙层级下所有NAT相关配置，删除配置和ScreenOS不同，配置过程中需加以留意。</p>
+<h2 id="SRX主要配置内容"><a href="#SRX主要配置内容" class="headerlink" title="SRX主要配置内容"></a>SRX主要配置内容</h2><p>部署SRX防火墙主要有以下几个方面需要进行配置：</p>
+<p><strong>System</strong>：主要是系统级内容配置，如主机名、管理员账号口令及权限、时钟时区、Syslog、SNMP、系统级开放的远程管理服务（如telnet）等内容。</p>
+<p><strong>Interface</strong>:接口相关配置内容。</p>
+<p><strong>Security</strong>: 是SRX防火墙的主要配置内容，安全相关部分内容全部在Security层级下完成配置，如NAT、Zone、Policy、Address-book、Ipsec、Screen、Idp等，可简单理解为ScreenOS防火墙安全相关内容都迁移至此配置层次下，除了Application自定义服务。</p>
+<p><strong>Application</strong>：自定义服务单独在此进行配置，配置内容与ScreenOS基本一致。</p>
+<p><strong>routing-options</strong>： 配置静态路由或router-id等系统全局路由属性配置。</p>
+<h1 id="SRX防火墙配置对照说明"><a href="#SRX防火墙配置对照说明" class="headerlink" title="SRX防火墙配置对照说明"></a>SRX防火墙配置对照说明</h1><h2 id="初始安装"><a href="#初始安装" class="headerlink" title="初始安装"></a>初始安装</h2><h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Console口(通用超级终端缺省配置)连接SRX，root用户登陆，密码为空</span></span><br><span class="line">login: root</span><br><span class="line">Password:</span><br><span class="line">— JUNOS <span class="number">9.5</span>R1<span class="number">.8</span> built <span class="number">2009</span><span class="number">-07</span><span class="number">-16</span> <span class="number">15</span>:<span class="number">04</span>:<span class="number">30</span> UTC</span><br><span class="line">root% cli          <span class="comment">#进入操作模式</span></span><br><span class="line">root&gt;</span><br><span class="line">root&gt; configure</span><br><span class="line">Entering configuration mode  <span class="comment">#进入配置模式</span></span><br><span class="line">[edit]</span><br><span class="line">Root<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置root用户口令"><a href="#设置root用户口令" class="headerlink" title="设置root用户口令"></a>设置root用户口令</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置root用户口令</span></span><br><span class="line">root<span class="comment"># set system root-authentication plain-text-password</span></span><br><span class="line">root<span class="comment"># new password : root123   </span></span><br><span class="line">root<span class="comment"># retype new password: root123</span></span><br><span class="line"><span class="comment">#密码将以密文方式显示</span></span><br><span class="line">root<span class="comment"># show system root-authentication</span></span><br><span class="line">encrypted-password “$<span class="number">1</span>$xavDeUe6$fNM6olGU<span class="number">.8</span>.M7B62u05D6.”; <span class="comment"># SECRET-DATA</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：强烈建议不要使用其它加密选项来加密root和其它user口令(如encrypted-password加密方式)，此配置参数要求输入的口令应是经加密算法加密后的字符串，采用这种加密方式手工输入时存在密码无法通过验证风险。</p>
+<p>注：root用户仅用于<strong>console</strong>连接本地管理SRX，不能通过远程登陆管理SRX，必须成功设置root口令后，才能执行commit提交后续配置命令。</p>
+<h3 id="设置远程登陆管理用户"><a href="#设置远程登陆管理用户" class="headerlink" title="设置远程登陆管理用户"></a>设置远程登陆管理用户</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root<span class="comment"># set system login user *lab* class super-user authentication plain-text-password</span></span><br><span class="line">root<span class="comment"># new password : lab123</span></span><br><span class="line">root<span class="comment"># retype new password: lab123</span></span><br></pre></td></tr></table></figure>
+
+<p>注：此lab用户拥有超级管理员权限，可用于console和远程管理访问，另也可自行灵活定义其它不同管理权限用户。</p>
+<h3 id="远程管理SRX相关配置"><a href="#远程管理SRX相关配置" class="headerlink" title="远程管理SRX相关配置"></a>远程管理SRX相关配置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">run set date YYYYMMDDhhmm.ss　　　　　　<span class="comment">#设置系统时钟</span></span><br><span class="line">set system time-zone Asia/Shanghai　　　<span class="comment">#设置时区为上海</span></span><br><span class="line">set system host-name SRX3400-A　　　　　<span class="comment">#设置主机名</span></span><br><span class="line">set system name-server <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span>  　　 <span class="comment">#设置DNS服务器</span></span><br><span class="line">set system services ftp　　　　　　　　</span><br><span class="line">set system services telnet      </span><br><span class="line">set system services web-management http</span><br><span class="line"><span class="comment">#在系统级开启ftp/telnet/http远程接入管理服务</span></span><br><span class="line">set interfaces ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0.0</span> family inet address <span class="number">10.1</span><span class="number">.1</span><span class="number">.1</span>/<span class="number">24</span></span><br><span class="line"><span class="comment">#或</span></span><br><span class="line">set interfaces ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0</span> unit <span class="number">0</span> family inet address <span class="number">10.1</span><span class="number">.1</span><span class="number">.1</span>/<span class="number">24</span></span><br><span class="line">set interfaces ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">1</span> unit <span class="number">0</span> family inet address <span class="number">10.1</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">24</span></span><br><span class="line">set routing-options static route <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span> next-hop <span class="number">10.1</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line"><span class="comment">#配置逻辑接口地址及缺省路由，SRX接口要求IP地址必须配置在逻辑接口下（类似ScreenOS的子接口），通常使用逻辑接口0即可</span></span><br><span class="line">set security zones security-zone untrust interfaces ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0.0</span></span><br><span class="line"><span class="comment">#将ge-0/0/0.0接口放到untrust zone去，类似ScreenOS</span></span><br><span class="line">set security zones security-zone untrust host-inbound-traffic system-services ping</span><br><span class="line">set security zones security-zone untrust host-inbound-traffic system-services http</span><br><span class="line">set security zones security-zone untrust host-inbound-traffic system-services telnet</span><br><span class="line"><span class="comment">#在untrust zone打开允许远程登陆管理服务，ScreenOS要求基于接口开放服务，SRX要求基于Zone开放，从SRX主动访问出去流量开启服务，类似ScreenOS</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Policy"><a href="#Policy" class="headerlink" title="Policy"></a>Policy</h2><p>Policy配置方法与ScreenOS基本一致，仅在配置命令上有所区别，其中策略的允许/拒绝的动作（Action）需要额外配置一条then语句(将ScreenOS的一条策略分解成两条及以上配置语句)。Policy需要手动配置policy name，policy name可以是字符串，也可以是数字（与ScreenOS的policy ID类似,只不过需要手工指定）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set security zones security-zone trust address-book address pc1 <span class="number">10.1</span><span class="number">.1</span><span class="number">.10</span>/<span class="number">32</span></span><br><span class="line">set security zones security-zone untrust address-book address server1 <span class="number">10.0</span><span class="number">.2</span><span class="number">.1</span>/<span class="number">32</span></span><br><span class="line"><span class="comment">#与ScreenOS一样，在trust和untrust zone下分别定义地址对象便于策略调用，地址对象的名称可以是地址/掩码形式</span></span><br><span class="line">set security zones security-zone trust address-book address-set addr-group1 address pc1</span><br><span class="line"><span class="comment">#在trust zone下定义名称为add-group1的地址组，并将pc1地址放到该地址组中</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">001</span> match source-address addr-group1 destination-address server1 application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">001</span> then permit</span><br><span class="line"><span class="comment">#定义从trust 到untrust方向permit策略，允许addr-group1组的源地址访问server1地址any服务</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h2><p>SRX NAT较ScreenOS在功能实现方面基本保持一致，但在功能配置上有较大区别，配置的主要差异在于ScreenOS的NAT与policy是绑定的，无论是MIP/VIP/DIP还是基于策略的NAT，在policy中均要体现出NAT内容（除了缺省基于untrust接口的Souec-NAT模式外），而SRX 的NAT则作为网络层面基础内容进行独立配置（独立定义地址映射的方向、映射关系及地址范围），Policy中不再包含NAT相关配置信息，这样的好处是易于理解、简化运维，当网络拓朴和NAT映射关系发生改变时，无需调整Policy配置内容。</p>
+<p>SRX NAT和Policy执行先后顺序为：目的地址转换－目的地址路由查找－执行策略检查－源地址转换，结合这个执行顺序，在配置Policy时需注意：Policy中源地址应是转换前的源地址，而目的地址应该是转换后的目的地址，换句话说，Policy中的源和目的地址应该是源和目的两端的真实IP地址，这一点和ScreenOS存在区别，需要加以注意。</p>
+<p>SRX中不再使用MIP/VIP/DIP这些概念，其中MIP被Static静态地址转换取代，两者在功能上完全一致；DIP被Source NAT取代；基于Policy的目的地址转换及VIP被 Destination NAT取代。ScreenOS中基于Untrust zone接口的源地址转换被保留下来，但在SRX中不再是缺省模式（SRX中Trust Zone接口没有NAT模式概念），需要手工配置。类似ScreenOS，Static属于双向NAT，其他类型均属于单向NAT，</p>
+<p>此外，SRX还多了一个proxy-arp概念，如果定义的IP Pool（可用于源或目的地址转换）与接口IP在同一子网时，需配置SRX对这个Pool内的地址提供ARP代理功能，这样对端设备能够解析到IP Pool地址的MAC地址（使用接口MAC地址响应对方），以便于返回报文能够送达SRX。下面是配置举例及相关说明：</p>
+<h3 id="Interface-based-NAT"><a href="#Interface-based-NAT" class="headerlink" title="Interface based NAT"></a>Interface based NAT</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#NAT：</span></span><br><span class="line">set security nat source rule-set <span class="number">1</span> <span class="keyword">from</span> zone trust</span><br><span class="line">set security nat source rule-set <span class="number">1</span> to zone untrust</span><br><span class="line">set security nat source rule-set <span class="number">1</span> rule rule1 match source-address <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span> destination-address <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span></span><br><span class="line">set security nat source rule-set <span class="number">1</span> rule rule1 then source-nat interface</span><br><span class="line"><span class="comment">#上述配置定义NAT源地址映射规则，从Trust Zone访问Untrust Zone的所有流量用Untrust Zone接口IP做源地址转换。</span></span><br><span class="line"><span class="comment">#Policy:</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match source-address <span class="number">10.1</span><span class="number">.2</span><span class="number">.2</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match destination-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> then permit</span><br><span class="line"><span class="comment">#上述配置定义Policy策略，允许Trust zone 10.1.2.2地址访问Untrust方向任何地址，根据前面的NAT配置，SRX在建立session时自动执行接口源地址转换。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Poo-based-Source-NAT"><a href="#Poo-based-Source-NAT" class="headerlink" title="Poo*based Source NAT"></a>Poo*based Source NAT</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#NAT：</span></span><br><span class="line">set security nat source poo*pool<span class="number">-1</span> address <span class="number">100.1</span><span class="number">.1</span><span class="number">.10</span> to <span class="number">100.1</span><span class="number">.1</span><span class="number">.20</span></span><br><span class="line">set security nat source rule-set <span class="number">1</span> <span class="keyword">from</span> zone trust</span><br><span class="line">set security nat source rule-set <span class="number">1</span> to zone untrust</span><br><span class="line">set security nat source rule-set <span class="number">1</span> rule rule1 match source-address <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span> destination-address <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span></span><br><span class="line">set security nat source rule-set <span class="number">1</span> rule rule1 then source-nat poo*pool<span class="number">-1</span></span><br><span class="line">set security nat proxy-arp interface ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">2</span> address <span class="number">100.1</span><span class="number">.1</span><span class="number">.10</span> to <span class="number">100.1</span><span class="number">.1</span><span class="number">.20</span></span><br><span class="line"><span class="comment">#上述配置表示从trust方向（any）到untrust方向(any)访问时提供源地址转换，源地址池为pool1(100.1.1.10 -100.1.1.20)，同时ge-0/0/2接口为此poo*IP提供ARP代理。需要注意的是：定义Pool时不需要与Zone及接口进行关联。配置proxy-arp目的是让返回包能够送达SRX，如果Pool与出接口IP不在同一子网，则对端设备需要配置指向100.1.1.1的Pool地址路由。</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Policy：</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match source-address <span class="number">10.1</span><span class="number">.1</span><span class="number">.2</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match destination-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> then permit</span><br><span class="line"><span class="comment">#上述配置定义Policy策略，允许Trust zone 10.1.2.2地址访问Untrust方向任何地址，根据前面的NAT配置，SRX在建立session时自动执行源地址转换。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Poo-base-destination-NAT"><a href="#Poo-base-destination-NAT" class="headerlink" title="Poo*base destination NAT"></a>Poo*base destination NAT</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#NAT：</span></span><br><span class="line">set security nat destination poo*<span class="number">111</span> address <span class="number">192.168</span><span class="number">.1</span><span class="number">.100</span>/<span class="number">32</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> <span class="keyword">from</span> zone untrust</span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> match source-address <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> match destination-address <span class="number">100.100</span><span class="number">.100</span><span class="number">.100</span>/<span class="number">32</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> then destination-nat poo*<span class="number">111</span></span><br><span class="line"><span class="comment">#上述配置将外网any访问100.100.100.100地址映射到内网192.168.1.100地址，注意：定义的Dst Pool是内网真实IP地址，而不是映射前的公网地址。这点和Src-NAT Pool有所区别。</span></span><br><span class="line"><span class="comment">#Policy：</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match source-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match destination-address <span class="number">192.168</span><span class="number">.1</span><span class="number">.100</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> then permit</span><br><span class="line"><span class="comment">#上述配置定义Policy策略，允许Untrust方向任何地址访问Trust方向192.168.1.100，根据前面的NAT配置，公网访问100.100.100.100时，SRX自动执行到192.168.1.100的目的地址转换。</span></span><br><span class="line"><span class="comment">#ScreenOS VIP功能对应的SRX Dst-nat配置：</span></span><br><span class="line">set security nat destination poo*<span class="number">222</span> address <span class="number">192.168</span><span class="number">.1</span><span class="number">.200</span>/<span class="number">32</span> port <span class="number">8000</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> <span class="keyword">from</span> zone untrust</span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> match source-address <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>/<span class="number">0</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> match destination-address <span class="number">100.100</span><span class="number">.100</span><span class="number">.100</span>/<span class="number">32</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> match destination-port <span class="number">8000</span></span><br><span class="line">set security nat destination rule-set <span class="number">1</span> rule <span class="number">111</span> then destination-nat poo*<span class="number">222</span></span><br><span class="line"><span class="comment">#上述NAT配置定义：访问100.100.100.100地址8000端口映射至192.168.1.200地址8000端口，功能与ScreenOS VIP端口映射一致。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Poo-base-Static-NAT"><a href="#Poo-base-Static-NAT" class="headerlink" title="Poo*base Static NAT"></a>Poo*base Static NAT</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#NAT：</span></span><br><span class="line">set security nat static rule-set static-nat <span class="keyword">from</span> zone untrust</span><br><span class="line">set security nat static rule-set static-nat rule rule1 match destination-address <span class="number">100.100</span><span class="number">.100</span><span class="number">.100</span></span><br><span class="line">set security nat static rule-set static-nat rule rule1 then static-nat prefix <span class="number">192.168</span><span class="number">.1</span><span class="number">.200</span></span><br><span class="line"><span class="comment">#Policy:</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match source-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match destination-address <span class="number">192.168</span><span class="number">.1</span><span class="number">.200</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> match application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy <span class="number">1</span> then permit</span><br><span class="line"><span class="comment">#Static NAT概念与ScreenOS MIP一致，属于静态双向一对一NAT，上述配置表示访问100.100.100.100时转换为192.168.1.200，当192.168.1.200访问Internet时自动转换为100.100.100.100。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="IPSEC-VPN"><a href="#IPSEC-VPN" class="headerlink" title="IPSEC VPN"></a>IPSEC VPN</h2><p>SRX IPSEC VPN支持Site-to-Site VPN 和基于NS-remote的拨号VPN，和ScreenOS一样，site-to-site VPN也支持路由模式和Policy模式，在配置方面也和ScreenOS基本一致。SRX中的加密/验证算法在命名上和ScreenOS存在一些区别，配置过程中建议选择ike和ipsec的proposal为 standard模式，standard中包含SRX支持的全部加密/验证算法，只要对端设备支持其中任何一种即可。SRX中通道接口使用st0接口，对应ScreenOS中的tunnel虚拟接口。</p>
+<p>下面是图中左侧SRX基于路由方式Site-to-site VPN配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">set interfaces st0 unit <span class="number">0</span> family inet address <span class="number">10.2</span><span class="number">.0</span><span class="number">.1</span>/<span class="number">24</span></span><br><span class="line">set security zones security-zone untrust interfaces st0<span class="number">.0</span></span><br><span class="line">set routing-options static route <span class="number">10.1</span><span class="number">.2</span><span class="number">.0</span>/<span class="number">24</span> next-hop st0<span class="number">.0</span></span><br><span class="line"><span class="comment">#定义st0 tunnel接口地址/Zone及通过VPN通道到对端网络路由</span></span><br><span class="line">set security ike policy ABC mode main</span><br><span class="line">set security ike policy ABC proposal-set standard</span><br><span class="line">set security ike policy ABC pre-shared-key ascii-text *juniper*</span><br><span class="line"><span class="comment">#定义IKE Phase1 policy参数，main mode，standard proposal及预共享密钥方式</span></span><br><span class="line">set security ike gateway gw1 ike-policy ABC</span><br><span class="line">set security ike gateway gw1 address <span class="number">10.0</span><span class="number">.2</span><span class="number">.1</span></span><br><span class="line">set security ike gateway gw1 external-interface ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">1.0</span></span><br><span class="line"><span class="comment">#定义IKE gaeway参数，预共享密钥认证，对端网关10.0.2.1，出接口ge-0/0/1（位于untrust zone）</span></span><br><span class="line">set security ipsec policy *AAA* proposal-set standard</span><br><span class="line">set security ipsec vpn vpn1 bind-interface st0<span class="number">.0</span></span><br><span class="line">set security ipsec vpn vpn1 ike gateway gw1</span><br><span class="line">set security ipsec vpn vpn1 ike ipsec-policy *AAA*</span><br><span class="line">set security ipsec vpn vpn1 establish-tunnels immediately</span><br><span class="line"><span class="comment">#定义ipsec Phase 2 VPN参数：standard proposal、与st0.0接口绑定，调用Phase 1 gw1 ike网关。</span></span><br><span class="line">set security policies <span class="keyword">from</span>-zone untrust to-zone trust policy vpn-policy match source-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone untrust to-zone trust policy vpn-policy match destination-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone untrust to-zone trust policy vpn-policy match application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone untrust to-zone trust policy vpn-policy then permit</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy vpn-policy match source-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy vpn-policy match destination-address any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy vpn-policy match application any</span><br><span class="line">set security policies <span class="keyword">from</span>-zone trust to-zone untrust policy vpn-policy then permit</span><br><span class="line"><span class="comment">#开启双向policy以允许VPN流量通过</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Application-and-ALG"><a href="#Application-and-ALG" class="headerlink" title="Application and ALG"></a>Application and ALG</h2><p>SRX中自定义服务及ALG使用方法与ScreenOS保持一致，系统缺省开启FTP ALG，为TCP 21服务提供FTP应用ALG。自定义服务如果属于FTP类应用，需要将此自定义服务（非TCP 21端口）与FTP应用进行关联。下面举例定义一个FTP类服务ftp-test，使用目的端口为TCP 2100，服务超时时间为3600秒，并将此自定义服务与FTP应用关联（ALG），系统将识别此服务为FTP应用并开启FTP ALG来处理该应用流量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set applications application ftp-test protoco*tcp destination-port <span class="number">2100</span> inactivity-timeout <span class="number">3600</span></span><br><span class="line">set applications application ftp-test application-protoco*ftp</span><br></pre></td></tr></table></figure>
+
+<h2 id="JSRP（HA配置）"><a href="#JSRP（HA配置）" class="headerlink" title="JSRP（HA配置）"></a>JSRP（HA配置）</h2><p>JSRP是Juniper SRX的私有HA协议，对应ScreenOS的NSRP双机集群协议，支持A/P和A/A模式，JSRP对ScreenOS NSRP协议和JUNOS Cluster集群技术进行了整合集成，熟悉NSRP协议有助于对JSRP协议的理解。JSRP和NSRP最大的区别在于JSRP是完全意义上的Cluster概念，两台设备完全当作一台设备来看待，两台设备的接口板卡顺序编号、运维变更将对两台设备同时进行操作，无需额外执行ScreenOS的配置和会话同步等操作，而ScreenOS NSRP可看作在同步配置和动态对象（session）基础上独立运行的两台单独设备。</p>
+<p>JSRP要求两台设备在软件版本、硬件型号、板卡数量、插槽位置及端口使用方面严格一一对应。由于SRX 是转发与控制层面完全分裂架构，JSRP需要控制层面 (配置同步)和数据层面(Session同步)两个平面的互联，建议控制和数据层面互联链路使用光纤链路直连（部分平台强制要求光纤链路直连）。</p>
+<p>JSRP接口命名方式采用多个机箱抽象成一个逻辑机箱之后再统一为各个槽位进行编号，如上所示的SRX5800，每个SRX5800机箱有12个业务槽位，节点0槽位号从0开始编号，节点1槽位号从12开始往后编。</p>
+<h3 id="整个JSRP配置过程包括如下7个步骤："><a href="#整个JSRP配置过程包括如下7个步骤：" class="headerlink" title="整个JSRP配置过程包括如下7个步骤："></a>整个JSRP配置过程包括如下7个步骤：</h3><ul>
+<li><p>配置Cluster id和Node id (对应ScreenOS NSRP 的cluster id并需手工指定设备使用节点id）</p>
+</li>
+<li><p>指定Contro*Port   （指定控制层面使用接口，用于配置同步及心跳）</p>
+</li>
+<li><p>指定Fabric Link Port      （指定数据层面使用接口，主要session等RTO同步）</p>
+</li>
+<li><p>配置Redundancy Group     （类似NSRP的VSD group，优先级与抢占等配置）</p>
+</li>
+<li><p>每个机箱的个性化配置     （单机无需同步的个性化配置，如主机名、带外管理口IP地址等）</p>
+</li>
+<li><p>配置Redundant Ethernet Interface （类似NSRP的Redundant冗余接口）</p>
+</li>
+<li><p>配置Interface Monitoring     （类似NSRP interface monitor，是RG数据层面切换依据）</p>
+</li>
+</ul>
+<h3 id="SRX-JSRP配置样例："><a href="#SRX-JSRP配置样例：" class="headerlink" title="SRX JSRP配置样例："></a>SRX JSRP配置样例：</h3><h4 id="配置Cluster-id和Node-id"><a href="#配置Cluster-id和Node-id" class="headerlink" title="配置Cluster id和Node id"></a>配置Cluster id和Node id</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SRX-A&gt;set chassis cluster cluster-id <span class="number">1</span> node <span class="number">0</span> reboot（注意该命令需在operational模式下输入，Cluster ID取值范围为<span class="number">1</span> – <span class="number">15</span>，当Cluster ID = <span class="number">0</span>时将unsets the cluster）</span><br><span class="line">SRX-B&gt;set chassis cluster cluster-id <span class="number">1</span> node <span class="number">1</span> reboot</span><br></pre></td></tr></table></figure>
+
+<h4 id="指定Contro-Port（如果主控板RE上有固定control-ports，则无需指定）："><a href="#指定Contro-Port（如果主控板RE上有固定control-ports，则无需指定）：" class="headerlink" title="指定Contro*Port（如果主控板RE上有固定control-ports，则无需指定）："></a>指定Contro*Port（如果主控板RE上有固定control-ports，则无需指定）：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set chassis cluster control-ports fpc <span class="number">11</span> port <span class="number">0</span></span><br><span class="line">set chassis cluster control-ports fpc <span class="number">23</span> port <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="指定Fabric-Link-Port"><a href="#指定Fabric-Link-Port" class="headerlink" title="指定Fabric Link Port"></a>指定Fabric Link Port</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set interfaces fab0 fabric-options member-interfaces ge<span class="number">-1</span>/<span class="number">0</span>/<span class="number">0</span></span><br><span class="line">set interfaces fab1 fabric-options member-interfaces ge<span class="number">-13</span>/<span class="number">0</span>/<span class="number">0</span></span><br><span class="line"><span class="comment">#Fabric Link中的Fab0固定用于node 0，Fab1固定用于node 1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置Redundancy-Group"><a href="#配置Redundancy-Group" class="headerlink" title="配置Redundancy Group"></a>配置Redundancy Group</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#RG0固定用于主控板RE切换，RG1以后用于redundant interface切换，RE切换独立于接口切换</span></span><br><span class="line">set chassis cluster reth-count <span class="number">10</span> （指定整个Cluster中redundant ethernet interface最多数量）</span><br><span class="line">set chassis cluster redundancy-group <span class="number">0</span> node <span class="number">0</span> priority <span class="number">200</span> （高值优先，与NSRP相反）</span><br><span class="line">set chassis cluster redundancy-group <span class="number">0</span> node <span class="number">1</span> priority <span class="number">100</span></span><br><span class="line">set chassis cluster redundancy-group <span class="number">1</span> node <span class="number">0</span> priority <span class="number">200</span> （高值优先，与NSRP相反）</span><br><span class="line">set chassis cluster redundancy-group <span class="number">1</span> node <span class="number">1</span> priority <span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="每个机箱的个性化配置，便于对两台设备的区分与管理"><a href="#每个机箱的个性化配置，便于对两台设备的区分与管理" class="headerlink" title="每个机箱的个性化配置，便于对两台设备的区分与管理"></a>每个机箱的个性化配置，便于对两台设备的区分与管理</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set groups node0 system host-name SRX-A</span><br><span class="line">set groups node0 interfaces fxp0 unit <span class="number">0</span> family inet address <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span>/<span class="number">24</span> （带外网管口名称为fxp0，区别ScreenOS的MGT口）</span><br><span class="line">set groups node1 system host-name SRX-B</span><br><span class="line">set groups node1 interfaces fxp0 unit <span class="number">0</span> family inet address <span class="number">1.1</span><span class="number">.1</span><span class="number">.2</span>/<span class="number">24</span></span><br><span class="line">set apply-groups $&#123;node&#125;   （应用上述groups配置）</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置Redundant-Ethernet-Interface"><a href="#配置Redundant-Ethernet-Interface" class="headerlink" title="配置Redundant Ethernet Interface"></a>配置Redundant Ethernet Interface</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Redundant Ethernet Interface类似ScreenOS里的redundant interface，只不过Redundant Ethernet interface是分布在不同的机箱上 (这一特性又类似ScreenOS 的VSI接口)。</span></span><br><span class="line">Set interface ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0</span> gigether-options redundant-parent reth0 （node <span class="number">1</span>的ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0</span>接口）</span><br><span class="line">Set interface ge<span class="number">-13</span>/<span class="number">0</span>/<span class="number">0</span> gigether-options redundant-parent reth0 （node <span class="number">1</span>的ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0</span>接口）</span><br><span class="line">Set interface reth0 redundant-ether-options redundancy-group <span class="number">1</span>   （reth0属于RG1）</span><br><span class="line">Set interface reth0 unit <span class="number">0</span> family inet address <span class="number">192.168</span><span class="number">.0</span><span class="number">.1</span>/<span class="number">24</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置Interface-Monitoring，被监控的接口Down掉后，RG1将自动进行主备切换（与ScreenOS类似），"><a href="#配置Interface-Monitoring，被监控的接口Down掉后，RG1将自动进行主备切换（与ScreenOS类似），" class="headerlink" title="配置Interface Monitoring，被监控的接口Down掉后，RG1将自动进行主备切换（与ScreenOS类似），"></a>配置Interface Monitoring，被监控的接口Down掉后，RG1将自动进行主备切换（与ScreenOS类似），</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Set cluster redundancy-group <span class="number">1</span> interface-monitor ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">0</span> weight <span class="number">255</span></span><br><span class="line">Set cluster redundancy-group <span class="number">1</span> interface-monitor ge<span class="number">-0</span>/<span class="number">0</span>/<span class="number">1</span> weight <span class="number">255</span></span><br><span class="line">Set cluster redundancy-group <span class="number">1</span> interface-monitor ge<span class="number">-13</span>/<span class="number">0</span>/<span class="number">0</span> weight <span class="number">255</span></span><br><span class="line">Set cluster redundancy-group <span class="number">1</span> interface-monitor ge<span class="number">-13</span>/<span class="number">0</span>/<span class="number">1</span> weight <span class="number">255</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="JSRP维护命令"><a href="#JSRP维护命令" class="headerlink" title="JSRP维护命令"></a>JSRP维护命令</h3><ul>
+<li>手工切换JSRP Master，RG1 原backup将成为Master</li>
+</ul>
+<p>root@srx5800a&gt; request chassis cluster failover redundancy-group 1 node 1</p>
+<ul>
+<li>手工恢复JSRP状态，按照优先级重新确定主备关系（高值优先）</li>
+</ul>
+<p>root@srx5800b&gt; request chassis cluster failover reset redundancy-group 1</p>
+<ul>
+<li>查看cluster interface</li>
+</ul>
+<p>root@router&gt; show chassis cluster interfaces</p>
+<ul>
+<li>查看cluster 状态、节点状态、主备关系</li>
+</ul>
+<p>lab@srx5800a# run show chassis cluster status</p>
+<ul>
+<li>取消cluster配置</li>
+</ul>
+<p>srx5800a# set chassis cluster disable reboot</p>
+<ul>
+<li>升级JSRP软件版本<br>SRX目前暂不支持软件在线升级（ISSU），升级过程会中断业务。<ul>
+<li>升级步骤如下：<ul>
+<li>升级node 0，注意不要重启系统</li>
+<li>升级node 1，注意不要重启系统.</li>
+<li>同时重启两个系统</li>
+<li>恢复处于disabled状态的node</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>当contro*port或fabric link出现故障时，为避免出现双master (split-brain)现象，JSRP会把出现故障前状态为secdonary的node设为disabled状态，即除了RE，其余部件都不工作。想要恢复必须reboot该node。</p>
+<h1 id="SRX防火墙常规操作与维护"><a href="#SRX防火墙常规操作与维护" class="headerlink" title="SRX防火墙常规操作与维护"></a>SRX防火墙常规操作与维护</h1><h2 id="设备关机"><a href="#设备关机" class="headerlink" title="设备关机"></a>设备关机</h2><p>SRX因为主控板上有大容量硬盘，为防止强行断电关机造成硬件故障，要求设备关机必须按照下面的步骤进行操作：</p>
+<ol>
+<li><p>管理终端连接SRX console口。</p>
+</li>
+<li><p>使用具有足够权限的用户名和密码登陆CLI命令行界面。</p>
+</li>
+<li><p>在提示符下输入下面的命令：</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user@host&gt; request system halt</span><br><span class="line">…</span><br><span class="line">The operating system has halted.</span><br><span class="line">Please press any key to reboot(除非需要重启设备，此时不要敲任何键，否则设备将进行重启)</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>等待console输出上面提示信息后，确认操作系统已停止运行，关闭机箱背后电源模块电源。</li>
+</ol>
+<h2 id="设备重启"><a href="#设备重启" class="headerlink" title="设备重启"></a>设备重启</h2><p>SRX重启必须按照下面的步骤进行操作：</p>
+<ol>
+<li><p>管理终端连接SRX console口。</p>
+</li>
+<li><p>使用具有足够权限的用户名和密码登陆CLI命令行界面。</p>
+</li>
+<li><p>在提示符下输入下面的命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host&gt; request system reboot</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>等待console设备的输出，操作系统已经重新启动。</p>
+</li>
+</ol>
+<h2 id="操作系统升级"><a href="#操作系统升级" class="headerlink" title="操作系统升级"></a>操作系统升级</h2><p>SRX操作系统软件升级必须按照下面的步骤进行操作：</p>
+<ol>
+<li><p>管理终端连接SRX console口，便于升级过程中查看设备重启和软件加载状态。</p>
+</li>
+<li><p>SRX上开启FTP服务，并使用具有超级用户权限的非root用户通过FTP客户端将下载的升级软件介质上传到SRX上。</p>
+</li>
+<li><p>升级前，执行下面的命令备份旧的软件及设定：</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host&gt; request system snapshot</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>加载新的SRX软件：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host&gt;request system software add validate *filename.tgz reboot*</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>软件加载成功后， SRX将自动重启，重启完成后检查系统当前软件版本号：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@host&gt; show system software</span><br></pre></td></tr></table></figure>
+
+<h2 id="密码恢复"><a href="#密码恢复" class="headerlink" title="密码恢复"></a>密码恢复</h2><p>SRX Root密码丢失，并且没有其他的超级用户权限，那么就需要执行密码恢复，该操作需要中断设备正常运行，但不会丢失配置信息，这点与ScreenOS存在区别。</p>
+<p>要进行密码恢复，请按照下面操作进行：</p>
+<ol>
+<li><p>Console口连接SRX，然后重启SRX。</p>
+</li>
+<li><p>在启动过程中，console上出现下面的提示的时候，按空格键中断正常启动方式，然后再进入单用户状态，并输入：boot -s</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Loading /boot/defaults/loader.conf</span><br><span class="line">/kerne*data=… … syms=[… …]</span><br><span class="line">Hit [Enter] to boot immediately, <span class="keyword">or</span> space bar <span class="keyword">for</span> command prompt.</span><br><span class="line">loader&gt; </span><br><span class="line">loader&gt; boot -s</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>执行密码恢复：在以下提示文字后输入recovery，设备将自动进行重启</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter ful*pathname of shel*<span class="keyword">or</span> ‘recovery’ <span class="keyword">for</span> root password recovery <span class="keyword">or</span> RETURN <span class="keyword">for</span> /bin/sh: recovery</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>进入配置模式，删除root密码，并重现设置root密码：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">user@host&gt; configure</span><br><span class="line">Entering configuration mode</span><br><span class="line">user@host<span class="comment">#delete system root-authentication</span></span><br><span class="line">user@host<span class="comment">#set system root-authentication plain-text-password</span></span><br><span class="line">user@host<span class="comment">#New password:</span></span><br><span class="line">user@host<span class="comment">#Retype new password:</span></span><br><span class="line">user@host<span class="comment"># commit</span></span><br><span class="line">commit complete</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用监控维护命令"><a href="#常用监控维护命令" class="headerlink" title="常用监控维护命令"></a>常用监控维护命令</h2><p>下列操作命令在操作模式下使用，或在配置模式下run show…</p>
+<ul>
+<li><p>show system software 查看当前软件版本号</p>
+</li>
+<li><p>show system uptime    查看系统启动时间</p>
+</li>
+<li><p>show chassis haredware  查看硬件板卡及序列号</p>
+</li>
+<li><p>show chassis environment 查看硬件板卡当前状态</p>
+</li>
+<li><p>show chassis routing-engine 查看主控板（RE）资源使用及状态</p>
+</li>
+<li><p>show route        查看路由表</p>
+</li>
+<li><p>show arp        查看ARP表</p>
+</li>
+<li><p>show log messages    查看系统日志</p>
+</li>
+<li><p>show interface terse    查看所有接口运行状态</p>
+</li>
+<li><p>show interface ge-x/y/z detai*查看接口运行细节信息</p>
+</li>
+<li><p>monitor interface ge-x/y/z   动态统计接口数据包转发信息</p>
+</li>
+<li><p>monitor traffic interface ge-x/y/z 动态报文抓取（Tcpdump，类似ScreenOS snoop命令）</p>
+</li>
+<li><p>show security flow session summary 查看当前防火墙并发会话数</p>
+</li>
+<li><p>show security flow session     查看当前防火墙具体并发会话</p>
+</li>
+<li><p>clear security flow session al*  清除当前session</p>
+</li>
+<li><p>show security alg status     检查全局ALG开启情况</p>
+</li>
+<li><p>SRX对应ScreenOS debug flow basic跟踪报文处理路径的命令：  </p>
+<ul>
+<li>set security flow traceoptions flag basic-datapath 开启SRX基本报文处理Debug</li>
+<li>set security flow traceoptions file <em>filename.log</em>  将输出信息记录到指定文件中</li>
+<li>set security flow traceoptions file <em>filename.log</em> size <file-size> 设置该文件大小，缺省128k</li>
+<li>set security flow traceoptions packet-filter filter1 destination-prefix 5.5.5.2 </li>
+</ul>
+</li>
+<li><p>设置报文跟踪过滤器</p>
+<ul>
+<li>run file show <em>filename.log</em> 查看该Log输出信息</li>
+</ul>
+</li>
+<li><p>SRX对应ScreenOS get tech命令，开Case时需要抓取的信息：request support information</p>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Juniper/" rel="tag"><i class="fa fa-tag"></i> Juniper</a>
+              <a href="/tags/SRX/" rel="tag"><i class="fa fa-tag"></i> SRX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/08/Huawei%20Wlan%20FAT%20AP%E9%85%8D%E7%BD%AEWPA2-PSK-AES%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5%E7%A4%BA%E4%BE%8B.html" rel="prev" title="Huawei Wlan FAT AP配置WPA2-PSK-AES安全策略示例">
+      <i class="fa fa-chevron-left"></i> Huawei Wlan FAT AP配置WPA2-PSK-AES安全策略示例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/27/Cisco%E9%85%8D%E7%BD%AESSH%E7%99%BB%E9%99%86.html" rel="next" title="Cisco配置SSH登陆">
+      Cisco配置SSH登陆 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>

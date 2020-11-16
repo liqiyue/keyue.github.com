@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+  <link rel="stylesheet" href="/lib/pace-js/themes/blue/pace-theme-minimal.css">
+  <script src="/lib/pace-js/pace.min.js"></script>
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"192.168.10.117","root":"/","scheme":"Mist","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","width":240,"display":"always","padding":12,"offset":18},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ASA高可用性Failover">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASA高可用性Failover">
+<meta property="og:url" content="http://192.168.10.117/2020/07/18/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover.html">
+<meta property="og:site_name" content="笔记本">
+<meta property="og:description" content="ASA高可用性Failover">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://192.168.10.117/images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/asa222-1024x671.png">
+<meta property="og:image" content="http://192.168.10.117/images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/aaaa-1024x800.png">
+<meta property="og:image" content="http://192.168.10.117/images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/2222222-1024x738.png">
+<meta property="article:published_time" content="2020-07-17T17:40:48.000Z">
+<meta property="article:modified_time" content="2020-11-07T22:07:26.671Z">
+<meta property="article:author" content="绵绵密码">
+<meta property="article:tag" content="Cisco">
+<meta property="article:tag" content="ASA">
+<meta property="article:tag" content="Firewall">
+<meta property="article:tag" content="高可用性">
+<meta property="article:tag" content="Failover">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://192.168.10.117/images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/asa222-1024x671.png">
+
+<link rel="canonical" href="http://192.168.10.117/2020/07/18/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover.html">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ASA高可用性Failover | 笔记本</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="笔记本" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">笔记本</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">76</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">15</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Failover阐述"><span class="nav-number">1.</span> <span class="nav-text">Failover阐述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署Failover的必要条件："><span class="nav-number">2.</span> <span class="nav-text">部署Failover的必要条件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Failover的部署方式"><span class="nav-number">3.</span> <span class="nav-text">Failover的部署方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Failover的接口类型："><span class="nav-number">4.</span> <span class="nav-text">Failover的接口类型：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Failover部署方针："><span class="nav-number">5.</span> <span class="nav-text">Failover部署方针：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无状态化故障倒换实验（A-S）"><span class="nav-number">6.</span> <span class="nav-text">无状态化故障倒换实验（A&#x2F;S）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预配："><span class="nav-number">6.1.</span> <span class="nav-text">预配：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Failover"><span class="nav-number">6.2.</span> <span class="nav-text">配置Failover</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看Failover状态"><span class="nav-number">6.3.</span> <span class="nav-text">查看Failover状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试故障切换"><span class="nav-number">6.4.</span> <span class="nav-text">测试故障切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试抢占"><span class="nav-number">6.5.</span> <span class="nav-text">测试抢占</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动切换"><span class="nav-number">6.6.</span> <span class="nav-text">手动切换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态化故障倒换实验（A-S）"><span class="nav-number">7.</span> <span class="nav-text">状态化故障倒换实验（A&#x2F;S）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置状态化链路"><span class="nav-number">7.1.</span> <span class="nav-text">配置状态化链路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试状态化信息同步"><span class="nav-number">7.2.</span> <span class="nav-text">测试状态化信息同步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-A-Failover-介绍"><span class="nav-number">8.</span> <span class="nav-text">A&#x2F;A_Failover_ 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-A-Failover-部署方针"><span class="nav-number">9.</span> <span class="nav-text">A&#x2F;A_Failover_部署方针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态化故障倒换实验（A-A）"><span class="nav-number">10.</span> <span class="nav-text">状态化故障倒换实验（A&#x2F;A）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预配如下："><span class="nav-number">10.1.</span> <span class="nav-text">预配如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ASA配置"><span class="nav-number">10.2.</span> <span class="nav-text">ASA配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制造异步路由"><span class="nav-number">10.3.</span> <span class="nav-text">制造异步路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试异步路由"><span class="nav-number">10.4.</span> <span class="nav-text">测试异步路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决异步路由"><span class="nav-number">10.5.</span> <span class="nav-text">解决异步路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再次测试"><span class="nav-number">10.6.</span> <span class="nav-text">再次测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于无间断升级ASAOS步骤"><span class="nav-number">11.</span> <span class="nav-text">关于无间断升级ASAOS步骤</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="绵绵密码"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">绵绵密码</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="mailto:liqiyue12@qq.com" title="E-Mail → mailto:liqiyue12@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://192.168.10.117:443/atom.xml" title="rss → http:&#x2F;&#x2F;192.168.10.117:443&#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i></a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.google.com/" title="https:&#x2F;&#x2F;www.Google.com" rel="noopener" target="_blank">Google</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.cisco.com/" title="https:&#x2F;&#x2F;www.Cisco.com" rel="noopener" target="_blank">Cisco</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.freebuf.com/" title="https:&#x2F;&#x2F;www.freebuf.com" rel="noopener" target="_blank">Freebuff</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bbs.ichunqiu.com/" title="https:&#x2F;&#x2F;bbs.ichunqiu.com" rel="noopener" target="_blank">春秋</a>
+        </li>
+    </ul>
+  </div>
+<!-- CloudCalendar -->
+<div class="widget-wrap" style="width: 90%;margin-left: auto;margin-right: auto; opacity: 0.97;">
+	<div class="widget" id="CloudCalendar"></div>
+</div>
+      </section>
+        <div class="back-to-top animated">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://192.168.10.117/2020/07/18/2020-07-ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="绵绵密码">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="笔记本">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ASA高可用性Failover
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 01:40:48" itemprop="dateCreated datePublished" datetime="2020-07-18T01:40:48+08:00">2020-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-08 06:07:26" itemprop="dateModified" datetime="2020-11-08T06:07:26+08:00">2020-11-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cisco/" itemprop="url" rel="index"><span itemprop="name">Cisco</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+            <div class="post-description">ASA高可用性Failover</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Failover阐述"><a href="#Failover阐述" class="headerlink" title="Failover阐述"></a>Failover阐述</h2><ul>
+<li>一对ASA能够配对成为一个A/SFailover组，提供设备级冗余</li>
+<li>一个Failover组，存在两组角色：<ul>
+<li>关于Primary/Secondary<ul>
+<li>一个物理设备被指定为Primary设备</li>
+<li>一个物理设备被指定为Secondary设备</li>
+<li>Primary和Secondary是物理的概念，不会被切换</li>
+</ul>
+</li>
+<li>关于Active/Standby<ul>
+<li>一个物理设备被选择成为Active（转发流量）</li>
+<li>一个设备被选择成为Standby（热备用状态，等待）</li>
+<li>Active和Standby是逻辑概念，可以互相切换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>设备的健康状况是通过Lan-F0接口来监控的</li>
+</ul>
+<h2 id="部署Failover的必要条件："><a href="#部署Failover的必要条件：" class="headerlink" title="部署Failover的必要条件："></a>部署Failover的必要条件：</h2><ul>
+<li>HardwareRequirements（硬件需求）<ul>
+<li>相同类型的硬件型号，物理接口，特性模块</li>
+</ul>
+</li>
+<li>SoftwareRequirements（软件需求）<ul>
+<li>相同的操作模式，相同的主版本和子版本</li>
+</ul>
+</li>
+<li>LicenseRequirements（授权需求）<ul>
+<li>8.3（1）之前必须要求一致许可</li>
+<li>8.3（1）之后，只有下列设备依然要求一致许可<ul>
+<li>ASA5505、5510、5512-X都必须具备Security_Plus授权许可</li>
+<li>两台设备的3DES-AES许可证必须一致</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Failover的部署方式"><a href="#Failover的部署方式" class="headerlink" title="Failover的部署方式"></a>Failover的部署方式</h2><ul>
+<li>无状态化的F0<ul>
+<li>只提供硬件冗余</li>
+<li>当切换发生时，所有已经建立的状态话跟踪的连接都将被丢弃</li>
+<li>用户必须重新建立连接</li>
+</ul>
+</li>
+<li>状态话的F0<ul>
+<li>扩展来无状态化F0的功能</li>
+<li>提供了硬件和状态话表项的冗余</li>
+<li>故障切换期间，连接依旧保持</li>
+<li>用户没必要重新建立连接</li>
+<li>在两个设备之间需要一个状态话链路（是LAN-F0</li>
+<li>链路之外的另外一条链路）</li>
+</ul>
+</li>
+</ul>
+<h2 id="Failover的接口类型："><a href="#Failover的接口类型：" class="headerlink" title="Failover的接口类型："></a>Failover的接口类型：</h2><ul>
+<li>LANF0接口：用来确定每一个但愿的运行状态并复制和同步配置</li>
+<li>Link F0接口：（状态话接口）<ul>
+<li>用于传递状态信息到Standby单元</li>
+<li>可以是一个独立的接口，或者和其他接口共享，包括F0接口（不推荐，最好是独立接口）</li>
+<li>可以考虑将两个功能置于一根线上，不推荐</li>
+</ul>
+</li>
+</ul>
+<h2 id="Failover部署方针："><a href="#Failover部署方针：" class="headerlink" title="Failover部署方针："></a>Failover部署方针：</h2><ul>
+<li>部暑F0时，考虑如下的部署方针:<ul>
+<li>可以使用密钥来保护FO通讯</li>
+<li>如果状态化链路和FO链路共享接口，需要使用一个可用的高速率的接口</li>
+<li>调整F0的各项参数来矣现快速切换</li>
+<li>在active和standby设备上手动指定MAC地址，来阻止一些可能阻断网络流量的偶然事件</li>
+<li>在所有连接防火墙设备的交换机接口上，考虑配置端口快速（PortFast）</li>
+</ul>
+</li>
+<li>如果发现备用配置与主用有区分，可通过‘write standby’命令，实现现有主备配置完全覆盖备用设备配置</li>
+<li>备用设备用于不参与路由进程</li>
+</ul>
+<h2 id="无状态化故障倒换实验（A-S）"><a href="#无状态化故障倒换实验（A-S）" class="headerlink" title="无状态化故障倒换实验（A/S）"></a>无状态化故障倒换实验（A/S）</h2><p><img src="../../../images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/asa222-1024x671.png" alt="img"></p>
+<h3 id="预配："><a href="#预配：" class="headerlink" title="预配："></a>预配：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Inside配置</span></span><br><span class="line">interface e0/<span class="number">0</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.1</span><span class="number">.30</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line"><span class="comment">#Outside配置</span></span><br><span class="line">interface e0/<span class="number">0</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">  no shutdown</span><br><span class="line"><span class="comment">#SW配置</span></span><br><span class="line">vlan <span class="number">10</span> </span><br><span class="line">vlan <span class="number">20</span></span><br><span class="line">interface Ethernet0/<span class="number">0</span></span><br><span class="line"> switchport access vlan <span class="number">20</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet0/<span class="number">1</span></span><br><span class="line"> switchport access vlan <span class="number">10</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">0</span></span><br><span class="line"> switchport access vlan <span class="number">20</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">1</span></span><br><span class="line"> switchport access vlan <span class="number">10</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet2/<span class="number">0</span></span><br><span class="line"> switchport access vlan <span class="number">10</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet2/<span class="number">1</span></span><br><span class="line"> switchport access vlan <span class="number">20</span></span><br><span class="line"> switchport mode access</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置Failover"><a href="#配置Failover" class="headerlink" title="配置Failover"></a>配置Failover</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#初始化ASA1_Primary接口</span></span><br><span class="line">no cluster interface-mode   //所有支持Cluster新技术的防火墙都需要先去掉此命令</span><br><span class="line">interface Ethernet0</span><br><span class="line"> nameif Outside</span><br><span class="line"> security-level <span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">7.7</span><span class="number">.3</span><span class="number">.20</span> </span><br><span class="line">interface Ethernet1</span><br><span class="line"> nameif Inside</span><br><span class="line"> security-level <span class="number">100</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">7.7</span><span class="number">.1</span><span class="number">.20</span> </span><br><span class="line"><span class="comment">#配置Primary FO</span></span><br><span class="line">interface ethernet <span class="number">2</span></span><br><span class="line">  no shutdown</span><br><span class="line">failover lan unit primary  //指定本设备为primary</span><br><span class="line">failover lan interface FO ethernet2   //指定ethernet2为FO链路，接口名为FO</span><br><span class="line">failover key cisco   //可选项，指定密钥</span><br><span class="line">failover interface ip FO <span class="number">150.1</span><span class="number">.7</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">150.1</span><span class="number">.7</span><span class="number">.20</span></span><br><span class="line">failover     //启用故障倒换，启用顺序为先主后备</span><br><span class="line"><span class="comment">#配置Secondary FO</span></span><br><span class="line">no cluster interface-mode   //所有支持Cluster新技术的防火墙都需要先去掉此命令</span><br><span class="line">interface ethernet <span class="number">2</span></span><br><span class="line">  no shutdown</span><br><span class="line">failover lan unit secondary  //指定本设备为secondary</span><br><span class="line">failover lan interface FO ethernet2   //指定ethernet2为FO链路，接口名为FO</span><br><span class="line">failover key cisco   //可选项，指定密钥</span><br><span class="line">failover interface ip FO <span class="number">150.1</span><span class="number">.7</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">150.1</span><span class="number">.7</span><span class="number">.20</span></span><br><span class="line">failover</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Failover状态"><a href="#查看Failover状态" class="headerlink" title="查看Failover状态"></a>查看Failover状态</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ASA1<span class="comment"># show failover </span></span><br><span class="line">Failover On </span><br><span class="line">Failover unit Primary</span><br><span class="line">Failover LAN Interface: FO Ethernet2 (up)</span><br><span class="line">Unit Poll frequency <span class="number">1</span> seconds, holdtime <span class="number">15</span> seconds</span><br><span class="line">Interface Poll frequency <span class="number">5</span> seconds, holdtime <span class="number">25</span> seconds</span><br><span class="line">Interface Policy <span class="number">1</span></span><br><span class="line">Monitored Interfaces <span class="number">2</span> of <span class="number">60</span> maximum</span><br><span class="line">Version: Ours <span class="number">8.4</span>(<span class="number">2</span>), Mate <span class="number">8.4</span>(<span class="number">2</span>)</span><br><span class="line">Last Failover at: <span class="number">18</span>:<span class="number">43</span>:<span class="number">37</span> UTC Jun <span class="number">28</span> <span class="number">2020</span></span><br><span class="line">        This host: Primary - Active </span><br><span class="line">                Active time: <span class="number">432</span> (sec)</span><br><span class="line">                  Interface Outside (<span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span>): Normal (Monitored)</span><br><span class="line">                  Interface Inside (<span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span>): Normal (Monitored)</span><br><span class="line">        Other host: Secondary - Standby Ready </span><br><span class="line">                Active time: <span class="number">0</span> (sec)</span><br><span class="line">                  Interface Outside (<span class="number">7.7</span><span class="number">.3</span><span class="number">.20</span>): Normal (Monitored)</span><br><span class="line">                  Interface Inside (<span class="number">7.7</span><span class="number">.1</span><span class="number">.20</span>): Testing (Monitored)</span><br><span class="line"></span><br><span class="line">Stateful Failover Logical Update Statistics</span><br><span class="line">        Link : Unconfigured.</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试故障切换"><a href="#测试故障切换" class="headerlink" title="测试故障切换"></a>测试故障切换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">Inside(config)<span class="comment">#ip route 0.0.0.0 0.0.0.0 7.7.1.10</span></span><br><span class="line">Inside(config)<span class="comment">#username cisco privilege 15 password  cisco</span></span><br><span class="line">Inside(config)<span class="comment">#line vty 0 4</span></span><br><span class="line">Inside(config-line)<span class="comment"># login local</span></span><br><span class="line">Inside(config-line)<span class="comment"># transport input all</span></span><br><span class="line">Outside(config)<span class="comment">#ip route 0.0.0.0 0.0.0.0 7.7.3.10</span></span><br><span class="line">Outside(config)<span class="comment">#username cisco privilege 15 password cisco</span></span><br><span class="line">Outside(config)<span class="comment">#line vty 0 4</span></span><br><span class="line">Outside(config-line)<span class="comment">#login local </span></span><br><span class="line">Outside(config-line)<span class="comment">#transport input all </span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.3.30</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">Outside<span class="comment">#</span></span><br><span class="line"><span class="comment">#查看状态话信息</span></span><br><span class="line">ASA1<span class="comment"># sh conn </span></span><br><span class="line"><span class="number">7</span> <span class="keyword">in</span> use, <span class="number">7</span> most used</span><br><span class="line">TCP Outside <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span>:<span class="number">23</span> Inside <span class="number">7.7</span><span class="number">.1</span><span class="number">.30</span>:<span class="number">50639</span>, idle <span class="number">0</span>:<span class="number">00</span>:<span class="number">08</span>, bytes <span class="number">140</span>, flags UIO</span><br><span class="line">ASA1<span class="comment"># show conn      //备用设备无法查询到任何状态话表项</span></span><br><span class="line"><span class="number">6</span> <span class="keyword">in</span> use, <span class="number">6</span> most used</span><br><span class="line">ASA1<span class="comment"># </span></span><br><span class="line"><span class="comment">#测试故障切换</span></span><br><span class="line">Switch(config)<span class="comment">#interface e0/1</span></span><br><span class="line">Switch(config-<span class="keyword">if</span>)<span class="comment">#shutdown </span></span><br><span class="line"></span><br><span class="line">ASA1<span class="comment"># </span></span><br><span class="line">        Switching to Standby      //本设备切换为Standby</span><br><span class="line"><span class="comment">#查看ASA2的FO状态</span></span><br><span class="line">ASA1<span class="comment"># show failover </span></span><br><span class="line">Failover On </span><br><span class="line">Failover unit Secondary</span><br><span class="line">Failover LAN Interface: FO Ethernet2 (up)</span><br><span class="line">Unit Poll frequency <span class="number">1</span> seconds, holdtime <span class="number">15</span> seconds</span><br><span class="line">Interface Poll frequency <span class="number">5</span> seconds, holdtime <span class="number">25</span> seconds</span><br><span class="line">Interface Policy <span class="number">1</span></span><br><span class="line">Monitored Interfaces <span class="number">2</span> of <span class="number">60</span> maximum</span><br><span class="line">Version: Ours <span class="number">8.4</span>(<span class="number">2</span>), Mate <span class="number">8.4</span>(<span class="number">2</span>)</span><br><span class="line">Last Failover at: <span class="number">18</span>:<span class="number">53</span>:<span class="number">27</span> UTC Jun <span class="number">28</span> <span class="number">2020</span></span><br><span class="line">        This host: Secondary - Active        //ASA2切换为Active状态</span><br><span class="line">                Active time: <span class="number">32</span> (sec)</span><br><span class="line">                  Interface Outside (<span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span>): Normal (Monitored)</span><br><span class="line">                  Interface Inside (<span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span>): Normal (Waiting)</span><br><span class="line">        Other host: Primary - Failed </span><br><span class="line">                Active time: <span class="number">442</span> (sec)</span><br><span class="line">                  Interface Outside (<span class="number">7.7</span><span class="number">.3</span><span class="number">.20</span>): Normal (Waiting)</span><br><span class="line">                  Interface Inside (<span class="number">7.7</span><span class="number">.1</span><span class="number">.20</span>): Failed (Waiting)</span><br><span class="line"></span><br><span class="line">Stateful Failover Logical Update Statistics</span><br><span class="line">        Link : Unconfigured.</span><br><span class="line"><span class="comment">#再次测试telnet</span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.3.30</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">Outside<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="测试抢占"><a href="#测试抢占" class="headerlink" title="测试抢占"></a>测试抢占</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Switch(config)<span class="comment">#interface e0/1</span></span><br><span class="line">Switch(config-<span class="keyword">if</span>)<span class="comment">#no shutdown</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>没有出现任何提示，表示<font color="#dd00">FO没有抢占功能，只能手动切换</font></p>
+</blockquote>
+<h3 id="手动切换"><a href="#手动切换" class="headerlink" title="手动切换"></a>手动切换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ASA1(config)<span class="comment"># failover active </span></span><br><span class="line"></span><br><span class="line">        Switching to Active</span><br></pre></td></tr></table></figure>
+
+<h2 id="状态化故障倒换实验（A-S）"><a href="#状态化故障倒换实验（A-S）" class="headerlink" title="状态化故障倒换实验（A/S）"></a>状态化故障倒换实验（A/S）</h2><p>在上一个实验基础上增加eth3链路</p>
+<p><img src="../../../images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/aaaa-1024x800.png" alt="img"></p>
+<h3 id="配置状态化链路"><a href="#配置状态化链路" class="headerlink" title="配置状态化链路"></a>配置状态化链路</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Switch配置</span></span><br><span class="line">vlan <span class="number">100</span></span><br><span class="line">interface Ethernet1/<span class="number">3</span></span><br><span class="line"> switchport access vlan <span class="number">100</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet0/<span class="number">3</span></span><br><span class="line"> switchport access vlan <span class="number">100</span></span><br><span class="line"> switchport mode access</span><br><span class="line"><span class="comment">#ASA1配置</span></span><br><span class="line">interface ethernet <span class="number">3</span></span><br><span class="line">no shutdown </span><br><span class="line">failover link stateful e3   //指定Stateful链路为eth3，接口名为stateful</span><br><span class="line">failover interface ip stateful <span class="number">150.1</span><span class="number">.8</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">150.1</span><span class="number">.8</span><span class="number">.20</span>    //配置Stateful链路ip地址</span><br><span class="line">//无需在ASA2上配置，因为FO链路会自动同步</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试状态化信息同步"><a href="#测试状态化信息同步" class="headerlink" title="测试状态化信息同步"></a>测试状态化信息同步</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Inside<span class="comment">#telnet 7.7.3.30</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">Outside<span class="comment">#</span></span><br><span class="line">ASA1<span class="comment"># sh conn</span></span><br><span class="line"><span class="number">9</span> <span class="keyword">in</span> use, <span class="number">9</span> most used</span><br><span class="line">TCP Outside <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span>:<span class="number">23</span> Inside <span class="number">7.7</span><span class="number">.1</span><span class="number">.30</span>:<span class="number">13027</span>, idle <span class="number">0</span>:<span class="number">00</span>:<span class="number">06</span>, bytes <span class="number">0</span>, flags U</span><br><span class="line">ASA1<span class="comment"># sh conn   //同步成功</span></span><br><span class="line"><span class="number">9</span> <span class="keyword">in</span> use, <span class="number">9</span> most used</span><br><span class="line">TCP Outside <span class="number">7.7</span><span class="number">.3</span><span class="number">.30</span>:<span class="number">23</span> Inside <span class="number">7.7</span><span class="number">.1</span><span class="number">.30</span>:<span class="number">13027</span>, idle <span class="number">0</span>:<span class="number">00</span>:<span class="number">06</span>, bytes <span class="number">0</span>, flags U</span><br></pre></td></tr></table></figure>
+
+<h2 id="A-A-Failover-介绍"><a href="#A-A-Failover-介绍" class="headerlink" title="A/A_Failover_ 介绍"></a>A/A_Failover_ 介绍</h2><ul>
+<li>安全设备可以成对搭配成A/A的FO来提供设备级的冗余和负载分担</li>
+<li>两个设备在彼此互为备份同时，也能同时转发流量（负载均衡）</li>
+<li>使用虚拟子防火墙是必须的，子防火墙被归为两个FO姐</li>
+<li>一个物理防火墙只会在一个FO组中成为active</li>
+</ul>
+<h2 id="A-A-Failover-部署方针"><a href="#A-A-Failover-部署方针" class="headerlink" title="A/A_Failover_部署方针"></a>A/A_Failover_部署方针</h2><ul>
+<li>部暑方针和A/S高可用性FO基本一样</li>
+<li>要求和限制同A/S髙可用性FO—样，下面罗列了额外的问题:<ul>
+<li>A/A的F0只有设备是多模模式才可使用</li>
+<li>不支持动态路由协议</li>
+<li>不支持组描IP路由</li>
+<li>不支持DHCP中继</li>
+<li>不支特DHCPv6 staeless server</li>
+<li>不支持动态DNS</li>
+<li>不支持QOS</li>
+</ul>
+</li>
+<li>ASA5505不支持 A/A 的 Failover.</li>
+</ul>
+<h2 id="状态化故障倒换实验（A-A）"><a href="#状态化故障倒换实验（A-A）" class="headerlink" title="状态化故障倒换实验（A/A）"></a>状态化故障倒换实验（A/A）</h2><ul>
+<li>需求：<ul>
+<li>实验拓扑如下：</li>
+<li>制造并处理异步路由</li>
+<li>不间断升级ASAOS</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../../images/ASA%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7Failover/2222222-1024x738.png" alt="img"></p>
+<h3 id="预配如下："><a href="#预配如下：" class="headerlink" title="预配如下："></a>预配如下：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#inside接口配置</span></span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0</span></span><br><span class="line">  no shutdown</span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0.2</span></span><br><span class="line">  encapsulation dot1q <span class="number">20</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.2</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0.40</span></span><br><span class="line">  encapsulation dot1q <span class="number">40</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.4</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment">#ISP-1接口配置</span></span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0</span></span><br><span class="line">  no shutdown</span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0.1</span></span><br><span class="line">  encapsulation dot1q <span class="number">10</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.1</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0.200</span></span><br><span class="line">  encapsulation dot1q <span class="number">200</span></span><br><span class="line">  ip add <span class="number">2.2</span><span class="number">.2</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment">#ISP-2接口配置</span></span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0</span></span><br><span class="line">  no shutdown</span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0.3</span></span><br><span class="line">  encapsulation dot1q <span class="number">30</span></span><br><span class="line">  ip add <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">interface ethernet <span class="number">0</span>/<span class="number">0.200</span></span><br><span class="line">  encapsulation dot1q <span class="number">200</span></span><br><span class="line">  ip add <span class="number">2.2</span><span class="number">.2</span><span class="number">.2</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line"><span class="comment">#SW接口及vlan配置</span></span><br><span class="line">Switch<span class="comment"># show vlan</span></span><br><span class="line"></span><br><span class="line">VLAN Name                             Status    Ports</span><br><span class="line">---- -------------------------------- --------- -------------------------------</span><br><span class="line"><span class="number">1</span>    default                          active    Et2/<span class="number">3</span></span><br><span class="line"><span class="number">10</span>   ISP<span class="number">-1</span>-UP                         active    Et0/<span class="number">0</span>, Et1/<span class="number">0</span></span><br><span class="line"><span class="number">20</span>   ISP<span class="number">-1</span>-Down                       active    </span><br><span class="line"><span class="number">30</span>   ISP<span class="number">-2</span>-UP                         active    Et0/<span class="number">1</span>, Et1/<span class="number">1</span></span><br><span class="line"><span class="number">40</span>   ISP<span class="number">-2</span>-Down                       active    </span><br><span class="line"><span class="number">100</span>  FO-Stateful                      active    Et0/<span class="number">2</span>, Et1/<span class="number">2</span></span><br><span class="line"><span class="number">200</span>  Test-link                        active    </span><br><span class="line">interface Ethernet0/<span class="number">0</span></span><br><span class="line"> description To-ASA1-Eth0</span><br><span class="line"> switchport access vlan <span class="number">10</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet0/<span class="number">1</span></span><br><span class="line"> description To-ASA1-Eth1</span><br><span class="line"> switchport access vlan <span class="number">30</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet0/<span class="number">2</span></span><br><span class="line"> description To-ASA1-Eth2</span><br><span class="line"> switchport access vlan <span class="number">100</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet0/<span class="number">3</span></span><br><span class="line"> description To-ASA1-Eth3</span><br><span class="line"> switchport trunk allowed vlan <span class="number">20</span>,<span class="number">40</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> spanning-tree portfast edge</span><br><span class="line">interface Ethernet1/<span class="number">0</span></span><br><span class="line"> description To-ASA2-Eth0</span><br><span class="line"> switchport access vlan <span class="number">10</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">1</span></span><br><span class="line"> description To-ASA2-Eth1</span><br><span class="line"> switchport access vlan <span class="number">30</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">2</span></span><br><span class="line"> description To-ASA2-Eth2</span><br><span class="line"> switchport access vlan <span class="number">100</span></span><br><span class="line"> switchport mode access</span><br><span class="line">interface Ethernet1/<span class="number">3</span></span><br><span class="line"> description To-ASA2-Eth3</span><br><span class="line"> switchport trunk allowed vlan <span class="number">20</span>,<span class="number">40</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> spanning-tree portfast edge</span><br><span class="line">interface Ethernet2/<span class="number">0</span></span><br><span class="line"> description To-ISP1</span><br><span class="line"> switchport trunk allowed vlan <span class="number">10</span>,<span class="number">200</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> spanning-tree portfast edge</span><br><span class="line">interface Ethernet2/<span class="number">1</span></span><br><span class="line"> description To-ISP2</span><br><span class="line"> switchport trunk allowed vlan <span class="number">30</span>,<span class="number">200</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> spanning-tree portfast edge</span><br><span class="line">interface Ethernet2/<span class="number">2</span></span><br><span class="line"> description To-Inside</span><br><span class="line"> switchport trunk allowed vlan <span class="number">20</span>,<span class="number">40</span></span><br><span class="line"> switchport trunk encapsulation dot1q</span><br><span class="line"> switchport mode trunk</span><br><span class="line"> spanning-tree portfast edge</span><br><span class="line"><span class="comment">#路由配置</span></span><br><span class="line">ISP1(config)<span class="comment">#ip route 7.7.2.0 255.255.255.0 7.7.1.10</span></span><br><span class="line">ISP2(config)<span class="comment">#ip route 7.7.4.0 255.255.255.0 7.7.3.10</span></span><br><span class="line">Inside(config)<span class="comment">#ip route 7.7.1.0 255.255.255.0 7.7.2.10</span></span><br><span class="line">Inside(config)<span class="comment">#ip route 7.7.3.0 255.255.255.0 7.7.4.10</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ASA配置"><a href="#ASA配置" class="headerlink" title="ASA配置"></a>ASA配置</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ASA切换为多模</span></span><br><span class="line">ASA1(config)<span class="comment"># mode multiple </span></span><br><span class="line">ASA2(config)<span class="comment"># mode multiple </span></span><br><span class="line"><span class="comment">#清空.cfg文件</span></span><br><span class="line">ASA1(config)<span class="comment"># delete flash:*.cfg</span></span><br><span class="line">Delete filename [*.cfg]? </span><br><span class="line">Delete disk0:/old_running.cfg? [confirm]</span><br><span class="line">Delete disk0:/admin.cfg? [confirm]</span><br><span class="line"></span><br><span class="line">ASA2(config)<span class="comment"># delete flash:*.cfg</span></span><br><span class="line">Delete filename [*.cfg]? </span><br><span class="line">Delete disk0:/old_running.cfg? [confirm]</span><br><span class="line">Delete disk0:/admin.cfg? [confirm]</span><br><span class="line"><span class="comment">#修改提示符</span></span><br><span class="line">ASA1(config)<span class="comment"># prompt hostname priority state context </span></span><br><span class="line">ASA2(config)<span class="comment"># prompt hostname priority state context </span></span><br><span class="line"><span class="comment">#配置Failover Group</span></span><br><span class="line">ASA1/sec/actNoFailover(config)<span class="comment"># failover group 1</span></span><br><span class="line">ASA1/sec/actNoFailover(config-fover-group)<span class="comment"># preempt   //配置抢占</span></span><br><span class="line">ASA1/sec/actNoFailover(config-fover-group)<span class="comment"># failover group 2</span></span><br><span class="line">ASA1/sec/actNoFailover(config-fover-group)<span class="comment"># secondary </span></span><br><span class="line">ASA1/sec/actNoFailover(config-fover-group)<span class="comment"># preempt   //配置抢占</span></span><br><span class="line"></span><br><span class="line">ASA2/sec/actNoFailover(config)<span class="comment"># failover group 1</span></span><br><span class="line">ASA2/sec/actNoFailover(config-fover-group)<span class="comment"># secondary     </span></span><br><span class="line">ASA2/sec/actNoFailover(config-fover-group)<span class="comment"># preempt</span></span><br><span class="line">ASA2/sec/actNoFailover(config-fover-group)<span class="comment"># failover group 2</span></span><br><span class="line">ASA2/sec/actNoFailover(config-fover-group)<span class="comment"># preempt</span></span><br><span class="line"><span class="comment">#ASA1开启所有需要使用的接口和子接口</span></span><br><span class="line">interface Ethernet0</span><br><span class="line">  no shutdown</span><br><span class="line">interface Ethernet1</span><br><span class="line">  no shutdown</span><br><span class="line">interface Ethernet2</span><br><span class="line">  no shutdown</span><br><span class="line">interface Ethernet3</span><br><span class="line">  no shutdown</span><br><span class="line">interface Ethernet3<span class="number">.2</span></span><br><span class="line">  vlan <span class="number">20</span></span><br><span class="line">interface Ethernet3<span class="number">.4</span></span><br><span class="line">  vlan <span class="number">40</span></span><br><span class="line"><span class="comment">#定义管理墙</span></span><br><span class="line">admin-context admin</span><br><span class="line">context admin</span><br><span class="line">config-url disk0:/admin.cfg</span><br><span class="line">context c1</span><br><span class="line">allocate-interface e0</span><br><span class="line">allocate-interface e3<span class="number">.2</span></span><br><span class="line">config-url disk0:/c1.cfg</span><br><span class="line">join-failover-group <span class="number">1</span></span><br><span class="line">context c2</span><br><span class="line">allocate-interface e1</span><br><span class="line">allocate-interface e3<span class="number">.4</span></span><br><span class="line">config-url disk0:/c2.cfg</span><br><span class="line">join-failover-group <span class="number">2</span></span><br><span class="line"><span class="comment">#初始化子墙c1</span></span><br><span class="line">ASA1/sec/actNoFailover/c1(config-<span class="keyword">if</span>)<span class="comment"># show run interface </span></span><br><span class="line">interface Ethernet0</span><br><span class="line"> nameif Outside</span><br><span class="line"> security-level <span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.1</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">7.7</span><span class="number">.1</span><span class="number">.20</span> </span><br><span class="line">interface Ethernet3<span class="number">.2</span></span><br><span class="line"> nameif Inside</span><br><span class="line"> security-level <span class="number">100</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.2</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">7.7</span><span class="number">.2</span><span class="number">.20</span> </span><br><span class="line"><span class="comment">#初始化子墙c2</span></span><br><span class="line">ASA1/sec/actNoFailover/c2(config)<span class="comment"># show run interface </span></span><br><span class="line">interface Ethernet1</span><br><span class="line"> nameif Outside</span><br><span class="line"> security-level <span class="number">0</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">7.7</span><span class="number">.3</span><span class="number">.20</span> </span><br><span class="line">interface Ethernet3<span class="number">.4</span></span><br><span class="line"> nameif Inside</span><br><span class="line"> security-level <span class="number">100</span></span><br><span class="line"> ip address <span class="number">7.7</span><span class="number">.4</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">7.7</span><span class="number">.4</span><span class="number">.20</span> </span><br><span class="line"><span class="comment">#测试Outbound流量</span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.1.1</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.1</span><span class="number">.1</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">ISP1<span class="comment">#</span></span><br><span class="line">Inside<span class="comment">#telnet 7.7.3.1</span></span><br><span class="line">Trying <span class="number">7.7</span><span class="number">.3</span><span class="number">.1</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">ISP2<span class="comment">#</span></span><br><span class="line"><span class="comment">#ASA1配置FO/Stateful Link</span></span><br><span class="line">failover lan unit primary</span><br><span class="line">failover lan interface fo/sta Ethernet2</span><br><span class="line">failover key cisco</span><br><span class="line">failover link fo/sta Ethernet2</span><br><span class="line">failover interface ip fo/sta <span class="number">150.1</span><span class="number">.7</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">150.1</span><span class="number">.7</span><span class="number">.20</span></span><br><span class="line">failover </span><br><span class="line"><span class="comment">#ASA2配置FO/Stateful Link</span></span><br><span class="line">failover lan unit secondary</span><br><span class="line">failover lan interface fo/sta Ethernet2</span><br><span class="line">failover key cisco</span><br><span class="line">failover link fo/sta Ethernet2</span><br><span class="line">failover interface ip fo/sta <span class="number">150.1</span><span class="number">.7</span><span class="number">.10</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span> standby <span class="number">150.1</span><span class="number">.7</span><span class="number">.20</span></span><br><span class="line">failover //ethernet <span class="number">2</span>口一定要no shutdown</span><br><span class="line">failover active group <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>什么是异步路由？</p>
+<p>数据包不从始发的设备返回，这就叫异步路由。</p>
+</blockquote>
+<h3 id="制造异步路由"><a href="#制造异步路由" class="headerlink" title="制造异步路由"></a>制造异步路由</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Inside</span></span><br><span class="line">interface lo0</span><br><span class="line">ip add <span class="number">3.3</span><span class="number">.3</span><span class="number">.3</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">ip route <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> <span class="number">7.7</span><span class="number">.2</span><span class="number">.10</span></span><br><span class="line"><span class="comment">#ASA1/pri/act/c1</span></span><br><span class="line">route Outside <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> <span class="number">7.7</span><span class="number">.1</span><span class="number">.1</span>  </span><br><span class="line">route Inside <span class="number">3.3</span><span class="number">.3</span><span class="number">.3</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> <span class="number">7.7</span><span class="number">.2</span><span class="number">.1</span></span><br><span class="line"><span class="comment">#ASA1/pri/act/c2</span></span><br><span class="line">route Inside <span class="number">3.3</span><span class="number">.3</span><span class="number">.3</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> <span class="number">7.7</span><span class="number">.4</span><span class="number">.1</span></span><br><span class="line">access-list <span class="number">100</span> extended permit ip  any any </span><br><span class="line">access-group <span class="number">100</span> <span class="keyword">in</span> <span class="keyword">in</span> outside  </span><br><span class="line"><span class="comment">#ISP1</span></span><br><span class="line">interface lo0</span><br><span class="line">ip add <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">ip route <span class="number">3.3</span><span class="number">.3</span><span class="number">.3</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> <span class="number">2.2</span><span class="number">.2</span><span class="number">.2</span></span><br><span class="line"><span class="comment">#ISP2</span></span><br><span class="line">ip route <span class="number">3.3</span><span class="number">.3</span><span class="number">.3</span> <span class="number">255.255</span><span class="number">.255</span><span class="number">.255</span> <span class="number">7.7</span><span class="number">.3</span><span class="number">.10</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="测试异步路由"><a href="#测试异步路由" class="headerlink" title="测试异步路由"></a>测试异步路由</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Inside<span class="comment">#ping 1.1.1.1 so lo0</span></span><br><span class="line">Type escape sequence to abort.</span><br><span class="line">Sending <span class="number">5</span>, <span class="number">100</span>-byte ICMP Echos to <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span>, timeout <span class="keyword">is</span> <span class="number">2</span> seconds:</span><br><span class="line">Packet sent <span class="keyword">with</span> a source address of <span class="number">3.3</span><span class="number">.3</span><span class="number">.3</span> </span><br><span class="line">!!!!!</span><br><span class="line">Success rate <span class="keyword">is</span> <span class="number">100</span> percent (<span class="number">5</span>/<span class="number">5</span>), round-trip min/avg/max = <span class="number">1</span>/<span class="number">93</span>/<span class="number">463</span> ms</span><br><span class="line"></span><br><span class="line">Inside<span class="comment">#telnet 1.1.1.1 /source-interface lo0</span></span><br><span class="line">Trying <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span> ......</span><br><span class="line">% Connection timed out;remote host <span class="keyword">not</span> responding</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决异步路由"><a href="#解决异步路由" class="headerlink" title="解决异步路由"></a>解决异步路由</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ASA1/pri/act/c1(config)<span class="comment"># interface e0</span></span><br><span class="line">ASA1/pri/act/c1(config-<span class="keyword">if</span>)<span class="comment"># asr-group 1</span></span><br><span class="line">ASA1/sec/act/c2(config)<span class="comment"># interface e1</span></span><br><span class="line">ASA1/sec/act/c2(config-<span class="keyword">if</span>)<span class="comment"># asr-group 1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="再次测试"><a href="#再次测试" class="headerlink" title="再次测试"></a>再次测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Inside<span class="comment">#telnet 1.1.1.1 /source-interface lo0</span></span><br><span class="line">Trying <span class="number">1.1</span><span class="number">.1</span><span class="number">.1</span> ... Open</span><br><span class="line"></span><br><span class="line">User Access Verification</span><br><span class="line"></span><br><span class="line">Username: cisco</span><br><span class="line">Password: </span><br><span class="line">ISP1<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="关于无间断升级ASAOS步骤"><a href="#关于无间断升级ASAOS步骤" class="headerlink" title="关于无间断升级ASAOS步骤"></a>关于无间断升级ASAOS步骤</h2><ul>
+<li>下载新的软件到两个设备并且指定加载新的镜像</li>
+<li>重启备用单元</li>
+<li>强迫active单元切换到standby单元</li>
+<li>重启前任active单元</li>
+<li>恢复原active单元到active状态</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Cisco/" rel="tag"><i class="fa fa-tag"></i> Cisco</a>
+              <a href="/tags/ASA/" rel="tag"><i class="fa fa-tag"></i> ASA</a>
+              <a href="/tags/Firewall/" rel="tag"><i class="fa fa-tag"></i> Firewall</a>
+              <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7/" rel="tag"><i class="fa fa-tag"></i> 高可用性</a>
+              <a href="/tags/Failover/" rel="tag"><i class="fa fa-tag"></i> Failover</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/18/2020-07-Cisco-VPN%EF%BC%9A%E7%BD%91%E7%BB%9C%E7%A9%BF%E8%B6%8A.html" rel="prev" title="Cisco VPN：网络穿越">
+      <i class="fa fa-chevron-left"></i> Cisco VPN：网络穿越
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/18/2020-07-ASA%E8%99%9A%E6%8B%9F%E5%8C%96%E9%98%B2%E7%81%AB%E5%A2%99.html" rel="next" title="ASA虚拟化防火墙">
+      ASA虚拟化防火墙 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020-06 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">绵绵密码</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">255k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('/lib/mermaid/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+<!-- calendar widget -->
+
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/calendar.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-calendar/languages.min.js"></script>
+    <script>
+    $(function() {
+        $('#CloudCalendar').aCalendar('zh-CN',
+            $.extend(
+                '', {
+                    single:true,
+                    root:'/calendar/'
+                }
+            )
+        );
+    });
+    </script>
+
+
+</body>
+</html>
