@@ -7315,11 +7315,6 @@ TD 同TB
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>post</title>
-    <url>/2020/11/15/post-1%20(copy).html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>Python学习笔记5-字符串</title>
     <url>/2020/11/15/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05-%E5%AD%97%E7%AC%A6%E4%B8%B2.html</url>
     <content><![CDATA[<p>字符串是 Python 中最常用的数据类型。我们可以使用引号( <strong>‘</strong> 或 <strong>“</strong> )来创建字符串。</p>
@@ -7930,5 +7925,10 @@ TD 同TB
       <tags>
         <tag>Python</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>post</title>
+    <url>/2020/11/15/test.html</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
