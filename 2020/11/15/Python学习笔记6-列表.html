@@ -31,11 +31,15 @@
 <meta property="og:site_name" content="笔记本">
 <meta property="og:description" content="Python学习笔记6-列表">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://liqiyue.github.io/images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230543922.png">
+<meta property="og:image" content="http://liqiyue.github.io/images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230606988.png">
+<meta property="og:image" content="http://liqiyue.github.io/images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230623383.png">
 <meta property="article:published_time" content="2020-11-15T13:38:19.000Z">
-<meta property="article:modified_time" content="2020-11-16T13:51:48.590Z">
+<meta property="article:modified_time" content="2020-11-17T15:12:34.136Z">
 <meta property="article:author" content="绵绵密码">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://liqiyue.github.io/images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230543922.png">
 
 <link rel="canonical" href="http://liqiyue.github.io/2020/11/15/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8.html">
 
@@ -200,7 +204,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -212,6 +216,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#访问列表中的值"><span class="nav-number">1.</span> <span class="nav-text">访问列表中的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新列表"><span class="nav-number">2.</span> <span class="nav-text">更新列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除列表元素"><span class="nav-number">3.</span> <span class="nav-text">删除列表元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python列表脚本操作符"><span class="nav-number">4.</span> <span class="nav-text">Python列表脚本操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python列表截取与拼接"><span class="nav-number">5.</span> <span class="nav-text">Python列表截取与拼接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套列表"><span class="nav-number">6.</span> <span class="nav-text">嵌套列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python列表函数-amp-方法"><span class="nav-number">7.</span> <span class="nav-text">Python列表函数&amp;方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python包含以下函数"><span class="nav-number">7.1.</span> <span class="nav-text">Python包含以下函数:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python包含以下方法"><span class="nav-number">7.2.</span> <span class="nav-text">Python包含以下方法:</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -342,7 +347,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-16 21:51:48" itemprop="dateModified" datetime="2020-11-16T21:51:48+08:00">2020-11-16</time>
+                <time title="修改时间：2020-11-17 23:12:34" itemprop="dateModified" datetime="2020-11-17T23:12:34+08:00">2020-11-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -360,14 +365,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
             <div class="post-description">Python学习笔记6-列表</div>
 
@@ -380,7 +385,187 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>序列是 Python 中最基本的数据结构。<br>序列中的每个值都有对应的位置值，称之为索引，第一个索引是 0，第二个索引是 1，依此类推。<br>Python 有 6 个序列的内置类型，但最常见的是列表和元组。<br>列表都可以进行的操作包括索引，切片，加，乘，检查成员。<br>此外，Python 已经内置确定序列的长度以及确定最大和最小的元素的方法。<br>列表是最常用的 Python 数据类型，它可以作为一个方括号内的逗号分隔值出现。<br>列表的数据项不需要具有相同的类型<br>创建一个列表，只要把逗号分隔的不同的数据项使用方括号括起来即可。如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="number">1997</span>, <span class="number">2000</span>]</span><br><span class="line">list2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> ]</span><br><span class="line">list3 = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>]</span><br><span class="line">list4 = [<span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>, <span class="string">'yellow'</span>, <span class="string">'white'</span>, <span class="string">'black'</span>]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="访问列表中的值"><a href="#访问列表中的值" class="headerlink" title="访问列表中的值"></a>访问列表中的值</h2><p>与字符串的索引一样，列表索引从 <strong>0</strong> 开始，第二个索引是 <strong>1</strong>，依此类推。<br>通过索引列表可以进行截取、组合等操作。<br><img src="../../../../images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230543922.png" alt="image-20201117230543922"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line">list = [<span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>, <span class="string">'yellow'</span>, <span class="string">'white'</span>, <span class="string">'black'</span>]</span><br><span class="line">print( list[<span class="number">0</span>] )</span><br><span class="line">print( list[<span class="number">1</span>] )</span><br><span class="line">print( list[<span class="number">2</span>] )</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">red</span><br><span class="line">green</span><br><span class="line">blue</span><br></pre></td></tr></table></figure>
+<p>也可以从尾部开始，最后一个元素的索引为 <strong>-1</strong>，往前一位为 <strong>-2</strong>，以此类推。<br><img src="../../../../images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230606988.png" alt="image-20201117230606988"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line">list = [<span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>, <span class="string">'yellow'</span>, <span class="string">'white'</span>, <span class="string">'black'</span>]</span><br><span class="line">print( list[<span class="number">-1</span>] )</span><br><span class="line">print( list[<span class="number">-2</span>] )</span><br><span class="line">print( list[<span class="number">-3</span>] )</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">black</span><br><span class="line">white</span><br><span class="line">yellow</span><br></pre></td></tr></table></figure>
+<p>使用下标索引来访问列表中的值，同样你也可以使用方括号 <strong>[]</strong> 的形式截取字符，如下所示：<br><img src="../../../../images/Python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06-%E5%88%97%E8%A1%A8/image-20201117230623383.png" alt="image-20201117230623383"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line">nums = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>, <span class="number">60</span>, <span class="number">70</span>, <span class="number">80</span>, <span class="number">90</span>]</span><br><span class="line">print(nums[<span class="number">0</span>:<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>]</span><br></pre></td></tr></table></figure>
+<p>使用负数索引值截取：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3 </span></span><br><span class="line">list = [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="string">"Zhihu"</span>, <span class="string">"Taobao"</span>, <span class="string">"Wiki"</span>] <span class="comment"># 读取第二位</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"list[1]: "</span>, list[<span class="number">1</span>])<span class="comment"># 从第二位开始（包含）截取到倒数第二位（不包含）</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"list[1:-2]: "</span>, list[<span class="number">1</span>:<span class="number">-2</span>])</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list[<span class="number">1</span>]:  Runoob</span><br><span class="line">list[<span class="number">1</span>:<span class="number">-2</span>]:  [<span class="string">'Runoob'</span>, <span class="string">'Zhihu'</span>]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="更新列表"><a href="#更新列表" class="headerlink" title="更新列表"></a>更新列表</h2><p>你可以对列表的数据项进行修改或更新，你也可以使用 append() 方法来添加列表项，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3 </span></span><br><span class="line">list = [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="number">1997</span>, <span class="number">2000</span>] </span><br><span class="line"><span class="keyword">print</span> (<span class="string">"第三个元素为 : "</span>, list[<span class="number">2</span>])</span><br><span class="line">list[<span class="number">2</span>] = <span class="number">2001</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"更新后的第三个元素为 : "</span>, list[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">第三个元素为 :  <span class="number">1997</span></span><br><span class="line">更新后的第三个元素为 :  <span class="number">2001</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="删除列表元素"><a href="#删除列表元素" class="headerlink" title="删除列表元素"></a>删除列表元素</h2><p>可以使用 del 语句来删除列表的的元素，如下实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3 </span></span><br><span class="line">list = [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="number">1997</span>, <span class="number">2000</span>] </span><br><span class="line"><span class="keyword">print</span> (<span class="string">"原始列表 : "</span>, list)</span><br><span class="line"><span class="keyword">del</span> list[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"删除第三个元素 : "</span>, list)</span><br></pre></td></tr></table></figure>
+<p>以上实例输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原始列表 :  [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="number">1997</span>, <span class="number">2000</span>]</span><br><span class="line">删除第三个元素 :  [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="number">2000</span>]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Python列表脚本操作符"><a href="#Python列表脚本操作符" class="headerlink" title="Python列表脚本操作符"></a>Python列表脚本操作符</h2><p>列表对 + 和 * 的操作符与字符串相似。+ 号用于组合列表，* 号用于重复列表。<br>如下所示：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Python 表达式</th>
+<th align="left">结果</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">len([1, 2, 3])</td>
+<td align="left">3</td>
+<td align="left">长度</td>
+</tr>
+<tr>
+<td align="left">[1, 2, 3] + [4, 5, 6]</td>
+<td align="left">[1, 2, 3, 4, 5, 6]</td>
+<td align="left">组合</td>
+</tr>
+<tr>
+<td align="left">[‘Hi!’] * 4</td>
+<td align="left">[‘Hi!’, ‘Hi!’, ‘Hi!’, ‘Hi!’]</td>
+<td align="left">重复</td>
+</tr>
+<tr>
+<td align="left">3 in [1, 2, 3]</td>
+<td align="left">True</td>
+<td align="left">元素是否存在于列表中</td>
+</tr>
+<tr>
+<td align="left">for x in [1, 2, 3]: print(x, end=” “)</td>
+<td align="left">1 2 3</td>
+<td align="left">迭代</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Python列表截取与拼接"><a href="#Python列表截取与拼接" class="headerlink" title="Python列表截取与拼接"></a>Python列表截取与拼接</h2><p>Python的列表截取与字符串操作类型，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L=[<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>]</span><br></pre></td></tr></table></figure>
+<p>操作：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Python 表达式</th>
+<th align="left">结果</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">L[2]</td>
+<td align="left">‘Taobao’</td>
+<td align="left">读取第三个元素</td>
+</tr>
+<tr>
+<td align="left">L[-2]</td>
+<td align="left">‘Runoob’</td>
+<td align="left">从右侧开始读取倒数第二个元素: count from the right</td>
+</tr>
+<tr>
+<td align="left">L[1:]</td>
+<td align="left">[‘Runoob’, ‘Taobao’]</td>
+<td align="left">输出从第二个元素开始后的所有元素</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;L=[<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[<span class="number">2</span>]</span><br><span class="line"><span class="string">'Taobao'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[<span class="number">-2</span>]</span><br><span class="line"><span class="string">'Runoob'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[<span class="number">1</span>:]</span><br><span class="line">[<span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>列表还支持拼接操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;squares = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>, <span class="number">25</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>squares += [<span class="number">36</span>, <span class="number">49</span>, <span class="number">64</span>, <span class="number">81</span>, <span class="number">100</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>squares</span><br><span class="line">[<span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>, <span class="number">25</span>, <span class="number">36</span>, <span class="number">49</span>, <span class="number">64</span>, <span class="number">81</span>, <span class="number">100</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="嵌套列表"><a href="#嵌套列表" class="headerlink" title="嵌套列表"></a>嵌套列表</h2><p>使用嵌套列表即在列表里创建其它列表，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;a = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>n = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = [a, n]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x</span><br><span class="line">[[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">0</span>]</span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line"><span class="string">'b'</span></span><br></pre></td></tr></table></figure>
+<h2 id="Python列表函数-amp-方法"><a href="#Python列表函数-amp-方法" class="headerlink" title="Python列表函数&amp;方法"></a>Python列表函数&amp;方法</h2><h3 id="Python包含以下函数"><a href="#Python包含以下函数" class="headerlink" title="Python包含以下函数:"></a>Python包含以下函数:</h3><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-len.html" target="_blank" rel="noopener">len(list)</a>列表元素个数</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-max.html" target="_blank" rel="noopener">max(list)</a>返回列表元素最大值</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-min.html" target="_blank" rel="noopener">min(list)</a>返回列表元素最小值</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-list.html" target="_blank" rel="noopener">list(seq)</a>将元组转换为列表</td>
+</tr>
+</tbody></table>
+<h3 id="Python包含以下方法"><a href="#Python包含以下方法" class="headerlink" title="Python包含以下方法:"></a>Python包含以下方法:</h3><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-append.html" target="_blank" rel="noopener">list.append(obj)</a><br/>在列表末尾添加新的对象</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-count.html" target="_blank" rel="noopener">list.count(obj)</a><br/>统计某个元素在列表中出现的次数</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-extend.html" target="_blank" rel="noopener">list.extend(seq)</a><br/>在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-index.html" target="_blank" rel="noopener">list.index(obj)</a><br/>从列表中找出某个值第一个匹配项的索引位置</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-insert.html" target="_blank" rel="noopener">list.insert(index, obj)</a><br/>将对象插入列表</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-pop.html" target="_blank" rel="noopener">list.pop([index=-1])</a><br/>移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-remove.html" target="_blank" rel="noopener">list.remove(obj)</a><br/>移除列表中某个值的第一个匹配项</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-reverse.html" target="_blank" rel="noopener">list.reverse()</a><br/>反向列表中元素</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-sort.html" target="_blank" rel="noopener">list.sort( key=None, reverse=False)</a><br/>对原列表进行排序</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-clear.html" target="_blank" rel="noopener">list.clear()</a><br/>清空列表</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="https://www.runoob.com/python3/python3-att-list-copy.html" target="_blank" rel="noopener">list.copy()</a><br/>复制列表</td>
+</tr>
+</tbody></table>
+
     </div>
     
     
@@ -461,12 +646,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">255k</span>
+    <span title="站点总字数">258k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:52</span>
+    <span title="站点阅读时长">3:54</span>
 </div>
 
         
